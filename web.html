@@ -8,20 +8,43 @@
   
   <script src="/assets/jquery.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Londrina+Shadow' rel='stylesheet' type='text/css'>
-  
-  <style>  
+  <style>
+      .main {
+        padding: 16px;
+        margin-top: 30px;
+        height: 1500px; 
+      }
+
+      .navbar {
+        overflow: hidden;
+        background-color: black;
+        position: fixed; 
+        background-position: top;
+        z-index: 9999; 
+        top: 0;
+        width: 100%; 
+        height: 50px;
+        padding: 5px 16px;
+      }
+      
+      
       #top{
         background: rgb(42, 255, 166);
         background-size: cover;
         background-position: center;
-        padding: 0px 0px 0px 0px;
-        margin: 0 0 0 0;
-        height: 200px;
+        height: 300px;
       }
+      
       footer {
         text-align: center;
         background-color: rgb(42, 255, 166);
         color: white;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      hr.dotted {
+        border-top: 3px dotted black;
       }
       body{
         font-family: Arial, Helvetica, sans-serif;
@@ -30,8 +53,7 @@
       div{
         background-size: cover;
         margin: 0px 0 0px 0;
-      }
-    
+      } 
       ul{
         margin: 0px 0 100px 0;
         text-align: center;
@@ -52,10 +74,10 @@
         background-color: rgb(42, 255, 166);
       }
       a:link{
-        color: white;
+        color: blac;
       }
       a:visited{
-        color: white(196, 191, 191);
+        color: white;
       }
       a:hover{
         color: rgb(42, 255, 166);
@@ -88,7 +110,7 @@
         overflow: hidden;
         position: relative;
       }
-      .slideLeft title { 
+      .slideLeft h1 { 
         animation: slideLeft 3s linear;
       }
       @keyframes slideLeft { 0% { 
@@ -109,7 +131,7 @@
         position: relative;
       }
       .slideRight h2 {
-        animation: slideRight 3s linear;
+        animation: slideRight 5s linear;
       }
       @keyframes slideRight { 0% { 
       transform: translateX(-200%); 		
@@ -118,124 +140,103 @@
       transform: translateX(0%); 
         }
       }
-      h3 {
-        text-align: left;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-size: 5;
+      h3{
+        text-align: center;
         color: black;
-        margin-right: 50%;
+        font-size: 35px;
+        font-family: cursive;
       }
       h4 {
         text-align: left;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         font-size: 5;
         color: black;
-        margin-left: 50%;
-      }
-      /*h1{
-        font-family: 'Londrina Shadow', cursive;
-        text-align: center;
-        color:black;
-        margin: 0px 0 0px 0;
-        font-size: 85px;
-        line-height: 35px;
-      }
-      h2 {
-        text-align: center;
-        color: black;
-        font-size: 35px;
-        font-family: cursive;
-      }
-      .slideLeft {
-        overflow: hidden;
-        position: relative;
-      }
-      .slideLeft h3 {
-        text-align: left;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-size: 5;
-        color: black;
         margin-right: 50%;
-        animation: slideLeft 3s linear;
       }
-      @keyframes slideLeft { 0% { 
-      transform: translateX(200%); 		
-        }
-      100% { 
-      transform: translateX(0%); 
-        }
-      }
-      .slideRight {
-        overflow: hidden;
-        position: relative;
-      }
-      .slideRight h4 {
+      h5 {
         text-align: left;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         font-size: 5;
         color: black;
         margin-left: 50%;
-        animation: slideRight 3s linear;
       }
-      @keyframes slideRight { 0% { 
-      transform: translateX(-200%); 		
-        }
-      100% { 
-      transform: translateX(0%); 
-        }
-      }*/
+
     </style>
   </head>
 
   <body style="margin: 0% auto">
-    <div id = "top">
-    <header>
-      <img src = "MollyC.jpg" alt="Molly Culot">
-      <h1>Molly Culot</h1>
-      <h2><small>computer science • </small></h2>
-      <div class="button">
-  
+    <div id = main>
+
     </div>
+    <div class = "navbar">
       <ul>
-        <li><a href="mollyAboutMe.html">About Me</a></li>
-        <li><a href="mollyAwards.html">Awards</a></li>
-        <li><a href="mollyRobotics.html">Robotics</a></li>
-        <li><a href="mollyLeadership.html">Leadership</a></li> 
-        <li><a href="mollyExtraCarr.html">Extra Carriculars</a></li> 
-        <li><a href="mollyInternships.html">Internships and Jobs</a></li>  
+        <li><a href="#About Me">About Me</a></li>
+        <li><a href="#Awards and Recognitions">Awards</a></li>
+        <li><a href="#Robotics">Robotics</a></li>
+        <li><a href="#Leadership">Leadership</a></li>
+        <li><a href="#Extra Carriculars">Extra Carriculars</a> </li>
+        <li><a href="#Internships and Jobs">Internships and Jobs</a></li>
       </ul>
-    <div id="middle">
+    </div>
+
+    <div id = "top">
+      
       <div class="slideLeft">
       <div class="slideRight">
-      <h2><mark>About Me</mark></h2>
-      <h3>
+    <header>
+      <br><br>
+      <h1><br><br>Molly Culot</h1>
+      <h2><small>certified computer science genius - not so good at history tho</small></h2>
+      <div class="button">
+    </div>
+
+    <div id="About Me">
+      <h3><mark><br>About Me</mark></h3>
+      <h4>
         My name is Molly, I currently go to school at Tappan Zee High School where I am 
         a junior. I began to get interested in programming as a freshman, when I started 
         taking classes relating to computer science. In my sophomore year when I restarted 
         in person school, I began to get very involved in my school's computer science 
         program by taking all classes offered, joining all clubs, continuing traditions from 
         past years, and started some new ones of my own. 
-      </h3>
-      <h2><mark>Awards and Recognitions</mark></h2>
-      <h4>
-        In 2023,<a href="https://www.socsd.org/2022/04/08/tzhs-students-earn-ncwit-aspirations-in-computing-awards/">article</a>
       </h4>
-      <h2><mark>Robotics</mark></h2>
-      <h3>
+      <hr class="dotted">
+    </div>
+
+    <div id="Awards and Recognitions">
+      <h3><mark>Awards and Recognitions</mark></h3>
+      <h5>
+        In 2022, I won the <a2><a href="https://www.socsd.org/2022/04/08/tzhs-students-earn-ncwit-aspirations-in-computing-awards/">NCWIT Aspirations in Computing Award</a></a2>. 
+        That is my accomplishment in life. 
+      </h5>
+      <hr class="dotted">
+    </div>
+
+    <div id="Robotics">
+      <h3><mark>Robotics</mark></h3>
+      <h4>
         I joined my high school robotics team in the 2021 preseason when the competition was infinate 
         recharge. I attended two preseason competitions where I was the technician on drive team B 
         for the first one and the technician on drive team A for the second one. During the 2022 season,
         I assisted with programming different aspects of the robot including the serializer and the color 
         sensor. I was the technician for these compeitions. The following year, I was chosen as the 
         project manager for my team and I became a coach on the drive team. 
-      </h3>
-      <h2><mark>Leadership</mark></h2>
-      <h4>
+      </h4>
+      <hr class="dotted">
+    </div>
+
+    <div id = "Leadership">
+      <h3><mark>Leadership</mark></h3>
+      <h5>
         Throughout my time in high school, I took on multiple leadership roles my junior including the 
         robotics team Project Manager, Computer Science Club President, Computer Science Honor Society
         Treasurer, and I became a delegate for my school's Student Government. 
-      </h4>
-      <h2><mark>Extra Carriculars</mark></h2>
+      </h5>
+      <hr class="dotted">
+    </div>
+
+    <div id = "Extra Carriculars">
+      <h3><mark>Extra Carriculars</mark></h3>
       <h4>
         <ol>
          <li>Robotics</li>
@@ -243,10 +244,22 @@
          <li>Computer Science Honor Society</li>
         </ol>
       </h4>
-      <h2><mark>Internships and Jobs</mark></h2>
-      <h3>
+      <hr class="dotted">
+    </div>
+
+    <div id = "Internships and Jobs">
+      <h3><mark>Internships and Jobs</mark></h3>
+      <h5>
         During my 
-      </h3>
+      </h5>
+      <hr class="dotted">
+    </div>
+    <div id = "My Secret Identity">
+      <h3><mark>My Secret Identity</mark></h3>
+      <h5>
+        I used to be a theater kid, I'm sorry
+        <mark><a2><a href="https://www.backstage.com/u/molly-culot/">Click here for the truth</a></a2></mark>
+      </h5>
     </div>
     
     <div id="footer"></div>
