@@ -8,6 +8,8 @@
   
   <script src="/assets/jquery.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Londrina+Shadow' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <style>
       .main {
         padding: 16px;
@@ -23,10 +25,9 @@
         z-index: 9999; 
         top: 0;
         width: 100%; 
-        height: 50px;
+        height: 40px;
         padding: 5px 16px;
       }
-      
       
       #top{
         background: rgb(42, 255, 166);
@@ -40,6 +41,11 @@
         background-color: rgb(42, 255, 166);
         color: white;
       }
+
+      #footer {
+        background-position: bottom;
+      }
+
       html {
         scroll-behavior: smooth;
       }
@@ -65,6 +71,18 @@
         border: 7px solid rgb(42, 255, 166);
         color: black; 
       }
+      button{
+        border-color: rgb(42, 255, 166);
+        border-radius: 10px;
+        background-color:  black;
+        color:  rgb(42, 255, 166);
+      }
+      button:hover{
+        border-color: rgb(42, 255, 166);
+        border-radius: 10px;
+        background-color: rgb(42, 255, 166);
+        color: black;
+      }
       p {
         font-size: 15px;
         text-align: center;
@@ -74,7 +92,7 @@
         background-color: rgb(42, 255, 166);
       }
       a:link{
-        color: blac;
+        color: white;
       }
       a:visited{
         color: white;
@@ -83,11 +101,11 @@
         color: rgb(42, 255, 166);
       }
       a:active{
-        color: green;
+        color: white;
       }
       li {
         display: inline;
-        margin: 0px 30px 0px 30px;
+        margin: 10px 30px 10px 30px;
       }
       a2{
         color: black;
@@ -95,8 +113,30 @@
       small{
         font-size: 10;
       }
-      #footer {
-        background-position: bottom;
+      
+      .fa {
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        border-radius: 10%;
+      }
+
+      .fa:hover {
+        background-color: rgb(42, 255, 166);
+      }
+
+      .fa:visited {
+        color: black;
+      }
+
+      .fa-linkedin {
+        background: #ffffff;
+        color: white;
+      }
+
+      .fa-instagram {
+        background: #ffffff;
+        color: white;
       }
       h1{
         font-family: 'Londrina Shadow', cursive;
@@ -149,7 +189,7 @@
       h4 {
         text-align: left;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-size: 5;
+        font-size: 1;
         color: black;
         margin-right: 50%;
       }
@@ -171,11 +211,13 @@
     <div class = "navbar">
       <ul>
         <li><a href="#About Me">About Me</a></li>
-        <li><a href="#Awards and Recognitions">Awards</a></li>
+        <li><a href="#Awards and Recognitions">Awards and Recognitions</a></li>
         <li><a href="#Robotics">Robotics</a></li>
         <li><a href="#Leadership">Leadership</a></li>
-        <li><a href="#Extra Carriculars">Extra Carriculars</a> </li>
+        <li><a href="#Extra Curriculars">Extra Curriculars</a> </li>
         <li><a href="#Internships and Jobs">Internships and Jobs</a></li>
+        <li><a href="https://www.linkedin.com/in/molly-culot-05593415a/" class="fa fa-linkedin"></a></li>
+        <li><a href="https://www.instagram.com/molly.culot/?hl=en"  class="fa fa-instagram"></a></li>
       </ul>
     </div>
 
@@ -186,19 +228,23 @@
     <header>
       <br><br>
       <h1><br><br>Molly Culot</h1>
-      <h2><small>certified computer science genius - not so good at history tho</small></h2>
+      <h2><small>computer science</small></h2>
       <div class="button">
     </div>
 
     <div id="About Me">
       <h3><mark><br>About Me</mark></h3>
       <h4>
+        <span style="font-size: 15px;">
         My name is Molly, I currently go to school at Tappan Zee High School where I am 
         a junior. I began to get interested in programming as a freshman, when I started 
         taking classes relating to computer science. In my sophomore year when I restarted 
         in person school, I began to get very involved in my school's computer science 
         program by taking all classes offered, joining all clubs, continuing traditions from 
-        past years, and started some new ones of my own. 
+        past years, and started some new ones of my own. Since then, I have taken on many
+        leadership positions relating to computer science. When I am not programming, I enjoy
+        playing tennis, 
+      </span> 
       </h4>
       <hr class="dotted">
     </div>
@@ -206,8 +252,10 @@
     <div id="Awards and Recognitions">
       <h3><mark>Awards and Recognitions</mark></h3>
       <h5>
-        In 2022, I won the <a2><a href="https://www.socsd.org/2022/04/08/tzhs-students-earn-ncwit-aspirations-in-computing-awards/">NCWIT Aspirations in Computing Award</a></a2>. 
-        That is my accomplishment in life. 
+        <span style="font-size: 15px;">
+        In 2022, I was named Hudson Valley Regional Winners of the National Center for Women & Information 
+        Technology (NCWIT) 2022 Aspirations in Computing Award. That is my one accomplishment in life. 
+        </span>
       </h5>
       <hr class="dotted">
     </div>
@@ -215,34 +263,40 @@
     <div id="Robotics">
       <h3><mark>Robotics</mark></h3>
       <h4>
+        <span style="font-size: 15px;">
         I joined my high school robotics team in the 2021 preseason when the competition was infinate 
         recharge. I attended two preseason competitions where I was the technician on drive team B 
         for the first one and the technician on drive team A for the second one. During the 2022 season,
         I assisted with programming different aspects of the robot including the serializer and the color 
         sensor. I was the technician for these compeitions. The following year, I was chosen as the 
         project manager for my team and I became a coach on the drive team. 
-      </h4>
+       </span>
+       </h4> 
       <hr class="dotted">
     </div>
 
     <div id = "Leadership">
       <h3><mark>Leadership</mark></h3>
       <h5>
+        <span style="font-size: 15px;">
         Throughout my time in high school, I took on multiple leadership roles my junior including the 
         robotics team Project Manager, Computer Science Club President, Computer Science Honor Society
         Treasurer, and I became a delegate for my school's Student Government. 
+        </span>
       </h5>
       <hr class="dotted">
     </div>
 
-    <div id = "Extra Carriculars">
+    <div id = "Extra Curriculars">
       <h3><mark>Extra Carriculars</mark></h3>
       <h4>
+        <span style="font-size: 15px;">
         <ol>
          <li>Robotics</li>
          <li>Computer Science Club</li>
          <li>Computer Science Honor Society</li>
         </ol>
+      </span>
       </h4>
       <hr class="dotted">
     </div>
@@ -250,15 +304,23 @@
     <div id = "Internships and Jobs">
       <h3><mark>Internships and Jobs</mark></h3>
       <h5>
-        During my 
+        <span style="font-size: 15px;">
+        During my sophomore year, I took on my first internship as a web developer for the Turtles of Western 
+        Highway and assisted them in any digital issues they had. During the summer, I began an internship with the 
+        company ACUE, which is a program that teaches teachers how to become better at their jobs. I also work at
+        a Starbucks as a barista. I began working there the summer going into my junior year, and have continued that 
+        job throughout highschool. 
+        </span> 
       </h5>
       <hr class="dotted">
     </div>
     <div id = "My Secret Identity">
       <h3><mark>My Secret Identity</mark></h3>
       <h5>
+        <span style="font-size: 15px;">
         I used to be a theater kid, I'm sorry
-        <mark><a2><a href="https://www.backstage.com/u/molly-culot/">Click here for the truth</a></a2></mark>
+        <mark><a href="https://www.backstage.com/u/molly-culot/"><a2>Click here for the truth</a2></a></mark>
+        </span>
       </h5>
     </div>
     
