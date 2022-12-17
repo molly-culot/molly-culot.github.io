@@ -6,208 +6,16 @@
   <meta name = "copyrite" content = "2022, Molly Culot." />
   <meta name = "rating" content = "general" />
   
-  <script src="/assets/jquery.js"></script>
+  <script src="/assets/jquery.js">
+    //js
+  </script>
   <link href='https://fonts.googleapis.com/css?family=Londrina+Shadow' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <style>
-      .main {
-        padding: 16px;
-        margin-top: 30px;
-        height: 1500px; 
-      }
-
-      .navbar {
-        overflow: hidden;
-        background-color: black;
-        position: fixed; 
-        background-position: top;
-        z-index: 9999; 
-        top: 0;
-        width: 100%; 
-        height: 40px;
-        padding: 5px 16px;
-      }
-      
-      #top{
-        background: rgb(42, 255, 166);
-        background-size: cover;
-        background-position: center;
-        height: 300px;
-      }
-      
-      footer {
-        text-align: center;
-        background-color: rgb(42, 255, 166);
-        color: white;
-      }
-
-      #footer {
-        background-position: bottom;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-      hr.dotted {
-        border-top: 3px dotted black;
-      }
-      body{
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: white;
-      }
-      div{
-        background-size: cover;
-        margin: 0px 0 0px 0;
-      } 
-      ul{
-        margin: 0px 0 100px 0;
-        text-align: center;
-        background: black;
-        background-size: cover;
-      }
-      img{
-        margin: 40 px 0px 0px 0px;
-        border: 7px solid rgb(42, 255, 166);
-        color: black; 
-      }
-      button{
-        border-color: rgb(42, 255, 166);
-        border-radius: 10px;
-        background-color:  black;
-        color:  rgb(42, 255, 166);
-      }
-      button:hover{
-        border-color: rgb(42, 255, 166);
-        border-radius: 10px;
-        background-color: rgb(42, 255, 166);
-        color: black;
-      }
-      p {
-        font-size: 15px;
-        text-align: center;
-        color: black;
-      }
-      mark{
-        background-color: rgb(42, 255, 166);
-      }
-      a:link{
-        color: white;
-      }
-      a:visited{
-        color: white;
-      }
-      a:hover{
-        color: rgb(42, 255, 166);
-      }
-      a:active{
-        color: white;
-      }
-      li {
-        display: inline;
-        margin: 10px 30px 10px 30px;
-      }
-      a2{
-        color: black;
-      }
-      small{
-        font-size: 10;
-      }
-      
-      .fa {
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        border-radius: 10%;
-      }
-
-      .fa:hover {
-        background-color: rgb(42, 255, 166);
-      }
-
-      .fa:visited {
-        color: black;
-      }
-
-      .fa-linkedin {
-        background: #ffffff;
-        color: white;
-      }
-
-      .fa-instagram {
-        background: #ffffff;
-        color: white;
-      }
-      h1{
-        font-family: 'Londrina Shadow', cursive;
-        text-align: center;
-        color:black;
-        margin: 0px 0 0px 0;
-        font-size: 85px;
-        line-height: 35px;
-      }
-      .slideLeft {
-        overflow: hidden;
-        position: relative;
-      }
-      .slideLeft h1 { 
-        animation: slideLeft 3s linear;
-      }
-      @keyframes slideLeft { 0% { 
-      transform: translateX(200%); 		
-        }
-      100% { 
-      transform: translateX(0%); 
-        }
-      }
-      h2{
-        text-align: center;
-        color: black;
-        font-size: 35px;
-        font-family: cursive;
-      }
-      .slideRight {
-        overflow: hidden;
-        position: relative;
-      }
-      .slideRight h2 {
-        animation: slideRight 5s linear;
-      }
-      @keyframes slideRight { 0% { 
-      transform: translateX(-200%); 		
-        }
-      100% { 
-      transform: translateX(0%); 
-        }
-      }
-      h3{
-        text-align: center;
-        color: black;
-        font-size: 35px;
-        font-family: cursive;
-      }
-      h4 {
-        text-align: left;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-size: 1;
-        color: black;
-        margin-right: 50%;
-      }
-      h5 {
-        text-align: left;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-size: 5;
-        color: black;
-        margin-left: 50%;
-      }
-
-    </style>
+  <link rel="stylesheet" href="style.css"/>
   </head>
 
+<!--Navigation Bar-->
   <body style="margin: 0% auto">
-    <div id = main>
-
-    </div>
     <div class = "navbar">
       <ul>
         <li><a href="#About Me">About Me</a></li>
@@ -220,116 +28,133 @@
         <li><a href="https://www.instagram.com/molly.culot/?hl=en"  class="fa fa-instagram"></a></li>
       </ul>
     </div>
-
+<!--Header-->
     <div id = "top">
-      
       <div class="slideLeft">
-      <div class="slideRight">
-    <header>
+        <div class="slideRight">
+        <br><br>
+          <div id="header">
+            <br><br><br><br>Molly Culot
+          </div>
+          <div id="subHeading1">
+            <br>STEM EDUCATION FOR ALL
+          </div>
+        </div>
+      </div>
+    </div>
+<!--About Me--> 
+    <section id="About Me">
       <br><br>
-      <h1><br><br>Molly Culot</h1>
-      <h2><small>computer science</small></h2>
-      <div class="button">
-    </div>
-
-    <div id="About Me">
-      <h3><mark><br>About Me</mark></h3>
-      <h4>
-        <span style="font-size: 15px;">
-        My name is Molly, I currently go to school at Tappan Zee High School where I am 
-        a junior. I began to get interested in programming as a freshman, when I started 
-        taking classes relating to computer science. In my sophomore year when I restarted 
-        in person school, I began to get very involved in my school's computer science 
-        program by taking all classes offered, joining all clubs, continuing traditions from 
-        past years, and started some new ones of my own. Since then, I have taken on many
-        leadership positions relating to computer science. When I am not programming, I enjoy
-        playing tennis, 
-      </span> 
-      </h4>
-      <hr class="dotted">
-    </div>
-
-    <div id="Awards and Recognitions">
-      <h3><mark>Awards and Recognitions</mark></h3>
-      <h5>
-        <span style="font-size: 15px;">
+      <div id="subHeading2">
+        <br>About Me
+      </div> 
+      <div id ="textCenter">
+        My name is Molly, and I am 16 years old in my junior year at Tappan Zee 
+        High School. I love programming, but the one thing I love more is spreading
+        my knowledge of computer science to anyone I can. I believe everyone should
+        have the oppurtunity to learn how to program, no matter their age, gender, race, 
+        or background. Having the knowledge of computer science can expand any interest, 
+        and take it into the digital world. This is why I do anything I can to spread the 
+        idea of STEM to all. I want to inspire young women to take on the challenges of
+        programming and try to do it themselves. I have noticed a lot of girls getting 
+        indimidated by the idea of taking computer science classes or joining computer
+        science clubs. This is something I want to help change in the world.
+      </div>
+      
+    </section>
+    
+    <h1 class ="glow">GLOW TEST</h1>
+    <section id="Awards and Recognitions">
+      <br><br>
+      <div id="subHeading2">
+        Awards and Recognitions
+      </div>
+      <div id ="textRight">
         In 2022, I was named Hudson Valley Regional Winners of the National Center for Women & Information 
-        Technology (NCWIT) 2022 Aspirations in Computing Award. That is my one accomplishment in life. 
-        </span>
-      </h5>
+        Technology (NCWIT) 2022 Aspirations in Computing Award. 
+      </div>
+    </section>
+    
+    
+    <section id="Robotics">
+      <br><br>
       <hr class="dotted">
-    </div>
-
-    <div id="Robotics">
-      <h3><mark>Robotics</mark></h3>
-      <h4>
-        <span style="font-size: 15px;">
+      <div id="subHeading2">
+        Robotics
+      </div>
+      <div id ="textLeft">
         I joined my high school robotics team in the 2021 preseason when the competition was infinate 
         recharge. I attended two preseason competitions where I was the technician on drive team B 
         for the first one and the technician on drive team A for the second one. During the 2022 season,
         I assisted with programming different aspects of the robot including the serializer and the color 
         sensor. I was the technician for these compeitions. The following year, I was chosen as the 
         project manager for my team and I became a coach on the drive team. 
-       </span>
-       </h4> 
+      </div>
+    </section>
+    
+    <br>
+    <section id = "Leadership">
+      <br><br>
       <hr class="dotted">
-    </div>
-
-    <div id = "Leadership">
-      <h3><mark>Leadership</mark></h3>
-      <h5>
-        <span style="font-size: 15px;">
+      <div id="subHeading2">
+        Leadership
+      </div>
+      <div id ="textRight">
         Throughout my time in high school, I took on multiple leadership roles my junior including the 
         robotics team Project Manager, Computer Science Club President, Computer Science Honor Society
         Treasurer, and I became a delegate for my school's Student Government. 
-        </span>
-      </h5>
+      </div>
+      <img style="height: 200px;" id="molls"src="parentNight.png" alt="Molly Culot"> 
+    </section>
+    
+    <br>
+    <section id = "Extra Curriculars">
+      <br><br>
       <hr class="dotted">
-    </div>
+      <div id="subHeading2">
+        Extra Carriculars
+      </div>
+      <div id ="textLeft">
+        I love rotbosd
+      </div>
+    </section>
 
-    <div id = "Extra Curriculars">
-      <h3><mark>Extra Carriculars</mark></h3>
-      <h4>
-        <span style="font-size: 15px;">
-        <ol>
-         <li>Robotics</li>
-         <li>Computer Science Club</li>
-         <li>Computer Science Honor Society</li>
-        </ol>
-      </span>
-      </h4>
+    <section id = "Internships and Jobs">
+      <br><br>
       <hr class="dotted">
-    </div>
-
-    <div id = "Internships and Jobs">
-      <h3><mark>Internships and Jobs</mark></h3>
-      <h5>
-        <span style="font-size: 15px;">
+      <div id="subHeading2">
+        Internships and Jobs
+      </div>
+      <div id ="textRight">
         During my sophomore year, I took on my first internship as a web developer for the Turtles of Western 
         Highway and assisted them in any digital issues they had. During the summer, I began an internship with the 
         company ACUE, which is a program that teaches teachers how to become better at their jobs. I also work at
         a Starbucks as a barista. I began working there the summer going into my junior year, and have continued that 
         job throughout highschool. 
-        </span> 
-      </h5>
-      <hr class="dotted">
-    </div>
-    <div id = "My Secret Identity">
-      <h3><mark>My Secret Identity</mark></h3>
-      <h5>
-        <span style="font-size: 15px;">
-        I used to be a theater kid, I'm sorry
-        <mark><a href="https://www.backstage.com/u/molly-culot/"><a2>Click here for the truth</a2></a></mark>
-        </span>
-      </h5>
-    </div>
+      </div>
+    </section>
     
-    <div id="footer"></div>
-    <footer>
+    <section id="footer">
+      <hr class="dotted">
       <p>&copy;2022. Molly Culot. All Rights Reserved.</p>
       <a href="#top"> <a2>Return to Top</a></a2></a>
-    </footer>
-    </div>
+    </section>
   </body>
-  </script>
 </html>
+
+<!--
+Cs Club President (codecon)
+Project Manager
+Kiwimbi Foundation
+Varsity Tennis
+Coding Languages
+- Music Project: python
+- Java: mario game
+- Javascript: APCSP
+_ HTML and CSS: Websire
+_ Robotics
+- Rasperry pi facial recognition 
+Video editing
+Singing, musical theater
+national anthem
+-->
