@@ -31,14 +31,14 @@
   height: 500px;
 }
 #header{
-  font-family: 'Londrina Shadow', cursive;
+  font-family: Copperplate;
   text-align: center;
   color:white;
   font-size: 100px;
   font-weight: bold;
   line-height: 35px;
 }
-.slideLeft {
+/*.slideLeft {
   overflow: hidden;
   position: relative;
 }
@@ -51,14 +51,14 @@ transform: translateX(200%);
 100% { 
 transform: translateX(0%); 
   }
-}
+}*/
 #subHeading1{
   text-align: center;
   color: white;
   font-size: 35px;
   font-family: cursive;
 }
-.slideRight {
+/*.slideRight {
   overflow: hidden;
   position: relative;
 }
@@ -71,15 +71,13 @@ transform: translateX(-200%);
 100% { 
 transform: translateX(0%); 
   }
-}
+}*/
 #subHeading2{
   font-size: 50px;
   color: #fff;
   text-align: center;
-  animation: glow 1s ease-in-out infinite alternate;
   font-weight: bolder;
-  /*-webkit-text-stroke-width: .1px;
-  -webkit-text-stroke-color: white;*/
+  font-family: fantasy;
 }
 #textCenter{
   text-align: center;
@@ -92,31 +90,13 @@ transform: translateX(0%);
 #textLeft {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: white;
-  float: left;
-  text-align: justify;
-  
+  float: left;  
 }
 #textRight {
   text-align: left;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: white;
-  display: inline-block;
 }
-.glow{
-  font-size: 80px;
-  color: #fff;
-  text-align: center;
-  animation: glow 1s ease-in-out infinite alternate;
-}
-@-webkit-keyframes glow {
-  from {
-    text-shadow: 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red
-  }
-  to {
-    text-shadow:  0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red, 0 0 80px red;
-  }
-}
-
 #footer {
   background-position: bottom;
   text-align: center;
@@ -142,8 +122,9 @@ ul{
   background: black;
   background-size: cover;
 }
-hr.dotted {
-  border-top: 3px dotted black;
+hr.solid {
+  border-top: 3px solid white;
+  box-shadow: 0 0 20px white, 0 0 30px rgba(255, 0, 0, 0.61), 0 0 40px rgba(255, 0, 0, 0.61), 0 0 50px rgba(255, 0, 0, 0.61), 0 0 60px rgba(255, 0, 0, 0.61), 0 0 70px rgba(255, 0, 0, 0.61);
 }
 p {
   font-size: 15px;
@@ -155,8 +136,29 @@ li {
   margin: 10px 30px 10px 30px;
 }
 img{
-  border-radius: 10px;
-  border-color: white;
+  border: 5px solid white;
+  margin: 0px 10px 30px 70px;
+  width: 350px; 
+  height: 200px; 
+  object-fit: fill;
+}
+img:hover{
+  border: 5px solid red;
+  filter:saturate(200%)
+}
+.glow{
+  font-size: 80px;
+  color: #fff;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
+  }
+  to {
+    text-shadow:  0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red, 0 0 80px red;
+  }
 }
 
 /*color changing animation*/
@@ -194,22 +196,18 @@ a2{
   height: 20px;
   text-align: center;
   border-radius: 10%;
+  background-color: white;
+  color: red;
 }
 
 .fa:hover {
-  background-color: red;
-}
-
-.fa:visited {
-  color: black;
+  background-color: white;
 }
 
 .fa-linkedin {
-  background: #ffffff;
-  color: white;
+  background-color: red;
 }
 
 .fa-instagram {
-  background: #ffffff;
-  color: white;
+  background-color: red;
 }     
