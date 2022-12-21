@@ -55,7 +55,7 @@ transform: translateX(0%);
 #subHeading1{
   text-align: center;
   color: white;
-  font-size: 35px;
+  font-size: 30px;
   font-family: cursive;
 }
 /*.slideRight {
@@ -74,10 +74,10 @@ transform: translateX(0%);
 }*/
 #subHeading2{
   font-size: 50px;
-  color: #fff;
+  color: white;
   text-align: center;
   font-weight: bolder;
-  font-family: fantasy;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 #textCenter{
   text-align: center;
@@ -123,8 +123,7 @@ ul{
   background-size: cover;
 }
 hr.solid {
-  border-top: 3px solid white;
-  box-shadow: 0 0 20px white, 0 0 30px rgba(255, 0, 0, 0.61), 0 0 40px rgba(255, 0, 0, 0.61), 0 0 50px rgba(255, 0, 0, 0.61), 0 0 60px rgba(255, 0, 0, 0.61), 0 0 70px rgba(255, 0, 0, 0.61);
+  border-top: 3px solid red;
 }
 p {
   font-size: 15px;
@@ -135,17 +134,8 @@ li {
   display: inline;
   margin: 10px 30px 10px 30px;
 }
-img{
-  border: 5px solid white;
-  margin: 0px 10px 30px 70px;
-  width: 350px; 
-  height: 200px; 
-  object-fit: fill;
-}
-img:hover{
-  border: 5px solid red;
-  filter:saturate(200%)
-}
+
+
 .glow{
   font-size: 80px;
   color: #fff;
@@ -154,13 +144,47 @@ img:hover{
 }
 @-webkit-keyframes glow {
   from {
-    text-shadow: 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
+    box-shadow: 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red;
   }
   to {
-    text-shadow:  0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red, 0 0 80px red;
+    box-shadow:  0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red, 0 0 80px red;
   }
 }
+/*text on images*/
+img{
+  border: 5px solid white;
+  margin: 0px 10px 30px 70px;
+  width: 350px; 
+  height: 200px; 
+  object-fit: cover;
+}
+.container {
+  position: relative;
+  width: 50%;
+  max-width: 300px;
+}
 
+.image {
+}
+
+.overlay {
+  position: absolute; 
+  bottom: 0; 
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1; 
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
 /*color changing animation*/
 button{
   border-color:red;
