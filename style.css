@@ -155,12 +155,11 @@ img{
   width: 350px; 
   height: 200px; 
   border: 5px solid white;
-  margin: 10px 20px 10px 20px;
+  margin: 10px 55px 10px 55px;
   object-fit: cover;
 }
 .container{
-  margin: 10px 20px 10px 20px;
-  display: inline-block;
+  display: inline-flex;
 }
 .overlay {
   position: absolute;
@@ -170,7 +169,7 @@ img{
   opacity: 0;
   transition: .5s ease;
   background-color: red;
-  margin: 0px, 0px, 0px, 0px;
+  margin: 10px 20px 10px 20px;
 }
 .overlay:hover {
   opacity: .8;
@@ -184,7 +183,6 @@ img{
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  
 }
 
 /*color changing animation*/
@@ -237,3 +235,5 @@ a2{
 .fa-instagram {
   background-color: red;
 }     
+
+/* My little game :)*/
