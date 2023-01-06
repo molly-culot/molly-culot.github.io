@@ -152,34 +152,28 @@ li {
 }
 /*text on images*/
 img{
-  margin: 0px 10px 30px 70px;
-  object-fit: cover;
-}
-
-.container {
-  margin: 0px 10px 30px 70px;
-}
-.image {
-  display: flex;
   width: 350px; 
   height: 200px; 
   border: 5px solid white;
-  margin: 0px 10px 30px 70px;
+  margin: 10px 20px 10px 20px;
   object-fit: cover;
+}
+.container{
+  margin: 10px 20px 10px 20px;
+  display: inline-block;
 }
 .overlay {
   position: absolute;
-  height: 200px;
   width: 350px;
+  height: 200px;
   border: 5px solid white;
   opacity: 0;
   transition: .5s ease;
   background-color: red;
-  margin: 0px 10px 30px 70px;
+  margin: 0px, 0px, 0px, 0px;
 }
-.container:hover .overlay {
+.overlay:hover {
   opacity: .8;
-  margin: 0px 10px 30px 70px;
 }
 .text {
   color: white;
@@ -190,9 +184,9 @@ img{
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  text-align: center;
   
 }
+
 /*color changing animation*/
 button{
   border-color:red;
