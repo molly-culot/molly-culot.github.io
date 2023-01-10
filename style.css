@@ -24,20 +24,7 @@
 }
 
 /*divs*/
-#top{
-  background-image: url('swerve.png');
-  background-size: cover;
-  background-position: center;
-  height: 500px;
-}
-#header{
-  font-family: Copperplate;
-  text-align: center;
-  color:white;
-  font-size: 100px;
-  font-weight: bold;
-  line-height: 35px;
-}
+
 /*.slideLeft {
   overflow: hidden;
   position: relative;
@@ -52,7 +39,7 @@ transform: translateX(200%);
 transform: translateX(0%); 
   }
 }*/
-#subHeading1{
+.subHeading1{
   text-align: center;
   color: white;
   font-size: 30px;
@@ -72,14 +59,22 @@ transform: translateX(-200%);
 transform: translateX(0%); 
   }
 }*/
-#subHeading2{
+.header{
+  font-family: Copperplate;
+  text-align: center;
+  color:white;
+  font-size: 100px;
+  font-weight: bold;
+  line-height: 35px;
+}
+.subHeading2{
   font-size: 50px;
   color: white;
   text-align: center;
   font-weight: bolder;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
-#textCenter{
+.textCenter{
   text-align: center;
   margin-left: 7%;
   margin-right: 7%;
@@ -87,20 +82,22 @@ transform: translateX(0%);
   font-family:'Courier New', Courier, monospace;
   color: white;
 }
-#textLeft {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.textLeft {
+  font-family:'Courier New', Courier, monospace;
   color: white;
   float: left;  
 }
-#textRight {
-  text-align: left;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  color: white;
+#top{
+  background-image: url('swerve.png');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
 }
+
 #footer {
-  background-position: bottom;
   text-align: center;
   background-color: red;
+  margin: 100px 0px 50px 0px;
 }
 
 
@@ -135,7 +132,7 @@ li {
   margin: 10px 30px 10px 30px;
 }
 
-
+/*led strips*/
 .glow{
   font-size: 80px;
   color: #fff;
@@ -161,7 +158,7 @@ img{
 .container{
   display: inline-flex;
 }
-.overlay {
+.overlay {   
   position: absolute;
   width: 350px;
   height: 200px;
@@ -180,6 +177,7 @@ img{
   position: absolute;
   top: 50%;
   left: 50%;
+  text-align: center;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
