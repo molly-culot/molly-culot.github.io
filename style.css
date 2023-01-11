@@ -5,17 +5,7 @@
   margin-top: 30px;
   height: 1500px; 
 }
-.navbar {
-  overflow: hidden;
-  background-color: black;
-  position: fixed; 
-  background-position: top;
-  z-index: 9999; 
-  top: 0;
-  width: 100%; 
-  height: 40px;
-  padding: 5px 16px;
-}
+
 .container {
   display: flex;
   align-items: center;
@@ -25,48 +15,7 @@
 
 /*divs*/
 
-/*.slideLeft {
-  overflow: hidden;
-  position: relative;
-}
-.slideLeft #header { 
-  animation: slideLeft 3s linear;
-}
-@keyframes slideLeft { 0% { 
-transform: translateX(200%); 		
-  }
-100% { 
-transform: translateX(0%); 
-  }
-}*/
-.subHeading1{
-  text-align: center;
-  color: white;
-  font-size: 30px;
-  font-family: cursive;
-}
-/*.slideRight {
-  overflow: hidden;
-  position: relative;
-}
-.slideRight #subHeading1 {
-  animation: slideRight 5s linear;
-}
-@keyframes slideRight { 0% { 
-transform: translateX(-200%); 		
-  }
-100% { 
-transform: translateX(0%); 
-  }
-}*/
-.header{
-  font-family: Copperplate;
-  text-align: center;
-  color:white;
-  font-size: 100px;
-  font-weight: bold;
-  line-height: 35px;
-}
+
 .subHeading2{
   font-size: 50px;
   color: white;
@@ -94,11 +43,7 @@ transform: translateX(0%);
   height: 500px;
 }
 
-#footer {
-  text-align: center;
-  background-color: red;
-  margin: 100px 0px 50px 0px;
-}
+
 
 
 /*bases and behaviors*/
@@ -147,41 +92,14 @@ li {
     box-shadow:  0 0 30px red, 0 0 40px red, 0 0 50px red, 0 0 60px red, 0 0 70px red, 0 0 80px red;
   }
 }
-/*text on images*/
-img{
-  width: 350px; 
-  height: 200px; 
-  border: 5px solid white;
-  margin: 10px 55px 10px 55px;
-  object-fit: cover;
-}
-.container{
-  display: inline-flex;
-}
-.overlay {   
-  position: absolute;
-  width: 350px;
-  height: 200px;
-  border: 5px solid white;
-  opacity: 0;
-  transition: .5s ease;
-  background-color: red;
-  margin: 10px 20px 10px 20px;
-}
-.overlay:hover {
-  opacity: .8;
-}
-.text {
-  color: white;
-  font-size: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  text-align: center;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
+
+/*Images*/
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+} 
 
 /*color changing animation*/
 button{
