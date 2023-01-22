@@ -35,6 +35,7 @@
   font-family:'Courier New', Courier, monospace;
   color: white;
   float: left;  
+  font-size: 18px;
 }
 #top{
   background-image: url('swerve.png');
