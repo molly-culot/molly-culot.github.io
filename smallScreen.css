@@ -57,9 +57,6 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
-  .text:hover {
-    text-decoration: underline;
-  }
   #footer {
     text-align: center;
     background-color: red;
