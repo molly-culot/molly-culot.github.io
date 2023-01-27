@@ -124,7 +124,7 @@ u:hover{
 /*Animation*/
 @keyframes stretchName {
   0% {
-    letter-spacing: 40px;
+    letter-spacing: 20px;
     color: white;
     margin-bottom: -90px;
     opacity: 0;
