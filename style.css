@@ -21,12 +21,14 @@
   font-size: 100px;
   font-weight: bold;
   line-height: 35px;
+  animation: stretchName 5s 1;
 }
 .subHeading1{
   text-align: center;
   color: white;
-  font-size: 40px;
   font-family: cursive;
+  font-size: 40px;
+  animation: dropText 5s 1;
 }
 .subHeading2{
   font-size: 60px;
@@ -119,7 +121,33 @@ u:hover{
   }
 }
 
+/*Animation*/
+@keyframes stretchName {
+  0% {
+    letter-spacing: 50px;
+    color: white;
+    margin-bottom: -90px;
+    opacity: 0;
+  }
+  50% {
+    letter-spacing: 1px;
+    margin-bottom: -90px;
+    opacity: 1;
+  }
+}
+@keyframes dropText {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 1;
+  }
+}
 /*Images*/
+
 img{
   width: 350px; 
   height: 200px; 
@@ -127,6 +155,7 @@ img{
   margin: 10px 55px 10px 55px;
   object-fit: cover;
 }
+
 .container{
   display: inline-flex;
 }
