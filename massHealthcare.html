@@ -4,380 +4,1077 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Massachusetts Healthcare System — Interactive Map</title>
+
+  <!-- Vis Network (graph) -->
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
   <style>
-    :root { --bg:#0b1220; --panel:#0f1a33; --card:#122042; --text:#e8eefc; --muted:#a8b3d6; --line:rgba(255,255,255,.18); }
-    html,body { height:100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
-    .wrap { display:grid; grid-template-columns: 360px 1fr; height:100%; }
-    .sidebar { padding:16px; border-right:1px solid var(--line); background:linear-gradient(180deg, var(--panel), rgba(15,26,51,.7)); overflow:auto; }
-    .title { font-size:18px; font-weight:700; margin:0 0 6px; }
-    .subtitle { margin:0 0 14px; color:var(--muted); font-size:13px; line-height:1.35; }
-    .card { background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:14px; padding:12px; margin:12px 0; }
-    .card h3 { margin:0 0 8px; font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
-    .filters { display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
-    label { display:flex; gap:8px; align-items:center; background:rgba(255,255,255,.03); border:1px solid var(--line); padding:8px; border-radius:12px; cursor:pointer; user-select:none; }
-    input[type="checkbox"] { transform: scale(1.05); }
-    .detailTitle { font-size:16px; font-weight:750; margin:0 0 6px; }
-    .badge { display:inline-block; font-size:11px; padding:3px 8px; border-radius:999px; border:1px solid var(--line); color:var(--muted); margin-bottom:10px; }
-    .detail { color:var(--text); font-size:13px; line-height:1.5; }
-    .muted { color:var(--muted); }
-    .hint { font-size:12px; color:var(--muted); line-height:1.4; }
-    .toprow { display:flex; gap:8px; align-items:center; }
-    button {
-      background: rgba(255,255,255,.05); border:1px solid var(--line);
-      color:var(--text); padding:8px 10px; border-radius:12px; cursor:pointer;
+    :root{
+      --bg:#0b1020;
+      --panel:#111a33;
+      --panel2:#0f1730;
+      --text:#e8ecff;
+      --muted:#b7c0ffcc;
+      --line:#2a3766;
+      --chip:#1a2550;
+      --accent:#7aa2ff;
+      --good:#66e3b4;
+      --warn:#ffd166;
+      --bad:#ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
     }
-    button:hover { background: rgba(255,255,255,.08); }
-    .canvas { position:relative; overflow:hidden; }
-    svg { width:100%; height:100%; display:block; }
-    .node { cursor:grab; }
-    .node:active { cursor:grabbing; }
-    .node circle { stroke: rgba(255,255,255,.25); stroke-width: 1.25; }
-    .node text { fill: var(--text); font-size: 12px; paint-order: stroke; stroke: rgba(0,0,0,.35); stroke-width: 3px; }
-    .link { stroke: rgba(255,255,255,.18); stroke-width: 1.25; }
-    .linkLabel { fill: rgba(255,255,255,.65); font-size: 11px; pointer-events:none; }
-    .legendRow { display:flex; gap:10px; flex-wrap:wrap; }
-    .dot { width:10px; height:10px; border-radius:999px; display:inline-block; margin-right:6px; vertical-align:middle; }
-    .small { font-size:12px; }
-    .search { width:100%; box-sizing:border-box; padding:10px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--text); }
-    a { color:#b9d2ff; }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 700px at 20% 10%, #162356 0%, transparent 55%),
+                  radial-gradient(900px 600px at 70% 30%, #1a2b66 0%, transparent 60%),
+                  var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding:18px 18px 10px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .title{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .title h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .title p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .wrap{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      padding: 0 18px 18px;
+      height: calc(100vh - 70px);
+      min-height: 680px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    #graphCard{
+      display:flex;
+      flex-direction:column;
+      min-height: 520px;
+    }
+    #network{
+      flex:1;
+      min-height: 520px;
+    }
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      padding:12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.15);
+      align-items:center;
+      justify-content:space-between;
+    }
+    .toolbar .left, .toolbar .right{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+      cursor:default;
+      white-space:nowrap;
+    }
+    .pill strong{color:var(--text); font-weight:600}
+    .btn{
+      background: rgba(122,162,255,.15);
+      border:1px solid rgba(122,162,255,.35);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius: 10px;
+      font-size:12px;
+      cursor:pointer;
+      transition:.15s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(122,162,255,.22)}
+    .btn:active{transform: translateY(0px)}
+    select, input{
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius: 10px;
+      font-size:12px;
+      outline:none;
+    }
+    input::placeholder{color:#c7cfffb0}
+    .side{
+      display:flex;
+      flex-direction:column;
+      min-height: 520px;
+    }
+    .sideTop{
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.15);
+    }
+    .sideTop h2{
+      margin:0;
+      font-size:14px;
+    }
+    .sideTop .hint{
+      margin:6px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    .legend{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 8px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      display:inline-block;
+      border:1px solid rgba(255,255,255,.35);
+    }
+
+    .sideBody{
+      padding:14px;
+      overflow:auto;
+      flex:1;
+    }
+    .kpiRow{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .kpi{
+      padding:10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .kpi .label{font-size:11px; color:var(--muted)}
+    .kpi .value{font-size:12px; margin-top:6px}
+    .kpi .value strong{font-size:13px}
+
+    .section{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      overflow:hidden;
+      margin-top:10px;
+      background: rgba(0,0,0,.10);
+    }
+    .section button{
+      width:100%;
+      text-align:left;
+      background: transparent;
+      border:none;
+      color:var(--text);
+      padding:12px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      cursor:pointer;
+      font-size:12.5px;
+    }
+    .section button span{
+      color:var(--muted);
+      font-size:12px;
+      margin-left:10px;
+    }
+    .section .content{
+      padding:0 12px 12px;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.45;
+      display:none;
+    }
+    .section.open .content{display:block}
+    .section.open button{border-bottom:1px solid rgba(255,255,255,.10)}
+    .tagRow{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin-top:10px;
+    }
+    .tag{
+      padding:6px 8px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      font-size:11.5px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .footerNote{
+      margin-top:12px;
+      font-size:11.5px;
+      color: #c7cfffb0;
+      line-height:1.35;
+    }
+
+    @media (max-width: 980px){
+      .wrap{grid-template-columns:1fr; height:auto}
+      #network{min-height: 520px}
+    }
   </style>
 </head>
+
 <body>
+  <header>
+    <div class="title">
+      <h1>Massachusetts Healthcare System — Interactive Power & Flow Map</h1>
+      <p>Click a node to see expandable descriptions (role, incentives, how it works, connections). Use filters to focus.</p>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <span class="pill"><strong>Tip:</strong> drag nodes · scroll to zoom · shift+drag to pan</span>
+    </div>
+  </header>
+
   <div class="wrap">
-    <aside class="sidebar">
-      <div class="toprow">
-        <h1 class="title">MA Healthcare System Map</h1>
-        <button id="resetBtn" title="Reset zoom & layout">Reset</button>
-      </div>
-      <p class="subtitle">Interactive power + incentives map. Drag nodes, zoom/pan, click for details.</p>
-
-      <div class="card">
-        <h3>Find</h3>
-        <input id="search" class="search" placeholder="Type to highlight (e.g., MassHealth, BCBSMA, HPC)..." />
-        <p class="hint" style="margin:8px 0 0;">Tip: scroll to zoom, drag background to pan.</p>
-      </div>
-
-      <div class="card">
-        <h3>Show / hide layers</h3>
-        <div class="filters" id="filters"></div>
-      </div>
-
-      <div class="card">
-        <h3>Legend</h3>
-        <div class="legendRow small" id="legend"></div>
-      </div>
-
-      <div class="card" id="detailCard">
-        <h3>Selected</h3>
-        <div class="badge" id="detailBadge">Click a node</div>
-        <div class="detailTitle" id="detailTitle">Nothing selected</div>
-        <div class="detail" id="detailText">
-          <span class="muted">Click any node to see incentives + leverage notes here.</span>
+    <div id="graphCard" class="card">
+      <div class="toolbar">
+        <div class="left">
+          <input id="search" type="text" placeholder="Search nodes (e.g., MassHealth, CHC, MGB)..." />
+          <select id="filterGroup">
+            <option value="ALL">All categories</option>
+          </select>
+          <select id="filterLens">
+            <option value="ALL">All connection types</option>
+            <option value="money">Money (payment)</option>
+            <option value="care">Care delivery</option>
+            <option value="rules">Rules & oversight</option>
+            <option value="supply">Supply chain</option>
+            <option value="data">Data & admin</option>
+          </select>
+        </div>
+        <div class="right">
+          <button class="btn" id="reset">Reset view</button>
+          <button class="btn" id="expandCore">Focus on core flow</button>
+          <button class="btn" id="showAll">Show all</button>
         </div>
       </div>
+      <div id="network"></div>
+    </div>
 
-      <div class="card">
-        <h3>Customize</h3>
-        <div class="hint">
-          This is a single file. To edit the map: scroll down to <b>DATA</b> in the code and add nodes/links.
+    <div class="card side">
+      <div class="sideTop">
+        <h2 id="sideTitle">Select a node</h2>
+        <p class="hint" id="sideHint">Start by clicking any circle in the map. The panel will show expandable sections and highlight connected players.</p>
+
+        <div class="legend" id="legend"></div>
+      </div>
+
+      <div class="sideBody" id="sideBody">
+        <div class="kpiRow">
+          <div class="kpi">
+            <div class="label">Selected category</div>
+            <div class="value" id="kpiCategory"><strong>—</strong></div>
+          </div>
+          <div class="kpi">
+            <div class="label">Connections</div>
+            <div class="value" id="kpiConnections"><strong>—</strong></div>
+          </div>
+          <div class="kpi">
+            <div class="label">Typical leverage</div>
+            <div class="value" id="kpiPower"><strong>—</strong></div>
+          </div>
+        </div>
+
+        <div id="accordion"></div>
+
+        <div class="footerNote">
+          This is a conceptual map meant for learning + strategy. It simplifies a complex reality.
+          You can edit the data object in this file to add your own organizations, policies, or local actors.
         </div>
       </div>
-    </aside>
-
-    <main class="canvas">
-      <svg id="svg" viewBox="0 0 1200 800" aria-label="Interactive system map"></svg>
-    </main>
+    </div>
   </div>
 
-  <!-- D3 (loaded from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-  <script>
-    // =========================
-    // DATA: edit this section
-    // =========================
-    const CATEGORIES = [
-      { key: "Academic Systems", color: "#7dd3fc" },
-      { key: "Payers",          color: "#86efac" },
-      { key: "Government/Reg",  color: "#fca5a5" },
-      { key: "Community/Safety-Net", color: "#c4b5fd" },
-      { key: "Industry",        color: "#fdba74" },
-      { key: "Patients",        color: "#f9a8d4" }
-    ];
+<script>
+/**
+ * DATA MODEL
+ * - nodes: id, label, group, power, tags[], role, incentives, how, connections
+ * - edges: from, to, type (money/care/rules/supply/data), label
+ */
 
-    const nodes = [
-      // Academic Systems
-      { id:"MGB", label:"Mass General Brigham (MGB)", cat:"Academic Systems",
-        details:"Dominant academic system. Sets clinical norms, trains leaders, attracts research funding.\n\nIncentives: specialty growth, high-acuity care, prestige, NIH funding.\nLeverage: embed pilots inside clinics; publish outcomes; train workforce." },
-      { id:"BILH", label:"Beth Israel Lahey Health", cat:"Academic Systems",
-        details:"Academic-community hybrid with value orientation.\n\nIncentives: compete on cost + quality, strong primary care.\nLeverage: partner for pragmatic pilots + shared savings." },
-      { id:"TuftsMed", label:"Tufts Medicine", cat:"Academic Systems",
-        details:"Academic system with safety-net lean.\n\nIncentives: sustainability, access, select specialties.\nLeverage: equity-focused integrative models." },
+const GROUPS = {
+  "Patients & Communities":   { color: "#66e3b4" },
+  "Care Delivery":            { color: "#7aa2ff" },
+  "Community & Public Health":{ color: "#ffd166" },
+  "Payers & Purchasers":      { color: "#ff6b6b" },
+  "Government & Regulators":  { color: "#b084ff" },
+  "Supply Chain":             { color: "#4dd6ff" },
+  "Education & Research":     { color: "#ff9fda" },
+  "Admin & Data Infrastructure": { color:"#c2ff66" }
+};
 
-      // Payers
-      { id:"BCBSMA", label:"Blue Cross Blue Shield of MA", cat:"Payers",
-        details:"Most influential private payer in MA.\n\nIncentives: control total cost, satisfy employers, maintain reputation.\nLeverage: propose pilots tied to utilization + patient-reported outcomes." },
-      { id:"Point32", label:"Point32Health (HP/Tufts)", cat:"Payers",
-        details:"Major nonprofit payer.\n\nIncentives: prevention/value, strong analytics.\nLeverage: targeted populations (pain, behavioral health, high utilizers)." },
-      { id:"MassHealth", label:"MassHealth (Medicaid)", cat:"Payers",
-        details:"Covers a large share of MA; often the best path to scale whole-person care.\n\nIncentives: reduce avoidable ED/inpatient use; equity outcomes.\nLeverage: waivers, ACO models, CHC partnerships." },
+const NODES = [
+  // Patients
+  {
+    id:"patients",
+    label:"Patients & Families",
+    group:"Patients & Communities",
+    power:"Low individually; higher collectively (political/moral leverage)",
+    tags:["demand","choice","outcomes","trust"],
+    role:"People seeking care, navigating access, costs, and quality. Their experiences and outcomes are the system’s stated purpose.",
+    incentives:"Affordable access, timely appointments, understandable bills, respectful care, good outcomes, less paperwork.",
+    how:"Patients interact with providers (appointments, ED visits), payers (coverage rules), and public programs (MassHealth/Medicare). They also generate data (claims/EHR) and can influence policy through advocacy and voting.",
+    connections:"Patients sit at the center of care delivery; most other actors interact with patients indirectly via payment and rules."
+  },
 
-      // Government/Reg
-      { id:"EOHHS", label:"EOHHS (Exec Office HHS)", cat:"Government/Reg",
-        details:"Oversees MassHealth strategy and statewide priorities.\n\nIncentives: cost control + equity + political feasibility.\nLeverage: align with priority metrics and demonstration projects." },
-      { id:"HPC", label:"Health Policy Commission (HPC)", cat:"Government/Reg",
-        details:"Cost growth benchmark & oversight; influential in major expansions.\n\nIncentives: contain spending growth while protecting quality.\nLeverage: show scalable cost reduction + outcomes improvements." },
-      { id:"CHIA", label:"CHIA (Data & Analytics)", cat:"Government/Reg",
-        details:"Tracks spending/utilization; 'if it isn't measurable, it doesn't exist.'\n\nLeverage: design evaluation and reporting that fits CHIA-style metrics." },
+  // Care delivery core
+  {
+    id:"hospitals",
+    label:"Hospitals (e.g., MGB, BMC, Baystate)",
+    group:"Care Delivery",
+    power:"High operational power (staffing, capacity); constrained by payers and labor markets",
+    tags:["inpatient","ED","specialty care","capital-intensive"],
+    role:"Provide emergency, inpatient, procedural, and specialized outpatient care. Often anchor regional markets.",
+    incentives:"Maintain margins, fill beds/procedures, optimize payer mix, reduce penalties, manage risk, expand market share.",
+    how:"Hospitals bill insurers/CMS (fee-for-service or value-based), employ clinicians, and contract with vendors. Academic centers also teach and do research.",
+    connections:"Receive money from payers; deliver care to patients; comply with regulators; purchase drugs/devices; share data with insurers and public health."
+  },
+  {
+    id:"primarycare",
+    label:"Primary Care (PCPs, clinics)",
+    group:"Care Delivery",
+    power:"Moderate clinical influence; often low pricing power",
+    tags:["prevention","chronic disease","referrals"],
+    role:"First contact care, prevention, chronic disease management, referrals to specialists and hospitals.",
+    incentives:"Panel size/throughput, quality measures, risk-adjusted payments (in some models), stable staffing, reduced admin burden.",
+    how:"PCPs coordinate across specialists, behavioral health, and community supports; documentation is heavily shaped by billing and quality programs.",
+    connections:"Strong care links to patients, specialists, CHCs, labs, behavioral health; payment rules set by payers/CMS."
+  },
+  {
+    id:"specialists",
+    label:"Specialists (cardiology, ortho, etc.)",
+    group:"Care Delivery",
+    power:"Often high within systems (revenue-driving); varies by specialty",
+    tags:["procedures","referrals","capacity"],
+    role:"Provide advanced diagnostics/procedures and specialty management.",
+    incentives:"Procedure volume, access to OR time/cath lab, favorable reimbursement, referral flows.",
+    how:"Specialists typically rely on referral networks; their work is shaped by payer policies and hospital resources.",
+    connections:"Connected to hospitals, PCPs, imaging, labs; paid by insurers/CMS."
+  },
+  {
+    id:"nursing",
+    label:"Nurses & Bedside Staff (RNs, techs)",
+    group:"Care Delivery",
+    power:"High safety-critical leverage; varies by union density and staffing laws",
+    tags:["patient safety","staffing","care coordination"],
+    role:"Continuous bedside monitoring, medication administration, patient education, coordination, escalation of clinical issues.",
+    incentives:"Safe staffing ratios, manageable workloads, professional autonomy, pay/benefits, reduced moral injury.",
+    how:"Nursing workflow often determines the real pace of a unit; staffing decisions are typically managerial, not clinician-led.",
+    connections:"Directly connected to patients and hospitals; indirectly impacted by payer incentives that shape staffing budgets."
+  },
+  {
+    id:"behavioral",
+    label:"Behavioral Health Providers",
+    group:"Care Delivery",
+    power:"Historically low reimbursement; rising demand increases leverage",
+    tags:["therapy","psychiatry","substance use"],
+    role:"Mental health and substance use assessment and treatment, often integrated with primary care and EDs.",
+    incentives:"Sustainable reimbursement, capacity, integrated referrals, reduced prior auth barriers.",
+    how:"Care may occur in outpatient clinics, inpatient units, community programs, and crisis services; coordination is frequently fragmented.",
+    connections:"Strong ties to CHCs, hospitals/EDs, payers, community programs, and state agencies."
+  },
 
-      // Community/Safety-Net
-      { id:"FQHCs", label:"Community Health Centers (FQHCs)", cat:"Community/Safety-Net",
-        details:"Safety-net delivery backbone; mission-aligned and flexible.\n\nIncentives: improve outcomes with limited resources.\nLeverage: best sites for whole-person care pilots + community trust." },
-      { id:"CHA", label:"Cambridge Health Alliance (CHA)", cat:"Community/Safety-Net",
-        details:"Public/safety-net hybrid with strong primary care.\n\nIncentives: access + population health.\nLeverage: integrate mind-body + behavioral health + community supports." },
-      { id:"BHHH", label:"BHCHP (Homeless Care)", cat:"Community/Safety-Net",
-        details:"High-need population focus.\n\nIncentives: reduce crises, stabilize care.\nLeverage: wraparound models, trauma-informed care, integrative pain/mental health supports." },
+  // Community health + public health
+  {
+    id:"chc",
+    label:"Community Health Centers (FQHCs)",
+    group:"Community & Public Health",
+    power:"Moderate community trust; financially constrained",
+    tags:["underserved","sliding scale","wraparound"],
+    role:"Provide primary care, preventive care, and enabling services for underserved communities; often culturally/linguistically responsive.",
+    incentives:"Stable grant + payer revenue, workforce retention, meeting community needs, strong referral pathways.",
+    how:"FQHCs blend MassHealth payments, federal grants, and other funding; often provide care coordination and social supports.",
+    connections:"Direct care to patients; referrals to hospitals/specialists; report to regulators/funders; collaborate with public health and community orgs."
+  },
+  {
+    id:"publichealth",
+    label:"Public Health (Local Boards, DPH programs)",
+    group:"Community & Public Health",
+    power:"Rulemaking/coordination power; depends on funding",
+    tags:["surveillance","prevention","emergency response"],
+    role:"Population-level disease surveillance, prevention programs, outbreak response, health promotion, and regulation support.",
+    incentives:"Protect population health, allocate limited resources, coordinate during crises, reduce inequities.",
+    how:"Uses reporting from labs/providers, sets guidance, funds programs, and coordinates with state/federal partners.",
+    connections:"Data links with labs/providers; rule/oversight links with hospitals and facilities; community program partnerships."
+  },
+  {
+    id:"ems",
+    label:"EMS & Ambulance Services",
+    group:"Community & Public Health",
+    power:"High operational importance; reimbursement can be tight",
+    tags:["911","transport","triage"],
+    role:"Emergency response and transport; front door to ED care.",
+    incentives:"Response time performance, sustainable reimbursement, workforce stability, appropriate destination options.",
+    how:"Coordination with hospitals, dispatch, and sometimes alternative destinations (urgent care/mobile crisis).",
+    connections:"Care links to patients and hospitals; payment links to insurers/CMS; rules via state/local oversight."
+  },
+  {
+    id:"ltss",
+    label:"Long-Term Care & Home Health",
+    group:"Community & Public Health",
+    power:"Essential but often low leverage; staffing constraints are severe",
+    tags:["SNF","home care","aging","disability"],
+    role:"Post-acute rehab, skilled nursing facilities, home health, personal care attendants, disability supports.",
+    incentives:"Stable staffing, adequate rates, reduced hospital readmissions, safety and quality compliance.",
+    how:"Often funded by MassHealth, Medicare post-acute rules, and private pay; coordination with hospitals is critical but imperfect.",
+    connections:"Care links with hospitals (discharge), patients, payers; rules/oversight from state/feds."
+  },
 
-      // Industry
-      { id:"Biotech", label:"Biotech / Pharma Ecosystem", cat:"Industry",
-        details:"Massive economic and research influence.\n\nIncentives: scale therapies, defend IP, expand indications.\nLeverage: position whole-person interventions as adjuncts that improve outcomes/adherence." },
+  // Payers & purchasers
+  {
+    id:"masshealth",
+    label:"MassHealth (MA Medicaid)",
+    group:"Payers & Purchasers",
+    power:"Very high in MA (major payer; sets rates and models)",
+    tags:["coverage","managed care","equity"],
+    role:"Provides coverage for eligible MA residents; contracts with managed care and ACO models; sets benefits and rates within constraints.",
+    incentives:"Control spending growth, improve outcomes, reduce disparities, comply with federal rules.",
+    how:"Pays providers via managed care plans/ACOs and fee schedules; uses policy levers (prior auth, value-based payments, quality reporting).",
+    connections:"Money flows to providers; rules shape access; data/claims flow for monitoring and policy."
+  },
+  {
+    id:"medicare",
+    label:"Medicare (CMS)",
+    group:"Payers & Purchasers",
+    power:"Very high (national rate-setting influence; MA has large Medicare Advantage presence)",
+    tags:["fee schedule","MA plans","quality"],
+    role:"Federal insurance for seniors/disabled; sets payment policy that ripples through private markets.",
+    incentives:"Program integrity, cost control, quality outcomes, reduce fraud/waste.",
+    how:"Pays via traditional Medicare and Medicare Advantage plans; uses quality programs and payment reforms.",
+    connections:"Money to hospitals/clinicians/post-acute; rules/coverage; data via claims."
+  },
+  {
+    id:"commercial",
+    label:"Commercial Insurers (BCBSMA, etc.)",
+    group:"Payers & Purchasers",
+    power:"High; network and prior auth leverage",
+    tags:["networks","prior auth","contracts"],
+    role:"Private coverage (often employer-sponsored), negotiating prices and networks with providers.",
+    incentives:"Premium competitiveness, medical loss ratios, risk management, utilization control.",
+    how:"Use networks, plan design, prior authorization, and contracting to manage spend; increasingly buy/administer care infrastructure.",
+    connections:"Money to providers; rules shape care pathways; data/claims drive utilization management."
+  },
+  {
+    id:"employers",
+    label:"Employers & Purchasers",
+    group:"Payers & Purchasers",
+    power:"High (choose plans; can self-insure)",
+    tags:["benefits","cost sharing","workforce"],
+    role:"Select and finance health benefits; influence plan design (deductibles, networks).",
+    incentives:"Control benefit costs, recruit/retain workforce, reduce absenteeism, improve productivity.",
+    how:"Contract with insurers/TPAs and sometimes direct-contract with provider systems; use wellness programs and tiered networks.",
+    connections:"Money flows via premiums; influence insurer choices; can steer patients via plan design."
+  },
+  {
+    id:"pbm",
+    label:"PBMs (Pharmacy Benefit Managers)",
+    group:"Payers & Purchasers",
+    power:"High in drug pricing and formularies",
+    tags:["formularies","rebates","pharmacy networks"],
+    role:"Manage prescription drug benefits for insurers/employers: formularies, pharmacy networks, rebates, prior auth.",
+    incentives:"Maximize rebate/contract economics, control pharmacy spend, maintain client retention.",
+    how:"Negotiate with manufacturers and pharmacies; set coverage tiers; influence what patients can access and at what cost.",
+    connections:"Money/rules between insurers, pharma, pharmacies, and patients."
+  },
 
-      // Patients
-      { id:"Patients", label:"Patients & Communities", cat:"Patients",
-        details:"Individuals + communities experiencing care.\n\nIncentives: relief, dignity, function, trust.\nLeverage: patient-reported outcomes, storytelling, demand shaping." },
-      { id:"Clinicians", label:"Clinicians (MD/RN/CHW)", cat:"Patients",
-        details:"Frontline workforce (placed near patients because they bridge trust).\n\nIncentives: do good work with less admin burden; avoid burnout.\nLeverage: align payment + workflow to support longer visits and integrative referrals." }
-    ];
+  // Government & regulators
+  {
+    id:"madph",
+    label:"MA Dept. of Public Health (DPH)",
+    group:"Government & Regulators",
+    power:"High regulatory oversight over facilities and public health functions",
+    tags:["licensing","reporting","compliance"],
+    role:"Licenses and regulates certain facilities; oversees public health programs and emergency preparedness.",
+    incentives:"Protect public health, enforce standards, respond to outbreaks, reduce harms.",
+    how:"Uses licensing, inspections, guidance, and reporting requirements; coordinates with local boards and federal partners.",
+    connections:"Rules and data links with hospitals, labs, EMS, long-term care; collaborates with community orgs."
+  },
+  {
+    id:"doi",
+    label:"MA Division of Insurance (DOI)",
+    group:"Government & Regulators",
+    power:"High over insurer market conduct and rules",
+    tags:["premium review","consumer protection"],
+    role:"Regulates insurance companies and certain insurance market practices in MA.",
+    incentives:"Market stability, consumer protections, compliance with state law.",
+    how:"Reviews filings and market conduct; sets/monitors certain requirements; coordinates with other state agencies.",
+    connections:"Rules link with insurers and indirectly providers/patients."
+  },
+  {
+    id:"hcpc",
+    label:"MA Health Policy Commission (HPC)",
+    group:"Government & Regulators",
+    power:"Moderate–high (cost growth monitoring; policy influence)",
+    tags:["cost growth","market oversight","analytics"],
+    role:"Monitors healthcare cost growth, market trends, and provides policy recommendations in MA.",
+    incentives:"Keep spending growth within benchmarks; increase transparency; promote value and equity.",
+    how:"Publishes analyses, holds hearings, can review certain market transactions and refer concerns.",
+    connections:"Data/analysis links to providers and payers; policy influence across the system."
+  },
 
-    const links = [
-      // Payers <-> Systems
-      { source:"BCBSMA", target:"MGB", label:"contracts / payment", type:"payment" },
-      { source:"BCBSMA", target:"BILH", label:"contracts / payment", type:"payment" },
-      { source:"Point32", target:"TuftsMed", label:"contracts / payment", type:"payment" },
-      { source:"MassHealth", target:"FQHCs", label:"Medicaid funding", type:"payment" },
-      { source:"MassHealth", target:"CHA", label:"ACO / Medicaid", type:"payment" },
-      { source:"MassHealth", target:"MGB", label:"Medicaid coverage", type:"payment" },
+  // Supply chain
+  {
+    id:"pharma",
+    label:"Pharmaceutical Manufacturers",
+    group:"Supply Chain",
+    power:"High (pricing and clinical influence via therapies)",
+    tags:["drug prices","R&D","marketing"],
+    role:"Develop and sell drugs; influence standards of care through evidence generation and market access strategies.",
+    incentives:"Revenue, market expansion, favorable coverage, protection of IP, speed to adoption.",
+    how:"Interact with FDA (approval), PBMs/insurers (formularies), and providers (prescribing).",
+    connections:"Supply and pricing to pharmacies/hospitals; rules via regulators; money flows via PBMs/insurers."
+  },
+  {
+    id:"devices",
+    label:"Device & Medical Supply Companies",
+    group:"Supply Chain",
+    power:"Moderate–high (procedural dependence)",
+    tags:["implants","equipment","contracts"],
+    role:"Provide implants, equipment, and supplies for care delivery.",
+    incentives:"Contract wins, clinician preference, procedural volume, innovation adoption.",
+    how:"Sell to hospitals/clinics; sometimes provide training/support; prices negotiated via contracts.",
+    connections:"Supply to hospitals; money via purchasing; rules via regulators and hospital procurement."
+  },
+  {
+    id:"pharmacies",
+    label:"Pharmacies (retail & hospital)",
+    group:"Supply Chain",
+    power:"Moderate (access point for meds; constrained by PBMs)",
+    tags:["dispensing","adherence","vaccines"],
+    role:"Dispense medications, counsel patients, provide vaccinations and some clinical services.",
+    incentives:"Sustainable margins, predictable PBM reimbursement, patient retention, efficient operations.",
+    how:"Paid largely through PBM contracts; manage inventory; increasingly provide clinical services.",
+    connections:"Care links to patients; money/rules via PBMs and insurers; supply from manufacturers/wholesalers."
+  },
+  {
+    id:"labs",
+    label:"Labs & Imaging (Quest, hospital labs, radiology)",
+    group:"Admin & Data Infrastructure",
+    power:"Moderate (critical diagnostics; volume-driven)",
+    tags:["testing","diagnostics","reporting"],
+    role:"Provide diagnostic testing and imaging; crucial for clinical decisions and public health surveillance.",
+    incentives:"Volume, payer contracts, turnaround times, quality/compliance.",
+    how:"Orders come from clinicians; results feed EHRs and sometimes required public health reporting.",
+    connections:"Care links with providers; data links with public health; money from payers."
+  },
 
-      // Regulators
-      { source:"HPC", target:"MGB", label:"cost oversight", type:"policy" },
-      { source:"HPC", target:"BILH", label:"cost oversight", type:"policy" },
-      { source:"CHIA", target:"BCBSMA", label:"spend/utilization data", type:"data" },
-      { source:"CHIA", target:"MassHealth", label:"spend/utilization data", type:"data" },
-      { source:"EOHHS", target:"MassHealth", label:"strategy / waivers", type:"policy" },
+  // Education & research
+  {
+    id:"academia",
+    label:"Academic Medicine & Training (e.g., HMS, teaching hospitals)",
+    group:"Education & Research",
+    power:"High cultural influence; depends on funding streams",
+    tags:["training","residency","research"],
+    role:"Trains workforce (medical, nursing, allied health), generates research, and often delivers tertiary care.",
+    incentives:"Grant funding, publications, prestige, stable training pipelines, clinical margins supporting missions.",
+    how:"Research funding + clinical revenue + philanthropy; trainees deliver care under supervision; guidelines can be shaped by academic output.",
+    connections:"Care ties to hospitals; supply ties to pharma/devices (research); rules via accreditation and regulators."
+  },
 
-      // Delivery
-      { source:"FQHCs", target:"Patients", label:"care delivery", type:"care" },
-      { source:"CHA", target:"Patients", label:"care delivery", type:"care" },
-      { source:"BHHH", target:"Patients", label:"care delivery", type:"care" },
-      { source:"Clinicians", target:"Patients", label:"trust / care", type:"care" },
+  // Admin & data
+  {
+    id:"ehr",
+    label:"EHR & Health IT (Epic/Cerner + analytics)",
+    group:"Admin & Data Infrastructure",
+    power:"High workflow-shaping power; indirect",
+    tags:["documentation","billing","interop"],
+    role:"Digital infrastructure for clinical documentation, ordering, billing, and reporting.",
+    incentives:"Adoption/retention, integration, regulatory compliance features, upsell analytics.",
+    how:"EHR configuration shapes clinician time and data quality; supports quality reporting, claims support, and care coordination tools.",
+    connections:"Data flows across providers/payers/public health; influences admin burden."
+  },
+  {
+    id:"aco",
+    label:"ACOs & Value-Based Entities",
+    group:"Admin & Data Infrastructure",
+    power:"Moderate (depends on attribution and contracts)",
+    tags:["risk","quality","care management"],
+    role:"Organizations accountable for cost and quality across a population under shared savings/risk contracts.",
+    incentives:"Reduce avoidable utilization, improve quality scores, manage risk adjustment, keep patients in-network.",
+    how:"Use care management, analytics, and network design to coordinate care and manage spend.",
+    connections:"Money/rules from payers; care coordination with PCPs, hospitals, CHCs, behavioral health."
+  },
+  {
+    id:"nonprofits",
+    label:"Foundations & Nonprofits",
+    group:"Community & Public Health",
+    power:"Variable; can catalyze innovation",
+    tags:["grants","advocacy","pilot programs"],
+    role:"Fund programs, advocate, convene stakeholders, and pilot new care models (especially equity-focused work).",
+    incentives:"Impact, sustainability of programs, policy wins, community trust.",
+    how:"Provide grants, technical assistance, convenings, and sometimes direct services.",
+    connections:"Funding and partnership links with CHCs, public health, hospitals, and community groups."
+  }
+];
 
-      // Industry influence
-      { source:"Biotech", target:"MGB", label:"research funding", type:"industry" },
-      { source:"Biotech", target:"TuftsMed", label:"research funding", type:"industry" }
-    ];
+const EDGES = [
+  // Care delivery
+  {from:"patients", to:"primarycare", type:"care", label:"Visits / prevention"},
+  {from:"patients", to:"chc", type:"care", label:"Primary care + wraparound"},
+  {from:"patients", to:"hospitals", type:"care", label:"ED / inpatient / specialty"},
+  {from:"patients", to:"behavioral", type:"care", label:"Therapy / psychiatry / SUD"},
+  {from:"patients", to:"pharmacies", type:"care", label:"Medication access"},
+  {from:"patients", to:"ems", type:"care", label:"911 / transport"},
+  {from:"hospitals", to:"specialists", type:"care", label:"Specialty services"},
+  {from:"primarycare", to:"specialists", type:"care", label:"Referrals"},
+  {from:"primarycare", to:"labs", type:"care", label:"Orders"},
+  {from:"hospitals", to:"labs", type:"care", label:"Diagnostics"},
+  {from:"hospitals", to:"ltss", type:"care", label:"Discharge / post-acute"},
+  {from:"chc", to:"behavioral", type:"care", label:"Integrated referrals"},
+  {from:"chc", to:"publichealth", type:"care", label:"Programs + prevention"},
+  {from:"publichealth", to:"patients", type:"care", label:"Prevention programs"},
+  {from:"ems", to:"hospitals", type:"care", label:"Transport to ED"},
+  {from:"nursing", to:"patients", type:"care", label:"Bedside care"},
+  {from:"nursing", to:"hospitals", type:"care", label:"Operations / safety"},
 
-    // =========================
-    // RENDER
-    // =========================
-    const svg = d3.select("#svg");
-    const width = 1200, height = 800;
+  // Money flows
+  {from:"masshealth", to:"chc", type:"money", label:"Capitation/FFS + grants blend"},
+  {from:"masshealth", to:"primarycare", type:"money", label:"Payment + quality"},
+  {from:"masshealth", to:"hospitals", type:"money", label:"Rates + contracts"},
+  {from:"medicare", to:"hospitals", type:"money", label:"DRG/OPPS payments"},
+  {from:"medicare", to:"primarycare", type:"money", label:"Physician fee schedule"},
+  {from:"commercial", to:"hospitals", type:"money", label:"Contracted rates"},
+  {from:"commercial", to:"primarycare", type:"money", label:"FFS / value-based"},
+  {from:"employers", to:"commercial", type:"money", label:"Premiums / self-insurance"},
+  {from:"commercial", to:"pbm", type:"money", label:"Drug benefit admin"},
+  {from:"pbm", to:"pharmacies", type:"money", label:"Reimbursement"},
+  {from:"pbm", to:"pharma", type:"money", label:"Rebates / contracts"},
+  {from:"pharmacies", to:"patients", type:"money", label:"Copays / cost-sharing"},
 
-    const catColor = new Map(CATEGORIES.map(c => [c.key, c.color]));
-    const filtersState = new Map(CATEGORIES.map(c => [c.key, true]));
+  // Rules/oversight
+  {from:"madph", to:"hospitals", type:"rules", label:"Licensing / standards"},
+  {from:"madph", to:"ltss", type:"rules", label:"Facility oversight"},
+  {from:"madph", to:"ems", type:"rules", label:"Protocols / oversight"},
+  {from:"doi", to:"commercial", type:"rules", label:"Insurance regulation"},
+  {from:"hcpc", to:"commercial", type:"rules", label:"Cost growth monitoring"},
+  {from:"hcpc", to:"hospitals", type:"rules", label:"Market oversight"},
+  {from:"publichealth", to:"labs", type:"rules", label:"Reporting requirements"},
+  {from:"medicare", to:"hospitals", type:"rules", label:"Conditions of participation"},
+  {from:"masshealth", to:"aco", type:"rules", label:"ACO models + requirements"},
+  {from:"commercial", to:"aco", type:"rules", label:"Value-based contracts"},
 
-    // UI: filters + legend
-    const filtersEl = document.getElementById("filters");
-    const legendEl = document.getElementById("legend");
+  // Supply chain
+  {from:"pharma", to:"pharmacies", type:"supply", label:"Drug supply"},
+  {from:"pharma", to:"hospitals", type:"supply", label:"Hospital pharmacy supply"},
+  {from:"devices", to:"hospitals", type:"supply", label:"Equipment / implants"},
 
-    for (const c of CATEGORIES) {
-      const lab = document.createElement("label");
-      const cb = document.createElement("input");
-      cb.type = "checkbox"; cb.checked = true;
-      cb.addEventListener("change", () => { filtersState.set(c.key, cb.checked); applyFilters(); });
-      const span = document.createElement("span");
-      span.innerHTML = `<span class="dot" style="background:${c.color}"></span>${c.key}`;
-      lab.appendChild(cb); lab.appendChild(span);
-      filtersEl.appendChild(lab);
+  // Data/admin
+  {from:"ehr", to:"hospitals", type:"data", label:"Documentation + billing"},
+  {from:"ehr", to:"primarycare", type:"data", label:"Workflow + coding"},
+  {from:"ehr", to:"publichealth", type:"data", label:"Reporting / exchange"},
+  {from:"hospitals", to:"commercial", type:"data", label:"Claims / prior auth docs"},
+  {from:"primarycare", to:"commercial", type:"data", label:"Claims / quality"},
+  {from:"hospitals", to:"medicare", type:"data", label:"Claims + quality"},
+  {from:"primarycare", to:"masshealth", type:"data", label:"Claims + measures"},
+  {from:"academia", to:"hospitals", type:"care", label:"Teaching + workforce"},
+  {from:"academia", to:"pharma", type:"data", label:"Trials / evidence"},
+  {from:"nonprofits", to:"chc", type:"money", label:"Grants"},
+  {from:"nonprofits", to:"publichealth", type:"money", label:"Programs funding"}
+];
 
-      const leg = document.createElement("span");
-      leg.innerHTML = `<span class="dot" style="background:${c.color}"></span>${c.key}`;
-      legendEl.appendChild(leg);
-    }
+const EDGE_TYPE_STYLE = {
+  money: { dashes:true,  width:2,  font:"Money" },
+  care:  { dashes:false, width:2.5,font:"Care" },
+  rules: { dashes:[8,6], width:2,  font:"Rules" },
+  supply:{ dashes:[2,6], width:2,  font:"Supply" },
+  data:  { dashes:[1,4], width:2,  font:"Data" }
+};
 
-    // Zoom container
-    const gZoom = svg.append("g");
-    const gLinks = gZoom.append("g").attr("stroke-linecap", "round");
-    const gNodes = gZoom.append("g");
-    const gLabels = gZoom.append("g");
+function groupColor(group){
+  return (GROUPS[group]?.color) || "#7aa2ff";
+}
 
-    const zoom = d3.zoom()
-      .scaleExtent([0.4, 2.5])
-      .on("zoom", (event) => gZoom.attr("transform", event.transform));
-    svg.call(zoom);
+// Populate filter options and legend
+const filterGroup = document.getElementById("filterGroup");
+Object.keys(GROUPS).forEach(g=>{
+  const opt = document.createElement("option");
+  opt.value = g; opt.textContent = g;
+  filterGroup.appendChild(opt);
+});
 
-    // Initial layout positions (rough "power map" layers)
-    const preset = new Map([
-      ["Government/Reg", {x: 600, y: 120}],
-      ["Payers",         {x: 300, y: 260}],
-      ["Academic Systems",{x: 900, y: 260}],
-      ["Community/Safety-Net",{x: 520, y: 460}],
-      ["Industry",       {x: 1030, y: 120}],
-      ["Patients",       {x: 600, y: 660}]
-    ]);
+const legend = document.getElementById("legend");
+Object.entries(GROUPS).forEach(([g,meta])=>{
+  const chip = document.createElement("div");
+  chip.className = "chip";
+  chip.innerHTML = `<span class="dot" style="background:${meta.color}"></span>${g}`;
+  legend.appendChild(chip);
+});
 
-    nodes.forEach((n, i) => {
-      const p = preset.get(n.cat) || {x: 600, y: 400};
-      n.x = p.x + (Math.cos(i)*70);
-      n.y = p.y + (Math.sin(i)*40);
+// Build vis.js datasets
+const nodesDS = new vis.DataSet(
+  NODES.map(n=>({
+    id:n.id,
+    label:n.label,
+    group:n.group,
+    title: n.label,
+    shape:"dot",
+    size: 18,
+    color: {
+      background: groupColor(n.group),
+      border: "rgba(255,255,255,.45)",
+      highlight: { background: groupColor(n.group), border:"#ffffff" },
+      hover: { background: groupColor(n.group), border:"#ffffff" }
+    },
+    font: { color: "#e8ecff", size: 14, face:"ui-sans-serif" }
+  }))
+);
+
+const edgesDS = new vis.DataSet(
+  EDGES.map((e,idx)=>({
+    id: "e"+idx,
+    from:e.from,
+    to:e.to,
+    label:e.label,
+    arrows: { to: { enabled:true, scaleFactor:0.7 } },
+    color: { color: "rgba(199,207,255,.45)", highlight:"#ffffff", hover:"#ffffff" },
+    font: { color:"rgba(231,236,255,.8)", size: 11, align:"middle" },
+    smooth: { type:"dynamic" },
+    dashes: EDGE_TYPE_STYLE[e.type]?.dashes ?? false,
+    width: EDGE_TYPE_STYLE[e.type]?.width ?? 2,
+    type: e.type
+  }))
+);
+
+const container = document.getElementById("network");
+const data = { nodes: nodesDS, edges: edgesDS };
+const options = {
+  autoResize:true,
+  physics: {
+    enabled:true,
+    stabilization: { iterations: 120 },
+    barnesHut: { gravitationalConstant: -9000, springLength: 170, springConstant: 0.03, damping: 0.12 }
+  },
+  interaction: { hover:true, multiselect:false, navigationButtons:false },
+  layout: { improvedLayout:true }
+};
+
+const network = new vis.Network(container, data, options);
+
+// Helper: get node detail
+const nodeById = Object.fromEntries(NODES.map(n=>[n.id,n]));
+
+function setAccordion(nodeId){
+  const n = nodeById[nodeId];
+  const sideTitle = document.getElementById("sideTitle");
+  const sideHint  = document.getElementById("sideHint");
+  const kpiCategory = document.getElementById("kpiCategory");
+  const kpiConnections = document.getElementById("kpiConnections");
+  const kpiPower = document.getElementById("kpiPower");
+  const acc = document.getElementById("accordion");
+
+  if(!n){
+    sideTitle.textContent="Select a node";
+    sideHint.textContent="Click any circle to see details and highlight its connections.";
+    kpiCategory.innerHTML="<strong>—</strong>";
+    kpiConnections.innerHTML="<strong>—</strong>";
+    kpiPower.innerHTML="<strong>—</strong>";
+    acc.innerHTML="";
+    return;
+  }
+
+  sideTitle.textContent = n.label;
+  sideHint.textContent = "Expandable sections below. Connections are highlighted on the map.";
+
+  const connCount = getConnectedEdges(nodeId).length;
+  kpiCategory.innerHTML = `<strong>${n.group}</strong>`;
+  kpiConnections.innerHTML = `<strong>${connCount}</strong>`;
+  kpiPower.innerHTML = `<strong>${n.power}</strong>`;
+
+  const tags = (n.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("");
+
+  acc.innerHTML = `
+    <div class="tagRow">${tags}</div>
+
+    ${sectionHTML("Role", n.role)}
+    ${sectionHTML("Incentives", n.incentives)}
+    ${sectionHTML("How it works in MA (typical)", n.how)}
+    ${sectionHTML("How it connects to others", n.connections)}
+
+    <div class="section open">
+      <button type="button">
+        <div>Direct connections <span>(click a connected node on the graph)</span></div>
+        <div>▾</div>
+      </button>
+      <div class="content" id="connList"></div>
+    </div>
+  `;
+
+  // wire up accordion toggles
+  [...acc.querySelectorAll(".section")].forEach(sec=>{
+    const btn = sec.querySelector("button");
+    btn.addEventListener("click", ()=>{
+      sec.classList.toggle("open");
     });
+  });
 
-    // Force simulation
-    const sim = d3.forceSimulation(nodes)
-      .force("link", d3.forceLink(links).id(d => d.id).distance(160).strength(0.7))
-      .force("charge", d3.forceManyBody().strength(-520))
-      .force("center", d3.forceCenter(width/2, height/2))
-      .force("collide", d3.forceCollide().radius(d => 34).iterations(2));
+  // fill connection list
+  const connList = document.getElementById("connList");
+  const connected = getConnectedNodes(nodeId);
+  connList.innerHTML = connected.map(c=>{
+    const cn = nodeById[c.id];
+    const typeBadges = c.types.map(t=>`<span class="tag">${t}</span>`).join("");
+    return `
+      <div style="padding:10px; margin-top:8px; border-radius:12px; background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);">
+        <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
+          <div>
+            <div style="font-size:12.5px; color:var(--text); font-weight:600;">${cn?.label ?? c.id}</div>
+            <div style="font-size:12px; color:var(--muted); margin-top:3px;">${cn?.group ?? "—"}</div>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end;">${typeBadges}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
 
-    // Links
-    const link = gLinks.selectAll("line")
-      .data(links)
-      .join("line")
-      .attr("class", "link");
+function sectionHTML(title, body){
+  return `
+    <div class="section open">
+      <button type="button">
+        <div>${title}</div>
+        <div>▾</div>
+      </button>
+      <div class="content">${escapeHTML(body || "—")}</div>
+    </div>
+  `;
+}
 
-    // Link labels
-    const linkLabel = gLinks.selectAll("text")
-      .data(links)
-      .join("text")
-      .attr("class", "linkLabel")
-      .text(d => d.label);
+function escapeHTML(str){
+  return String(str).replace(/[&<>"']/g, s => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[s]));
+}
 
-    // Nodes
-    const node = gNodes.selectAll("g")
-      .data(nodes)
-      .join("g")
-      .attr("class", "node")
-      .call(d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended)
-      )
-      .on("click", (_, d) => selectNode(d));
+// Connected nodes & edges
+function getConnectedEdges(nodeId){
+  return edgesDS.get().filter(e=> e.from===nodeId || e.to===nodeId);
+}
 
-    node.append("circle")
-      .attr("r", 22)
-      .attr("fill", d => catColor.get(d.cat) || "#fff")
-      .attr("opacity", 0.95);
+function getConnectedNodes(nodeId){
+  const edges = getConnectedEdges(nodeId);
+  const map = new Map();
+  edges.forEach(e=>{
+    const other = (e.from===nodeId) ? e.to : e.from;
+    if(!map.has(other)) map.set(other, new Set());
+    map.get(other).add(e.type);
+  });
+  return [...map.entries()].map(([id,set])=>({ id, types:[...set] }));
+}
 
-    // Labels
-    const label = gLabels.selectAll("text")
-      .data(nodes)
-      .join("text")
-      .attr("text-anchor","middle")
-      .attr("dy", 4)
-      .text(d => shortLabel(d.label));
+// Highlighting
+let currentSelection = null;
+function highlightSelection(nodeId){
+  currentSelection = nodeId;
 
-    function shortLabel(s){
-      return s.length > 22 ? s.slice(0, 20) + "…" : s;
-    }
+  // Reset all
+  const allNodes = nodesDS.getIds();
+  const allEdges = edgesDS.getIds();
 
-    // Ticks
-    sim.on("tick", () => {
-      link
-        .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+  nodesDS.update(allNodes.map(id=>({
+    id,
+    opacity: 0.25
+  })));
+  edgesDS.update(allEdges.map(id=>({
+    id,
+    hidden: true
+  })));
 
-      node.attr("transform", d => `translate(${d.x},${d.y})`);
+  // Show selected + neighbors
+  const connectedEdges = getConnectedEdges(nodeId);
+  const neighborIds = new Set([nodeId]);
+  connectedEdges.forEach(e=>{
+    neighborIds.add(e.from);
+    neighborIds.add(e.to);
+  });
 
-      label
-        .attr("x", d => d.x)
-        .attr("y", d => d.y + 40);
+  nodesDS.update([...neighborIds].map(id=>({ id, opacity: 1 })));
+  edgesDS.update(connectedEdges.map(e=>({ id:e.id, hidden:false })));
 
-      linkLabel
-        .attr("x", d => (d.source.x + d.target.x)/2)
-        .attr("y", d => (d.source.y + d.target.y)/2 - 8);
+  // Keep labels readable for neighbors only
+  nodesDS.update(allNodes.map(id=>{
+    const isOn = neighborIds.has(id);
+    return { id, font: { color: isOn ? "#e8ecff" : "rgba(232,236,255,.35)", size: isOn ? 14 : 12 } };
+  }));
+}
+
+function showAll(){
+  const allNodes = nodesDS.getIds();
+  const allEdges = edgesDS.getIds();
+  nodesDS.update(allNodes.map(id=>({ id, opacity: 1, font:{ color:"#e8ecff", size:14 } })));
+  edgesDS.update(allEdges.map(id=>({ id, hidden:false })));
+}
+
+// Network events
+network.on("selectNode", (params)=>{
+  const id = params.nodes[0];
+  setAccordion(id);
+  highlightSelection(id);
+});
+
+network.on("deselectNode", ()=>{
+  currentSelection = null;
+  showAll();
+  setAccordion(null);
+});
+
+// Search
+const searchInput = document.getElementById("search");
+searchInput.addEventListener("input", ()=>{
+  const q = searchInput.value.trim().toLowerCase();
+  if(!q){ return; }
+
+  const match = NODES.find(n => (n.label + " " + n.id).toLowerCase().includes(q));
+  if(match){
+    network.selectNodes([match.id]);
+    network.focus(match.id, { scale:1.1, animation:{ duration:350 } });
+    setAccordion(match.id);
+    highlightSelection(match.id);
+  }
+});
+
+// Group filter
+filterGroup.addEventListener("change", ()=>{
+  applyFilters();
+});
+
+// Lens filter (connection type)
+document.getElementById("filterLens").addEventListener("change", ()=>{
+  applyFilters();
+});
+
+function applyFilters(){
+  const g = filterGroup.value;
+  const lens = document.getElementById("filterLens").value;
+
+  // Show all first
+  showAll();
+
+  // Filter by group: fade non-matching nodes and hide their edges
+  if(g !== "ALL"){
+    const ids = nodesDS.getIds();
+    const keep = new Set(NODES.filter(n=>n.group===g).map(n=>n.id));
+    nodesDS.update(ids.map(id=>({
+      id,
+      opacity: keep.has(id) ? 1 : 0.15,
+      font:{ color: keep.has(id) ? "#e8ecff" : "rgba(232,236,255,.28)", size: keep.has(id) ? 14 : 12 }
+    })));
+    edgesDS.update(edgesDS.getIds().map(eid=>{
+      const e = edgesDS.get(eid);
+      const ok = keep.has(e.from) && keep.has(e.to);
+      return { id:eid, hidden: !ok };
+    }));
+  }
+
+  // Filter by edge type lens: hide edges not of that type; keep nodes visible (but slightly fade if isolated)
+  if(lens !== "ALL"){
+    edgesDS.update(edgesDS.getIds().map(eid=>{
+      const e = edgesDS.get(eid);
+      return { id:eid, hidden: e.type !== lens };
+    }));
+
+    // Fade nodes with zero visible incident edges
+    const visibleEdges = edgesDS.get().filter(e=>!e.hidden);
+    const incident = new Map();
+    visibleEdges.forEach(e=>{
+      incident.set(e.from, (incident.get(e.from)||0)+1);
+      incident.set(e.to, (incident.get(e.to)||0)+1);
     });
+    nodesDS.update(nodesDS.getIds().map(id=>{
+      const has = incident.has(id);
+      return { id, opacity: has ? 1 : 0.25, font:{ color: has ? "#e8ecff" : "rgba(232,236,255,.35)", size: has ? 14 : 12 } };
+    }));
+  }
+}
 
-    function dragstarted(event, d) {
-      if (!event.active) sim.alphaTarget(0.2).restart();
-      d.fx = d.x; d.fy = d.y;
-    }
-    function dragged(event, d) {
-      d.fx = event.x; d.fy = event.y;
-    }
-    function dragended(event, d) {
-      if (!event.active) sim.alphaTarget(0);
-      d.fx = null; d.fy = null;
-    }
+// Buttons
+document.getElementById("reset").addEventListener("click", ()=>{
+  network.fit({ animation:{ duration:350 } });
+  network.unselectAll();
+  showAll();
+  setAccordion(null);
+  searchInput.value = "";
+  filterGroup.value = "ALL";
+  document.getElementById("filterLens").value = "ALL";
+});
 
-    // Selection UI
-    const detailBadge = document.getElementById("detailBadge");
-    const detailTitle = document.getElementById("detailTitle");
-    const detailText  = document.getElementById("detailText");
+document.getElementById("showAll").addEventListener("click", ()=>{
+  network.unselectAll();
+  showAll();
+  setAccordion(null);
+  currentSelection = null;
+});
 
-    function selectNode(d){
-      detailBadge.textContent = d.cat;
-      detailTitle.textContent = d.label;
-      detailText.textContent  = d.details || "";
-      node.selectAll("circle").attr("stroke", "rgba(255,255,255,.25)").attr("stroke-width", 1.25);
-      d3.select(d3.event?.currentTarget);
-      // Highlight selected:
-      node.filter(n => n.id === d.id).select("circle").attr("stroke","white").attr("stroke-width", 3);
-    }
+document.getElementById("expandCore").addEventListener("click", ()=>{
+  // Focus on core “money + care” loop: patients, primary care, hospitals, masshealth, medicare, commercial, chc
+  const core = ["patients","primarycare","hospitals","masshealth","medicare","commercial","chc","behavioral","pharmacies","pbm","publichealth"];
+  network.selectNodes(core);
+  // Make a subgraph-ish view: show edges among core nodes
+  const coreSet = new Set(core);
+  nodesDS.update(nodesDS.getIds().map(id=>({
+    id,
+    opacity: coreSet.has(id) ? 1 : 0.12,
+    font:{ color: coreSet.has(id) ? "#e8ecff" : "rgba(232,236,255,.22)", size: coreSet.has(id)?14:12 }
+  })));
+  edgesDS.update(edgesDS.getIds().map(eid=>{
+    const e = edgesDS.get(eid);
+    const ok = coreSet.has(e.from) && coreSet.has(e.to);
+    return { id:eid, hidden: !ok };
+  }));
+  network.fit({ animation:{ duration:350 } });
+});
 
-    // Filters
-    function applyFilters(){
-      const visible = d => filtersState.get(d.cat) !== false;
+// Initial view
+showAll();
+network.fit();
 
-      node.style("display", d => visible(d) ? null : "none");
-      label.style("display", d => visible(d) ? null : "none");
-
-      link.style("display", d => (visible(d.source) && visible(d.target)) ? null : "none");
-      linkLabel.style("display", d => (visible(d.source) && visible(d.target)) ? null : "none");
-    }
-
-    // Search highlight
-    const search = document.getElementById("search");
-    search.addEventListener("input", () => {
-      const q = search.value.trim().toLowerCase();
-      node.select("circle").attr("opacity", d => {
-        if (!q) return 0.95;
-        const hit = (d.label + " " + d.id).toLowerCase().includes(q);
-        return hit ? 1.0 : 0.25;
-      });
-      label.attr("opacity", d => {
-        if (!q) return 1.0;
-        const hit = (d.label + " " + d.id).toLowerCase().includes(q);
-        return hit ? 1.0 : 0.25;
-      });
-      link.attr("opacity", d => {
-        if (!q) return 1.0;
-        const hit = (d.source.label||d.source.id).toLowerCase().includes(q) ||
-                    (d.target.label||d.target.id).toLowerCase().includes(q);
-        return hit ? 1.0 : 0.15;
-      });
-      linkLabel.attr("opacity", d => {
-        if (!q) return 1.0;
-        const hit = (d.source.label||d.source.id).toLowerCase().includes(q) ||
-                    (d.target.label||d.target.id).toLowerCase().includes(q);
-        return hit ? 1.0 : 0.15;
-      });
-    });
-
-    // Reset
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      svg.transition().duration(350).call(zoom.transform, d3.zoomIdentity);
-      search.value = "";
-      search.dispatchEvent(new Event("input"));
-      // Nudge layout back toward presets
-      nodes.forEach((n,i) => {
-        const p = preset.get(n.cat) || {x:600,y:400};
-        n.x = p.x + (Math.cos(i)*70);
-        n.y = p.y + (Math.sin(i)*40);
-      });
-      sim.alpha(0.7).restart();
-    });
-
-    // Initial filters
-    applyFilters();
-  </script>
+// Make edge labels less busy unless zoomed in
+network.on("zoom", ()=>{
+  const scale = network.getScale();
+  edgesDS.update(edgesDS.getIds().map(id=>({
+    id,
+    font: { size: scale > 0.85 ? 11 : 0 } // hide labels when zoomed out
+  })));
+});
+</script>
 </body>
 </html>
