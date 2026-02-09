@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Massachusetts Healthcare System — Interactive Map</title>
+  <style>
+    :root { --bg:#0b1220; --panel:#0f1a33; --card:#122042; --text:#e8eefc; --muted:#a8b3d6; --line:rgba(255,255,255,.18); }
+    html,body { height:100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
+    .wrap { display:grid; grid-template-columns: 360px 1fr; height:100%; }
+    .sidebar { padding:16px; border-right:1px solid var(--line); background:linear-gradient(180deg, var(--panel), rgba(15,26,51,.7)); overflow:auto; }
+    .title { font-size:18px; font-weight:700; margin:0 0 6px; }
+    .subtitle { margin:0 0 14px; color:var(--muted); font-size:13px; line-height:1.35; }
+    .card { background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:14px; padding:12px; margin:12px 0; }
+    .card h3 { margin:0 0 8px; font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+    .filters { display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+    label { display:flex; gap:8px; align-items:center; background:rgba(255,255,255,.03); border:1px solid var(--line); padding:8px; border-radius:12px; cursor:pointer; user-select:none; }
+    input[type="checkbox"] { transform: scale(1.05); }
+    .detailTitle { font-size:16px; font-weight:750; margin:0 0 6px; }
+    .badge { display:inline-block; font-size:11px; padding:3px 8px; border-radius:999px; border:1px solid var(--line); color:var(--muted); margin-bottom:10px; }
+    .detail { color:var(--text); font-size:13px; line-height:1.5; }
+    .muted { color:var(--muted); }
+    .hint { font-size:12px; color:var(--muted); line-height:1.4; }
+    .toprow { display:flex; gap:8px; align-items:center; }
+    button {
+      background: rgba(255,255,255,.05); border:1px solid var(--line);
+      color:var(--text); padding:8px 10px; border-radius:12px; cursor:pointer;
+    }
+    button:hover { background: rgba(255,255,255,.08); }
+    .canvas { position:relative; overflow:hidden; }
+    svg { width:100%; height:100%; display:block; }
+    .node { cursor:grab; }
+    .node:active { cursor:grabbing; }
+    .node circle { stroke: rgba(255,255,255,.25); stroke-width: 1.25; }
+    .node text { fill: var(--text); font-size: 12px; paint-order: stroke; stroke: rgba(0,0,0,.35); stroke-width: 3px; }
+    .link { stroke: rgba(255,255,255,.18); stroke-width: 1.25; }
+    .linkLabel { fill: rgba(255,255,255,.65); font-size: 11px; pointer-events:none; }
+    .legendRow { display:flex; gap:10px; flex-wrap:wrap; }
+    .dot { width:10px; height:10px; border-radius:999px; display:inline-block; margin-right:6px; vertical-align:middle; }
+    .small { font-size:12px; }
+    .search { width:100%; box-sizing:border-box; padding:10px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--text); }
+    a { color:#b9d2ff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="toprow">
+        <h1 class="title">MA Healthcare System Map</h1>
+        <button id="resetBtn" title="Reset zoom & layout">Reset</button>
+      </div>
+      <p class="subtitle">Interactive power + incentives map. Drag nodes, zoom/pan, click for details.</p>
+
+      <div class="card">
+        <h3>Find</h3>
+        <input id="search" class="search" placeholder="Type to highlight (e.g., MassHealth, BCBSMA, HPC)..." />
+        <p class="hint" style="margin:8px 0 0;">Tip: scroll to zoom, drag background to pan.</p>
+      </div>
+
+      <div class="card">
+        <h3>Show / hide layers</h3>
+        <div class="filters" id="filters"></div>
+      </div>
+
+      <div class="card">
+        <h3>Legend</h3>
+        <div class="legendRow small" id="legend"></div>
+      </div>
+
+      <div class="card" id="detailCard">
+        <h3>Selected</h3>
+        <div class="badge" id="detailBadge">Click a node</div>
+        <div class="detailTitle" id="detailTitle">Nothing selected</div>
+        <div class="detail" id="detailText">
+          <span class="muted">Click any node to see incentives + leverage notes here.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Customize</h3>
+        <div class="hint">
+          This is a single file. To edit the map: scroll down to <b>DATA</b> in the code and add nodes/links.
+        </div>
+      </div>
+    </aside>
+
+    <main class="canvas">
+      <svg id="svg" viewBox="0 0 1200 800" aria-label="Interactive system map"></svg>
+    </main>
+  </div>
+
+  <!-- D3 (loaded from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    // =========================
+    // DATA: edit this section
+    // =========================
+    const CATEGORIES = [
+      { key: "Academic Systems", color: "#7dd3fc" },
+      { key: "Payers",          color: "#86efac" },
+      { key: "Government/Reg",  color: "#fca5a5" },
+      { key: "Community/Safety-Net", color: "#c4b5fd" },
+      { key: "Industry",        color: "#fdba74" },
+      { key: "Patients",        color: "#f9a8d4" }
+    ];
+
+    const nodes = [
+      // Academic Systems
+      { id:"MGB", label:"Mass General Brigham (MGB)", cat:"Academic Systems",
+        details:"Dominant academic system. Sets clinical norms, trains leaders, attracts research funding.\n\nIncentives: specialty growth, high-acuity care, prestige, NIH funding.\nLeverage: embed pilots inside clinics; publish outcomes; train workforce." },
+      { id:"BILH", label:"Beth Israel Lahey Health", cat:"Academic Systems",
+        details:"Academic-community hybrid with value orientation.\n\nIncentives: compete on cost + quality, strong primary care.\nLeverage: partner for pragmatic pilots + shared savings." },
+      { id:"TuftsMed", label:"Tufts Medicine", cat:"Academic Systems",
+        details:"Academic system with safety-net lean.\n\nIncentives: sustainability, access, select specialties.\nLeverage: equity-focused integrative models." },
+
+      // Payers
+      { id:"BCBSMA", label:"Blue Cross Blue Shield of MA", cat:"Payers",
+        details:"Most influential private payer in MA.\n\nIncentives: control total cost, satisfy employers, maintain reputation.\nLeverage: propose pilots tied to utilization + patient-reported outcomes." },
+      { id:"Point32", label:"Point32Health (HP/Tufts)", cat:"Payers",
+        details:"Major nonprofit payer.\n\nIncentives: prevention/value, strong analytics.\nLeverage: targeted populations (pain, behavioral health, high utilizers)." },
+      { id:"MassHealth", label:"MassHealth (Medicaid)", cat:"Payers",
+        details:"Covers a large share of MA; often the best path to scale whole-person care.\n\nIncentives: reduce avoidable ED/inpatient use; equity outcomes.\nLeverage: waivers, ACO models, CHC partnerships." },
+
+      // Government/Reg
+      { id:"EOHHS", label:"EOHHS (Exec Office HHS)", cat:"Government/Reg",
+        details:"Oversees MassHealth strategy and statewide priorities.\n\nIncentives: cost control + equity + political feasibility.\nLeverage: align with priority metrics and demonstration projects." },
+      { id:"HPC", label:"Health Policy Commission (HPC)", cat:"Government/Reg",
+        details:"Cost growth benchmark & oversight; influential in major expansions.\n\nIncentives: contain spending growth while protecting quality.\nLeverage: show scalable cost reduction + outcomes improvements." },
+      { id:"CHIA", label:"CHIA (Data & Analytics)", cat:"Government/Reg",
+        details:"Tracks spending/utilization; 'if it isn't measurable, it doesn't exist.'\n\nLeverage: design evaluation and reporting that fits CHIA-style metrics." },
+
+      // Community/Safety-Net
+      { id:"FQHCs", label:"Community Health Centers (FQHCs)", cat:"Community/Safety-Net",
+        details:"Safety-net delivery backbone; mission-aligned and flexible.\n\nIncentives: improve outcomes with limited resources.\nLeverage: best sites for whole-person care pilots + community trust." },
+      { id:"CHA", label:"Cambridge Health Alliance (CHA)", cat:"Community/Safety-Net",
+        details:"Public/safety-net hybrid with strong primary care.\n\nIncentives: access + population health.\nLeverage: integrate mind-body + behavioral health + community supports." },
+      { id:"BHHH", label:"BHCHP (Homeless Care)", cat:"Community/Safety-Net",
+        details:"High-need population focus.\n\nIncentives: reduce crises, stabilize care.\nLeverage: wraparound models, trauma-informed care, integrative pain/mental health supports." },
+
+      // Industry
+      { id:"Biotech", label:"Biotech / Pharma Ecosystem", cat:"Industry",
+        details:"Massive economic and research influence.\n\nIncentives: scale therapies, defend IP, expand indications.\nLeverage: position whole-person interventions as adjuncts that improve outcomes/adherence." },
+
+      // Patients
+      { id:"Patients", label:"Patients & Communities", cat:"Patients",
+        details:"Individuals + communities experiencing care.\n\nIncentives: relief, dignity, function, trust.\nLeverage: patient-reported outcomes, storytelling, demand shaping." },
+      { id:"Clinicians", label:"Clinicians (MD/RN/CHW)", cat:"Patients",
+        details:"Frontline workforce (placed near patients because they bridge trust).\n\nIncentives: do good work with less admin burden; avoid burnout.\nLeverage: align payment + workflow to support longer visits and integrative referrals." }
+    ];
+
+    const links = [
+      // Payers <-> Systems
+      { source:"BCBSMA", target:"MGB", label:"contracts / payment", type:"payment" },
+      { source:"BCBSMA", target:"BILH", label:"contracts / payment", type:"payment" },
+      { source:"Point32", target:"TuftsMed", label:"contracts / payment", type:"payment" },
+      { source:"MassHealth", target:"FQHCs", label:"Medicaid funding", type:"payment" },
+      { source:"MassHealth", target:"CHA", label:"ACO / Medicaid", type:"payment" },
+      { source:"MassHealth", target:"MGB", label:"Medicaid coverage", type:"payment" },
+
+      // Regulators
+      { source:"HPC", target:"MGB", label:"cost oversight", type:"policy" },
+      { source:"HPC", target:"BILH", label:"cost oversight", type:"policy" },
+      { source:"CHIA", target:"BCBSMA", label:"spend/utilization data", type:"data" },
+      { source:"CHIA", target:"MassHealth", label:"spend/utilization data", type:"data" },
+      { source:"EOHHS", target:"MassHealth", label:"strategy / waivers", type:"policy" },
+
+      // Delivery
+      { source:"FQHCs", target:"Patients", label:"care delivery", type:"care" },
+      { source:"CHA", target:"Patients", label:"care delivery", type:"care" },
+      { source:"BHHH", target:"Patients", label:"care delivery", type:"care" },
+      { source:"Clinicians", target:"Patients", label:"trust / care", type:"care" },
+
+      // Industry influence
+      { source:"Biotech", target:"MGB", label:"research funding", type:"industry" },
+      { source:"Biotech", target:"TuftsMed", label:"research funding", type:"industry" }
+    ];
+
+    // =========================
+    // RENDER
+    // =========================
+    const svg = d3.select("#svg");
+    const width = 1200, height = 800;
+
+    const catColor = new Map(CATEGORIES.map(c => [c.key, c.color]));
+    const filtersState = new Map(CATEGORIES.map(c => [c.key, true]));
+
+    // UI: filters + legend
+    const filtersEl = document.getElementById("filters");
+    const legendEl = document.getElementById("legend");
+
+    for (const c of CATEGORIES) {
+      const lab = document.createElement("label");
+      const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.checked = true;
+      cb.addEventListener("change", () => { filtersState.set(c.key, cb.checked); applyFilters(); });
+      const span = document.createElement("span");
+      span.innerHTML = `<span class="dot" style="background:${c.color}"></span>${c.key}`;
+      lab.appendChild(cb); lab.appendChild(span);
+      filtersEl.appendChild(lab);
+
+      const leg = document.createElement("span");
+      leg.innerHTML = `<span class="dot" style="background:${c.color}"></span>${c.key}`;
+      legendEl.appendChild(leg);
+    }
+
+    // Zoom container
+    const gZoom = svg.append("g");
+    const gLinks = gZoom.append("g").attr("stroke-linecap", "round");
+    const gNodes = gZoom.append("g");
+    const gLabels = gZoom.append("g");
+
+    const zoom = d3.zoom()
+      .scaleExtent([0.4, 2.5])
+      .on("zoom", (event) => gZoom.attr("transform", event.transform));
+    svg.call(zoom);
+
+    // Initial layout positions (rough "power map" layers)
+    const preset = new Map([
+      ["Government/Reg", {x: 600, y: 120}],
+      ["Payers",         {x: 300, y: 260}],
+      ["Academic Systems",{x: 900, y: 260}],
+      ["Community/Safety-Net",{x: 520, y: 460}],
+      ["Industry",       {x: 1030, y: 120}],
+      ["Patients",       {x: 600, y: 660}]
+    ]);
+
+    nodes.forEach((n, i) => {
+      const p = preset.get(n.cat) || {x: 600, y: 400};
+      n.x = p.x + (Math.cos(i)*70);
+      n.y = p.y + (Math.sin(i)*40);
+    });
+
+    // Force simulation
+    const sim = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id).distance(160).strength(0.7))
+      .force("charge", d3.forceManyBody().strength(-520))
+      .force("center", d3.forceCenter(width/2, height/2))
+      .force("collide", d3.forceCollide().radius(d => 34).iterations(2));
+
+    // Links
+    const link = gLinks.selectAll("line")
+      .data(links)
+      .join("line")
+      .attr("class", "link");
+
+    // Link labels
+    const linkLabel = gLinks.selectAll("text")
+      .data(links)
+      .join("text")
+      .attr("class", "linkLabel")
+      .text(d => d.label);
+
+    // Nodes
+    const node = gNodes.selectAll("g")
+      .data(nodes)
+      .join("g")
+      .attr("class", "node")
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended)
+      )
+      .on("click", (_, d) => selectNode(d));
+
+    node.append("circle")
+      .attr("r", 22)
+      .attr("fill", d => catColor.get(d.cat) || "#fff")
+      .attr("opacity", 0.95);
+
+    // Labels
+    const label = gLabels.selectAll("text")
+      .data(nodes)
+      .join("text")
+      .attr("text-anchor","middle")
+      .attr("dy", 4)
+      .text(d => shortLabel(d.label));
+
+    function shortLabel(s){
+      return s.length > 22 ? s.slice(0, 20) + "…" : s;
+    }
+
+    // Ticks
+    sim.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+
+      node.attr("transform", d => `translate(${d.x},${d.y})`);
+
+      label
+        .attr("x", d => d.x)
+        .attr("y", d => d.y + 40);
+
+      linkLabel
+        .attr("x", d => (d.source.x + d.target.x)/2)
+        .attr("y", d => (d.source.y + d.target.y)/2 - 8);
+    });
+
+    function dragstarted(event, d) {
+      if (!event.active) sim.alphaTarget(0.2).restart();
+      d.fx = d.x; d.fy = d.y;
+    }
+    function dragged(event, d) {
+      d.fx = event.x; d.fy = event.y;
+    }
+    function dragended(event, d) {
+      if (!event.active) sim.alphaTarget(0);
+      d.fx = null; d.fy = null;
+    }
+
+    // Selection UI
+    const detailBadge = document.getElementById("detailBadge");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailText  = document.getElementById("detailText");
+
+    function selectNode(d){
+      detailBadge.textContent = d.cat;
+      detailTitle.textContent = d.label;
+      detailText.textContent  = d.details || "";
+      node.selectAll("circle").attr("stroke", "rgba(255,255,255,.25)").attr("stroke-width", 1.25);
+      d3.select(d3.event?.currentTarget);
+      // Highlight selected:
+      node.filter(n => n.id === d.id).select("circle").attr("stroke","white").attr("stroke-width", 3);
+    }
+
+    // Filters
+    function applyFilters(){
+      const visible = d => filtersState.get(d.cat) !== false;
+
+      node.style("display", d => visible(d) ? null : "none");
+      label.style("display", d => visible(d) ? null : "none");
+
+      link.style("display", d => (visible(d.source) && visible(d.target)) ? null : "none");
+      linkLabel.style("display", d => (visible(d.source) && visible(d.target)) ? null : "none");
+    }
+
+    // Search highlight
+    const search = document.getElementById("search");
+    search.addEventListener("input", () => {
+      const q = search.value.trim().toLowerCase();
+      node.select("circle").attr("opacity", d => {
+        if (!q) return 0.95;
+        const hit = (d.label + " " + d.id).toLowerCase().includes(q);
+        return hit ? 1.0 : 0.25;
+      });
+      label.attr("opacity", d => {
+        if (!q) return 1.0;
+        const hit = (d.label + " " + d.id).toLowerCase().includes(q);
+        return hit ? 1.0 : 0.25;
+      });
+      link.attr("opacity", d => {
+        if (!q) return 1.0;
+        const hit = (d.source.label||d.source.id).toLowerCase().includes(q) ||
+                    (d.target.label||d.target.id).toLowerCase().includes(q);
+        return hit ? 1.0 : 0.15;
+      });
+      linkLabel.attr("opacity", d => {
+        if (!q) return 1.0;
+        const hit = (d.source.label||d.source.id).toLowerCase().includes(q) ||
+                    (d.target.label||d.target.id).toLowerCase().includes(q);
+        return hit ? 1.0 : 0.15;
+      });
+    });
+
+    // Reset
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      svg.transition().duration(350).call(zoom.transform, d3.zoomIdentity);
+      search.value = "";
+      search.dispatchEvent(new Event("input"));
+      // Nudge layout back toward presets
+      nodes.forEach((n,i) => {
+        const p = preset.get(n.cat) || {x:600,y:400};
+        n.x = p.x + (Math.cos(i)*70);
+        n.y = p.y + (Math.sin(i)*40);
+      });
+      sim.alpha(0.7).restart();
+    });
+
+    // Initial filters
+    applyFilters();
+  </script>
+</body>
+</html>
