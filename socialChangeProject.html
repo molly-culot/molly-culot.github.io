@@ -1500,11 +1500,9 @@ $('#ghSave').onclick = async () => {
   try {
     const r = await fetch(`https://api.github.com/repos/${repo}`, {headers: ghHeaders(token)});
     if (!r.ok) throw new Error(r.status === 401 ? 'GitHub didn’t accept that token — check you copied all of it.' : r.status === 404 ? 'Couldn’t find that repository with this token. Make sure the token has access to it.' : `GitHub error ${r.status}.`);
-    const info = await r.json();
-    if (info.permissions && !info.permissions.push) throw new Error('This token can read the repo but not write to it. Set Contents to “Read and write”.');
     localStorage.setItem(GHKEY, JSON.stringify({token, repo, branch}));
     $('#ghDlg').close();
-    toast('✓ Publishing is set up on this browser.');
+    toast('✓ Connected to GitHub. Remember the token needs <b>Contents: Read and write</b> — your first publish will confirm it.', false, 9000);
   } catch (e) { msg.textContent = e instanceof TypeError || !e.message ? 'Couldn’t reach GitHub — check your internet connection.' : e.message; msg.style.color = 'var(--danger)'; }
 };
 function b64utf8(str) {
@@ -1534,9 +1532,11 @@ async function publish() {
     }
     if (!r.ok) {
       S.publishedAt = prevPublished;
-      if (r.status === 401) { toast('GitHub didn’t accept your token (it may have expired). Open <b>Save / Export → Publishing setup</b> to paste a new one.', true, 10000); return; }
-      if (r.status === 403 || r.status === 404) { toast('Your token isn’t allowed to write to the repo. In <b>Publishing setup</b>, use a token with Contents: Read and write.', true, 10000); return; }
-      throw new Error('GitHub error ' + r.status);
+      let ghMsg = ''; try { ghMsg = (await r.json()).message || ''; } catch (e) {}
+      const detail = ghMsg ? `<br><span style="opacity:.8">GitHub said: “${esc(ghMsg)}” (error ${r.status})</span>` : ` (error ${r.status})`;
+      if (r.status === 401) { toast('GitHub didn’t accept your token (it may have expired or been deleted). Open <b>Save / Export → Publishing setup</b> to paste a new one.' + detail, true, 15000); return; }
+      if (r.status === 403 || r.status === 404) { toast('Your token isn’t allowed to save files in the repo. On GitHub, edit the token and set <b>Repository permissions → Contents</b> to <b>Read and write</b>, and make sure <b>molly-culot.github.io</b> is one of its selected repositories. Then publish again — no need to paste it again.' + detail, true, 20000); return; }
+      toast('Publishing failed.' + detail, true, 15000); return;
     }
     saveNow();
     toast('✓ Published! Everyone who opens the website will see this version within about a minute.');
