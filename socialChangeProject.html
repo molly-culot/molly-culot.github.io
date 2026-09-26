@@ -1,0 +1,1627 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Problem Map Builder</title>
+<style>
+  :root{
+    --bg:#f5f6fa; --panel:#fff; --line:#e3e6ee; --text:#1f2937; --muted:#6b7280;
+    --accent:#4f46e5; --accent-soft:#eef2ff; --danger:#dc2626; --ok:#16a34a; --warn:#d97706;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);font-size:14px}
+  button,input,select,textarea{font:inherit;color:inherit}
+  .app{display:grid;grid-template-rows:56px 1fr;grid-template-columns:290px 1fr 330px;height:100vh}
+  .app.hide-left{grid-template-columns:0 1fr 330px}
+  .app.hide-left .left{display:none}
+
+  header{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--panel);border-bottom:1px solid var(--line);min-width:0}
+  .brand{font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:6px}
+  #mapTitle{flex:1;min-width:120px;max-width:460px;border:1px solid transparent;border-radius:8px;padding:7px 10px;font-size:16px;font-weight:600;background:transparent}
+  #mapTitle:hover{border-color:var(--line)} #mapTitle:focus{border-color:var(--accent);outline:none;background:#fff}
+  #status{font-size:12px;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:6px}
+  #status .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+  #status.saving .dot{background:var(--warn)} #status.error{color:var(--danger);font-weight:600} #status.error .dot{background:var(--danger)}
+  .spacer{flex:1}
+
+  .btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 11px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{background:#f3f4f6} .btn:disabled{opacity:.4;cursor:default}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff} .btn.primary:hover{filter:brightness(1.08)}
+  .btn.danger{color:var(--danger)} .btn.danger:hover{background:#fef2f2}
+  .btn.sm{padding:4px 8px;font-size:12.5px;border-radius:7px}
+  .btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+  .menu{position:relative} .menu>summary{list-style:none} .menu>summary::-webkit-details-marker{display:none}
+  .menu .pop{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:6px;z-index:50;min-width:240px}
+  .menu .pop button{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:7px;cursor:pointer}
+  .menu .pop button:hover{background:#f3f4f6} .menu .pop small{color:var(--muted);display:block;font-size:11.5px}
+
+  aside{background:var(--panel);overflow:auto;min-height:0}
+  .left{border-right:1px solid var(--line)} .right{border-left:1px solid var(--line)}
+  .sect{padding:14px 14px 16px;border-bottom:1px solid var(--line)}
+  .sect h3{margin:0 0 10px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .hint{font-size:12px;color:var(--muted);line-height:1.4;margin:6px 0 0}
+  label.f{display:block;font-size:12px;font-weight:600;margin:12px 0 4px;color:#374151}
+  label.f .opt{font-weight:400;color:var(--muted)} label.f .req{font-weight:600;color:var(--warn)}
+  .in{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:#fff}
+  .in:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea.in{resize:vertical;min-height:38px;line-height:1.35}
+  .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{flex:1;border:0;background:#fff;padding:6px 4px;cursor:pointer;font-size:12.5px;border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:0} .seg button:hover{background:#f3f4f6}
+  .seg button.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+
+  .cat{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+  .cat input[type=color]{width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:7px;background:none;cursor:pointer}
+  .cat .in{padding:5px 8px}
+  .cat .count{font-size:11px;color:var(--muted);min-width:18px;text-align:right}
+  .x{border:0;background:none;cursor:pointer;color:#9ca3af;font-size:17px;padding:2px 5px;border-radius:6px}
+  .x:hover{color:var(--danger);background:#fef2f2}
+
+  .check{list-style:none;margin:0;padding:0}
+  .check .grp{font-size:11px;font-weight:700;color:#374151;margin:12px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+  .check li.item{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.35;padding:4px 6px;border-radius:7px}
+  .check li.item.click{cursor:pointer} .check li.item.click:hover{background:#f3f4f6}
+  .check .ic{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;margin-top:1px}
+  .check .ok .ic{background:var(--ok)} .check .no .ic{background:var(--warn)}
+  .check .tip{display:block;color:var(--muted);font-size:11.5px}
+  .check .show{color:var(--accent);font-weight:600;font-size:11.5px}
+  .score{font-size:13px;font-weight:700;margin-bottom:4px}
+  .bar{height:6px;background:#eef0f4;border-radius:4px;overflow:hidden} .bar i{display:block;height:100%;background:var(--ok)}
+
+  main{position:relative;overflow:hidden;min-width:0}
+  #canvasWrap{position:absolute;inset:0;background-color:#fbfbfd;background-image:radial-gradient(#d5d9e3 1px,transparent 1px)}
+  #svg{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+  #svg.panning{cursor:grabbing}
+  #svg .node{cursor:grab} #svg .node .handle{opacity:0;cursor:crosshair;transition:opacity .12s}
+  #svg .node:hover .handle,#svg .node.sel .handle{opacity:1}
+  #svg.connect .node{cursor:pointer}
+  #svg .edge{cursor:pointer} #svg .edge:hover .vis{filter:drop-shadow(0 0 2px rgba(14,165,233,.8))}
+  #svg [data-kind=sechead],#svg [data-kind=legend]{cursor:move} #svg [data-kind=resize]{cursor:nwse-resize}
+
+  .toolbar{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:8px;flex-wrap:wrap;pointer-events:none;z-index:5}
+  .tgroup{pointer-events:auto;display:flex;gap:4px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .tgroup .btn{border-color:transparent;padding:6px 9px;font-size:13px}
+  .tgroup .btn:hover{background:#f3f4f6}
+  .tgroup .lbl{font-size:11px;color:var(--muted);padding:0 4px 0 6px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+  #zoomPct{font-size:12px;color:var(--muted);min-width:40px;text-align:center}
+  #edgeEdit{position:absolute;display:none;z-index:8;width:210px;transform:translate(-50%,-50%);border:2px solid var(--accent);border-radius:8px;padding:6px 8px;font-size:13px;line-height:1.35;resize:none;box-shadow:0 6px 20px rgba(0,0,0,.18);background:#fff;text-align:center}
+  #edgeEdit:focus{outline:none}
+  .cat .name{flex:1;font-weight:600;font-size:13px;cursor:help;line-height:1.25}
+  .cat .desc{display:block;font-weight:400;font-size:11px;color:var(--muted)}
+  .app.viewer .edit-only,.app:not(.viewer) .viewer-only{display:none!important}
+  .app.viewer #svg .handle{display:none}
+  .app.viewer #svg .node,.app.viewer #svg .edge{cursor:pointer}
+  .app.viewer #svg [data-kind=sechead],.app.viewer #svg [data-kind=legend]{cursor:default}
+  .toast{position:absolute;bottom:18px;right:18px;background:#111827;color:#fff;padding:11px 16px;border-radius:10px;font-size:13px;z-index:9;max-width:380px;box-shadow:0 8px 24px rgba(0,0,0,.25);display:none;line-height:1.4}
+  .toast.show{display:block} .toast.err{background:#991b1b}
+  #codeInput{font-size:22px;letter-spacing:.4em;text-align:center;width:180px}
+  .steps li{margin:6px 0}
+  .connect-banner{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:9px 14px;border-radius:10px;font-size:13px;z-index:6;display:none;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+  .connect-banner.show{display:block}
+  .banner{position:absolute;top:64px;left:50%;transform:translateX(-50%);background:#fff7ed;border:1px solid #fdba74;color:#9a3412;padding:10px 14px;border-radius:10px;font-size:13px;z-index:7;display:none;gap:10px;align-items:center}
+  .banner.show{display:flex}
+
+  .empty{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;z-index:2}
+  .empty .card{pointer-events:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;max-width:470px;box-shadow:0 10px 30px rgba(0,0,0,.08);line-height:1.5}
+  .empty h2{margin:0 0 8px;font-size:19px} .empty ol{padding-left:20px;margin:8px 0 14px} .empty li{margin:3px 0}
+
+  .ins-empty{padding:24px 16px;color:var(--muted);line-height:1.5;font-size:13px}
+  .ins-empty kbd,.help kbd{background:#f3f4f6;border:1px solid #e5e7eb;border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:11.5px;font-family:inherit}
+  .pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:#eef2ff;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+  .conn{display:flex;align-items:center;gap:6px;font-size:12.5px;padding:4px 0;border-bottom:1px dashed #eef0f4}
+  .conn .dir{color:var(--muted);width:14px;text-align:center}
+  .conn a{flex:1;color:var(--text);cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:underline;text-decoration-color:#d1d5db}
+  .conn select{font-size:11.5px;padding:2px;border:1px solid var(--line);border-radius:6px;max-width:112px}
+  .row{display:flex;gap:6px;align-items:center}
+  .row>*{min-width:0}
+  .swatches{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+  .swatches button{width:22px;height:22px;border-radius:6px;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer}
+  .status-line{font-size:12px;padding:8px 10px;border-radius:8px;margin-top:10px;line-height:1.4}
+  .status-line.ok{background:#f0fdf4;color:#166534} .status-line.no{background:#fffbeb;color:#92400e}
+
+  dialog{border:0;border-radius:16px;padding:0;max-width:640px;width:calc(100% - 40px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+  dialog::backdrop{background:rgba(17,24,39,.4)}
+  .dlg{padding:20px 24px;max-height:80vh;overflow:auto;line-height:1.5}
+  .dlg h2{margin:0 0 10px} .dlg h4{margin:16px 0 4px}
+  .dlg-foot{padding:12px 24px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px}
+  .hist{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header>
+    <button class="btn sm" id="toggleLeft" title="Show/hide left panel">☰</button>
+    <div class="brand">🗺️ Problem Map Builder</div>
+    <input id="mapTitle" placeholder="Name your map (e.g. the social issue)" aria-label="Map title">
+    <div id="status"><span class="dot"></span><span id="statusText">Saved</span></div>
+    <div class="spacer"></div>
+    <button class="btn edit-only" id="undoBtn" title="Undo (⌘Z)">↶ Undo</button>
+    <button class="btn edit-only" id="redoBtn" title="Redo (⇧⌘Z)">↷ Redo</button>
+    <button class="btn primary edit-only" id="publishBtn" title="Save to the website so everyone sees it">🚀 Publish to website</button>
+    <button class="btn viewer-only" id="unlockBtn">✏️ Edit</button>
+    <details class="menu" id="fileMenu">
+      <summary class="btn"><span class="edit-only">💾 Save / Export ▾</span><span class="viewer-only">⬇️ Download ▾</span></summary>
+      <div class="pop">
+        <button data-act="publishSetup" class="edit-only">🔑 Publishing setup<small>Connect this browser to your GitHub repo (one time)</small></button>
+        <button data-act="loadPublished" class="edit-only">🌐 Load the published version<small>Replace what’s in the editor with what’s on the website</small></button>
+        <button data-act="lock" class="edit-only">🔒 Lock editing on this browser<small>See the map the way visitors do</small></button>
+        <hr class="edit-only" style="border:0;border-top:1px solid var(--line);margin:6px 0">
+        <button data-act="linkFile" class="edit-only" id="linkFileBtn">📎 Also auto-save to a file on my computer<small>Chrome/Edge: every change is written to a .json file you choose</small></button>
+        <button data-act="exportJSON" class="edit-only">⬇️ Download backup (.json)<small>Can be re-opened with "Open backup"</small></button>
+        <button data-act="importJSON" class="edit-only">📂 Open backup (.json)</button>
+        <button data-act="history" class="edit-only">🕘 Version history<small>Automatic snapshots saved in this browser</small></button>
+        <hr class="edit-only" style="border:0;border-top:1px solid var(--line);margin:6px 0">
+        <button data-act="exportPNG">🖼️ Export picture (.png)<small>High-resolution image for submitting</small></button>
+        <button data-act="exportSVG">📐 Export vector (.svg)</button>
+        <hr class="edit-only" style="border:0;border-top:1px solid var(--line);margin:6px 0">
+        <button data-act="newMap" class="edit-only" style="color:var(--danger)">🗑️ Start a new blank map</button>
+      </div>
+    </details>
+    <button class="btn edit-only" id="helpBtn">❓ Help</button>
+  </header>
+
+  <aside class="left">
+    <div class="sect">
+      <h3>Subsystems (6 conditions)</h3>
+      <div id="cats"></div>
+      <p class="hint">Every node belongs to one of these six conditions of systems change.<span class="edit-only"> Click a swatch to change its color.</span> Hover a name to see its full meaning.</p>
+    </div>
+    <div class="sect edit-only">
+      <h3>Display</h3>
+      <label class="row" style="font-size:13px;cursor:pointer"><input type="checkbox" id="showLegend"> Show legend on map</label>
+      <label class="row" style="font-size:13px;cursor:pointer;margin-top:6px"><input type="checkbox" id="spotlight"> Spotlight connections of selected node</label>
+    </div>
+    <div class="sect edit-only">
+      <h3>Assignment checklist</h3>
+      <div id="checklist"></div>
+    </div>
+  </aside>
+
+  <main>
+    <div id="canvasWrap">
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg">
+        <defs id="defs"></defs>
+        <g id="world">
+          <g id="secLayer"></g><g id="legendLayer"></g><g id="edgeLayer"></g><g id="nodeLayer"></g><g id="tempLayer" pointer-events="none"></g>
+        </g>
+      </svg>
+    </div>
+    <div class="toolbar">
+      <div class="tgroup edit-only">
+        <span class="lbl">Add</span>
+        <button class="btn" id="addNodeBtn" title="Shortcut: N"><span class="sw" style="background:#fff;border:1.5px solid #334155"></span>Node</button>
+        <button class="btn" id="addSection" title="Shortcut: S">▭ Section</button>
+      </div>
+      <div class="tgroup edit-only">
+        <span class="lbl">New arrows are</span>
+        <div class="seg" id="linkTypeSeg" style="border:0"></div>
+        <button class="btn" id="connectBtn" title="Click one box, then another (C)">🔗 Connect mode</button>
+      </div>
+      <div class="tgroup">
+        <button class="btn" id="zoomOut" title="Zoom out">−</button>
+        <span id="zoomPct">100%</span>
+        <button class="btn" id="zoomIn" title="Zoom in">+</button>
+        <button class="btn" id="fitBtn" title="Fit whole map on screen">⤢ Fit</button>
+      </div>
+    </div>
+    <div class="empty" id="empty">
+      <div class="card">
+        <h2>Start your problem map 👋</h2>
+        <ol>
+          <li>Click <b>Node</b> in the toolbar to add a node (or double-click the canvas).</li>
+          <li>Pick its subsystem and fill in its title, date, statistic and source on the right.</li>
+          <li>Drag from the <b>⊕ dot</b> on a node's right edge onto another node to draw an arrow.</li>
+          <li><b>Double-click an arrow</b> to write text on it.</li>
+        </ol>
+        <p class="hint" style="margin:0">Everything saves automatically in this browser. Use <b>Save / Export → Download backup</b> now and then for extra safety.</p>
+      </div>
+    </div>
+    <textarea id="edgeEdit" rows="2" placeholder="Write on this arrow…"></textarea>
+    <div class="connect-banner" id="connectBanner"></div>
+    <div class="toast" id="toast"></div>
+    <div class="banner" id="tabBanner">This map was changed in another tab or window. <button class="btn sm" onclick="location.reload()">Load latest</button></div>
+  </main>
+
+  <aside class="right" id="inspector"></aside>
+</div>
+
+<dialog id="helpDlg"><div class="dlg help">
+  <h2>How to use Problem Map Builder</h2>
+  <h4>Building</h4>
+  <ul>
+    <li>The dark box in the middle is your <b>problem statement</b>. Double-click it to write it, and draw arrows to or from it like any other node.</li>
+    <li><b>Add nodes</b> with the toolbar (or keys <kbd>N</kbd> node, <kbd>S</kbd> section). Double-click empty canvas to add a node there. Each node's color shows which of the six subsystems it belongs to.</li>
+    <li><b>Draw arrows</b>: hover a box and drag its <b>⊕</b> dot onto another box. Drop on empty space to create a new connected box. Or turn on <b>Connect mode</b> (<kbd>C</kbd>) and click two boxes.</li>
+    <li><b>Write on arrows</b>: double-click an arrow (or select it and click <b>✎ add text</b>) and type. Press <kbd>Enter</kbd> to finish, <kbd>⇧ Shift</kbd>+<kbd>Enter</kbd> for a new line. You can also edit the text in the right panel.</li>
+    <li>The toolbar's <b>"New arrows are"</b> setting picks the arrow type. You can change any arrow's type later by clicking it.</li>
+    <li><b>Section boxes</b> label regions of the map (e.g. "History", "Future: Health"). Dragging a section by its title moves the boxes inside it too (hold <kbd>⌥ Option</kbd>/<kbd>Alt</kbd> to move only the section).</li>
+    <li>Arrows between the same two boxes curve apart automatically; use the <b>Curve</b> slider on an arrow to untangle crossings.</li>
+  </ul>
+  <h4>Moving around</h4>
+  <ul>
+    <li>Drag empty canvas to pan (two-finger scroll also pans). Pinch or <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + scroll to zoom. <b>Fit</b> shows everything.</li>
+  </ul>
+  <h4>Keyboard</h4>
+  <ul>
+    <li><kbd>Delete</kbd> removes the selection · <kbd>⌘Z</kbd> undo · <kbd>⇧⌘Z</kbd> redo · <kbd>⌘D</kbd> duplicate box · <kbd>Esc</kbd> deselect</li>
+  </ul>
+  <h4>Saving</h4>
+  <ul>
+    <li>Every change is saved automatically in this browser (on this computer). Snapshots are kept in <b>Version history</b>.</li>
+    <li>For extra safety use <b>Download backup</b>, or in Chrome/Edge choose <b>Also auto-save to a file</b> so every change is written to a file too.</li>
+    <li>Browsing in private/incognito mode does not keep saves after closing the window.</li>
+  </ul>
+  <h4>Assignment checklist</h4>
+  <p>The left panel checks your map against the assignment requirements as you build (feedback loop, dated history, sources, dead ends, disconnected pieces...). Click an item with <b>Show</b> to jump to the box that needs work.</p>
+</div><div class="dlg-foot"><button class="btn primary" onclick="this.closest('dialog').close()">Got it</button></div></dialog>
+
+<dialog id="histDlg"><div class="dlg">
+  <h2>Version history</h2>
+  <p class="hint">Snapshots are taken automatically every few minutes while you work, and before big actions (opening a backup, starting a new map, restoring).</p>
+  <div id="histList"></div>
+</div><div class="dlg-foot"><button class="btn" onclick="this.closest('dialog').close()">Close</button></div></dialog>
+
+<dialog id="codeDlg"><form method="dialog" class="dlg" style="text-align:center">
+  <h2 id="codeTitle">Enter your code</h2>
+  <p class="hint" id="codeHint"></p>
+  <input class="in" id="codeInput" type="password" inputmode="numeric" autocomplete="off" maxlength="12">
+  <p id="codeErr" style="color:var(--danger);font-size:13px;min-height:18px;margin:8px 0 0"></p>
+  <div class="row" style="justify-content:center;margin-top:8px"><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn primary" value="ok" id="codeOk">Continue</button></div>
+</form></dialog>
+
+<dialog id="ghDlg"><div class="dlg">
+  <h2>Publishing setup (one time)</h2>
+  <p>To put your map on the website, this page saves it as <code>problemMap.json</code> in your GitHub repo. GitHub needs a key (a “token”) that lets it do that. The key is stored <b>only in this browser</b>. It is never put in the website’s code, so nobody else can publish.</p>
+  <ol class="steps">
+    <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (sign in if asked).</li>
+    <li>Name it “Problem map”. Set <b>Expiration</b> to a date after your assignment is due.</li>
+    <li>Under <b>Repository access</b> choose <b>Only select repositories</b> → <b>molly-culot.github.io</b>.</li>
+    <li>Under <b>Permissions → Repository permissions</b> set <b>Contents</b> to <b>Read and write</b>.</li>
+    <li>Click <b>Generate token</b>, copy it, and paste it below.</li>
+  </ol>
+  <label class="f">Token</label>
+  <input class="in" id="ghToken" type="password" placeholder="github_pat_…" autocomplete="off">
+  <label class="f">Repository</label>
+  <input class="in" id="ghRepo" placeholder="owner/repo">
+  <label class="f">Branch</label>
+  <input class="in" id="ghBranch" placeholder="main">
+  <p id="ghMsg" class="hint" style="min-height:18px"></p>
+</div><div class="dlg-foot"><button class="btn" onclick="this.closest('dialog').close()">Cancel</button><button class="btn primary" id="ghSave">Test &amp; save</button></div></dialog>
+
+<input type="file" id="fileInput" accept=".json,application/json" hidden>
+
+<script>
+(() => {
+'use strict';
+
+// ---------- constants ----------
+const KEY = 'problemMap.v1', BKEY = 'problemMap.backups', PKEY = 'problemMap.prefs';
+const FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+const F = {
+  band:`700 10.5px ${FONT}`, date:`700 12px ${FONT}`, title:`600 14px ${FONT}`,
+  stat:`400 12.5px ${FONT}`, src:`italic 400 10.5px ${FONT}`, label:`500 11.5px ${FONT}`,
+  sec:`700 17px ${FONT}`, problem:`700 18px ${FONT}`, pband:`800 11px ${FONT}`, small:`400 11px ${FONT}`, bold:`700 12.5px ${FONT}`
+};
+const SIZES = {S:170, M:215, L:280};
+const PAD = 11, BAND = 22, PROBLEM_W = 380;
+const LINKS = {
+  cause:{label:'Direct cause', short:'Cause', desc:'A directly causes or drives B', color:'#1f2937', dash:'', width:2.2},
+  corr:{label:'Indirect / correlated', short:'Correlated', desc:'A is linked to, or indirectly influences, B', color:'#64748b', dash:'7 5', width:2},
+  loop:{label:'Reinforcing feedback loop', short:'Feedback', desc:'The effect cycles back to intensify one of its own causes', color:'#e11d48', dash:'', width:3.4}
+};
+const SUBSYSTEMS = [
+  {id:'policies', name:'Policies', short:'Rules, regulations & priorities', desc:'Government, institutional and organizational rules, regulations, and priorities that guide the entity’s own and others’ actions.'},
+  {id:'practices', name:'Practices', short:'Activities, procedures & habits', desc:'Espoused activities of institutions, coalitions, networks, and other entities targeted to improving social and environmental progress. Also, within the entity, the procedures, guidelines, or informal shared habits that comprise their work.'},
+  {id:'resources', name:'Resource Flows', short:'How money, people & information are allocated', desc:'How money, people, knowledge, information, and other assets such as infrastructure are allocated and distributed.'},
+  {id:'relationships', name:'Relationships & Connections', short:'Quality of connections among actors', desc:'Quality of connections and communication occurring among actors in the system, especially among those with differing histories and viewpoints.'},
+  {id:'power', name:'Power Dynamics', short:'Who holds decision-making power', desc:'The distribution of decision-making power, authority, and both formal and informal influence among individuals and organizations.'},
+  {id:'mental', name:'Mental Models', short:'Deeply held beliefs & assumptions', desc:'Habits of thought—deeply held beliefs and assumptions and taken-for-granted ways of operating that influence how we think, what we do, and how we talk.'}
+];
+// maps subsystem names from older saves onto the six conditions
+const OLD_CAT = {'policy & government':'policies', 'economic':'resources', 'social & community':'relationships', 'health':'practices'};
+const PALETTE = ['#2563eb','#16a34a','#9333ea','#ea580c','#0891b2','#db2777','#65a30d','#b45309','#475569','#0f766e','#7c3aed','#be123c'];
+
+// ---------- helpers ----------
+const $ = s => document.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2, 10);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const r1 = v => Math.round(v * 10) / 10;
+const rgb = h => { h = String(h).replace('#',''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); return [0,2,4].map(i => parseInt(h.slice(i, i + 2), 16) || 0); };
+const mix = (a, b, t) => { const pa = rgb(a), pb = rgb(b); return '#' + pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
+const isLight = h => { const [r,g,b] = rgb(h); return (0.299*r + 0.587*g + 0.114*b) > 170; };
+
+const mctx = document.createElement('canvas').getContext('2d');
+function wrap(text, font, maxW) {
+  mctx.font = font;
+  const out = [];
+  for (const para of String(text ?? '').split('\n')) {
+    const words = para.split(/\s+/).filter(Boolean);
+    if (!words.length) { out.push(''); continue; }
+    let line = '';
+    for (let w of words) {
+      while (mctx.measureText(w).width > maxW && w.length > 1) {
+        let i = w.length;
+        while (i > 1 && mctx.measureText(w.slice(0, i)).width > maxW) i--;
+        if (line) { out.push(line); line = ''; }
+        out.push(w.slice(0, i)); w = w.slice(i);
+      }
+      if (!w) continue;
+      const t = line ? line + ' ' + w : w;
+      if (mctx.measureText(t).width <= maxW) line = t; else { if (line) out.push(line); line = w; }
+    }
+    if (line) out.push(line);
+  }
+  while (out.length > 1 && out[out.length - 1] === '') out.pop();
+  return out;
+}
+function clipText(text, font, maxW) {
+  mctx.font = font;
+  if (mctx.measureText(text).width <= maxW) return text;
+  while (text.length > 1 && mctx.measureText(text + '…').width > maxW) text = text.slice(0, -1);
+  return text + '…';
+}
+const txt = (x, y, s, font, fill, extra = '') => `<text x="${r1(x)}" y="${r1(y)}" style="font:${font}" fill="${fill}"${extra}>${esc(s)}</text>`;
+
+// ---------- state ----------
+function blankMap() {
+  return {
+    version: 1, title: '',
+    categories: SUBSYSTEMS.map((c, i) => ({...c, color: PALETTE[i]})),
+    nodes: [problemNode(600, 420)], edges: [], sections: [],
+    legend: {x: 20, y: 130, visible: true},
+    view: {x: 0, y: 0, k: 1}
+  };
+}
+function normalize(m) {
+  const b = blankMap();
+  m = (m && typeof m === 'object') ? m : {};
+  const out = {
+    version: 1,
+    title: String(m.title ?? ''),
+    publishedAt: m.publishedAt ? String(m.publishedAt) : '',
+    categories: SUBSYSTEMS.map((c, i) => {
+      const saved = Array.isArray(m.categories) && m.categories.find(x => x.id === c.id);
+      return {...c, color: saved && /^#[0-9a-f]{3,6}$/i.test(saved.color) ? saved.color : PALETTE[i]};
+    }),
+    nodes: [], edges: [], sections: [],
+    legend: {x: +m.legend?.x || 40, y: +m.legend?.y || 40, visible: m.legend?.visible !== false},
+    view: {x: +m.view?.x || 0, y: +m.view?.y || 0, k: Math.min(3, Math.max(0.1, +m.view?.k || 1))}
+  };
+  const catIds = new Set(SUBSYSTEMS.map(c => c.id));
+  const oldCats = Object.fromEntries((Array.isArray(m.categories) ? m.categories : []).map(c => [c.id, OLD_CAT[String(c.name).trim().toLowerCase()]]));
+  for (const n of (Array.isArray(m.nodes) ? m.nodes : [])) {
+    out.nodes.push({
+      id: String(n.id || uid()),
+      x: +n.x || 0, y: +n.y || 0,
+      title: [n.title, n.body].map(v => String(v ?? '').trim()).filter(Boolean).join('\n'),
+      date: String(n.date ?? ''), stat: String(n.stat ?? ''), source: String(n.source ?? ''),
+      size: SIZES[n.size] ? n.size : 'M',
+      cat: catIds.has(n.cat) ? n.cat : (oldCats[n.cat] || 'policies'),
+      problem: n.problem === true && !out.nodes.some(o => o.problem)
+    });
+  }
+  if (!out.nodes.some(n => n.problem)) {
+    // older maps: drop the problem statement in the middle of the existing nodes
+    let cx = 600, cy = 420;
+    if (out.nodes.length) { cx = out.nodes.reduce((a, n) => a + n.x, 0) / out.nodes.length + 100; cy = out.nodes.reduce((a, n) => a + n.y, 0) / out.nodes.length + 40; }
+    out.nodes.push(problemNode(cx, cy));
+  }
+  const ids = new Set(out.nodes.map(n => n.id));
+  for (const e of (Array.isArray(m.edges) ? m.edges : [])) {
+    if (!ids.has(e.from) || !ids.has(e.to) || e.from === e.to) continue;
+    out.edges.push({id: String(e.id || uid()), from: e.from, to: e.to, type: LINKS[e.type] ? e.type : 'cause', label: String(e.label ?? ''), bend: Math.max(-5, Math.min(5, +e.bend || 0))});
+  }
+  for (const s of (Array.isArray(m.sections) ? m.sections : [])) {
+    out.sections.push({id: String(s.id || uid()), x: +s.x || 0, y: +s.y || 0, w: Math.max(120, +s.w || 400), h: Math.max(80, +s.h || 300), label: String(s.label ?? ''), color: /^#[0-9a-f]{3,6}$/i.test(s.color) ? s.color : '#64748b'});
+  }
+  return out;
+}
+function problemNode(cx, cy) {
+  return {id: uid(), x: Math.round(cx - PROBLEM_W / 2), y: Math.round(cy - 60), title: '', date: '', stat: '', source: '', size: 'M', cat: 'policies', problem: true};
+}
+function loadSaved() {
+  try { const raw = localStorage.getItem(KEY); return raw ? normalize(JSON.parse(raw)) : null; } catch (e) { return null; }
+}
+
+// Visitors see the published map read-only. Opening the file locally, or entering the code once, unlocks editing.
+// The code only hides the editing tools; publishing also needs the GitHub token, which lives only in the owner's browser.
+const OWNER_CODE = '6911', OKEY = 'problemMap.owner', GHKEY = 'problemMap.github', PUB_PATH = 'problemMap.json';
+const isLocalFile = location.protocol === 'file:';
+let readOnly = !isLocalFile && localStorage.getItem(OKEY) !== '1';
+let S = (!readOnly && loadSaved()) || blankMap();
+const firstRun = !readOnly && !localStorage.getItem(KEY);
+let prefs = {}; try { prefs = JSON.parse(localStorage.getItem(PKEY)) || {}; } catch (e) {}
+prefs = Object.assign({linkType: 'cause', spotlight: true, hideLeft: false, lastCat: null}, prefs);
+const savePrefs = () => { try { localStorage.setItem(PKEY, JSON.stringify(prefs)); } catch (e) {} };
+
+let sel = null;                 // {type:'node'|'edge'|'section'|'legend', id}
+let connectMode = false, connectFrom = null;
+let drag = null;
+let undoStack = [], redoStack = [], snapshot = JSON.stringify(S), lastKey = null, lastTime = 0;
+
+const nodeById = id => S.nodes.find(n => n.id === id);
+const edgeById = id => S.edges.find(e => e.id === id);
+const secById = id => S.sections.find(s => s.id === id);
+const nm = n => n.title.trim() || (n.problem ? 'Problem statement' : '(untitled)');
+const catOf = n => S.categories.find(c => c.id === n.cat) || S.categories[0];
+
+// commit: call after mutating S. key = coalescing key for typing; parts: 'i' inspector, 'c' categories
+function commit(key = null, parts = '') {
+  if (readOnly) { render(parts); return; }
+  const now = Date.now();
+  if (!(key && key === lastKey && now - lastTime < 1500)) {
+    undoStack.push(snapshot); if (undoStack.length > 300) undoStack.shift();
+    redoStack = [];
+  }
+  lastKey = key; lastTime = now;
+  snapshot = JSON.stringify(S);
+  scheduleSave();
+  render(parts);
+}
+function restoreFrom(json) {
+  const view = S.view; S = normalize(JSON.parse(json)); S.view = view;
+  snapshot = JSON.stringify(S); lastKey = null;
+  if (sel && !selExists()) sel = null;
+  scheduleSave(); render('ic');
+}
+function undo() { if (!undoStack.length) return; redoStack.push(snapshot); restoreFrom(undoStack.pop()); }
+function redo() { if (!redoStack.length) return; undoStack.push(snapshot); restoreFrom(redoStack.pop()); }
+function selExists() {
+  if (!sel) return false;
+  if (sel.type === 'node') return !!nodeById(sel.id);
+  if (sel.type === 'edge') return !!edgeById(sel.id);
+  if (sel.type === 'section') return !!secById(sel.id);
+  if (sel.type === 'legend') return S.legend.visible;
+  return false;
+}
+
+// ---------- saving ----------
+let saveTimer = null, lastBackup = 0, saveError = false, lastSaved = null;
+let fileHandle = null, fileErr = false, writing = false, writeAgain = false;
+function scheduleSave() { if (readOnly) return; clearTimeout(saveTimer); setStatus('saving'); saveTimer = setTimeout(saveNow, 350); }
+function saveNow() {
+  clearTimeout(saveTimer); saveTimer = null;
+  if (readOnly) return;
+  try { localStorage.setItem(KEY, JSON.stringify(S)); saveError = false; lastSaved = new Date(); }
+  catch (e) { saveError = true; }
+  if (Date.now() - lastBackup > 4 * 60e3) pushBackup('Auto-snapshot');
+  if (fileHandle) writeFile();
+  setStatus();
+}
+function setStatus(mode) {
+  const el = $('#status'), t = $('#statusText');
+  el.className = '';
+  if (readOnly) { t.textContent = S.publishedAt ? `Last updated ${new Date(S.publishedAt).toLocaleDateString([], {dateStyle: 'medium'})}` : ''; el.querySelector('.dot').style.display = 'none'; return; }
+  el.querySelector('.dot').style.display = '';
+  if (saveError) { el.className = 'error'; t.textContent = '⚠ Could not save in browser — download a backup!'; return; }
+  if (mode === 'saving') { el.className = 'saving'; t.textContent = 'Saving…'; return; }
+  const time = lastSaved ? lastSaved.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}) : '';
+  let s = lastSaved ? `All changes saved · ${time}` : 'All changes saved';
+  if (fileHandle) s += fileErr ? ' · ⚠ file save failed' : ` · also in “${fileHandle.name}”`;
+  t.textContent = s;
+}
+function getBackups() { try { return JSON.parse(localStorage.getItem(BKEY)) || []; } catch (e) { return []; } }
+function pushBackup(reason) {
+  lastBackup = Date.now();
+  if (readOnly) return;
+  if (!S.nodes.length && !S.sections.length) return;
+  const b = getBackups(), data = JSON.stringify(S);
+  if (b[0] && b[0].data === data) return;
+  b.unshift({t: Date.now(), reason, n: S.nodes.length, e: S.edges.length, data});
+  while (b.length > 25) b.pop();
+  for (;;) {
+    try { localStorage.setItem(BKEY, JSON.stringify(b)); break; }
+    catch (e) { if (b.length <= 1) break; b.splice(Math.ceil(b.length / 2)); }
+  }
+}
+async function writeFile() {
+  if (!fileHandle) return;
+  if (writing) { writeAgain = true; return; }
+  writing = true;
+  try {
+    const w = await fileHandle.createWritable();
+    await w.write(JSON.stringify(S, null, 1)); await w.close();
+    fileErr = false;
+  } catch (e) { fileErr = true; }
+  writing = false; setStatus();
+  if (writeAgain) { writeAgain = false; writeFile(); }
+}
+// persist the file handle across reloads (IndexedDB)
+function idb(mode, fn) {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('problemMapDB', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('kv');
+    r.onsuccess = () => { const tx = r.result.transaction('kv', mode); const q = fn(tx.objectStore('kv')); tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error); };
+    r.onerror = () => rej(r.error);
+  });
+}
+async function linkFile() {
+  if (!window.showSaveFilePicker) { alert('Your browser can’t auto-save to a file (this works in Chrome or Edge). Your work is still saved automatically in this browser — use “Download backup” for a copy.'); return; }
+  try {
+    const h = await showSaveFilePicker({suggestedName: slug() + '.problemmap.json', types: [{description: 'Problem map', accept: {'application/json': ['.json']}}]});
+    fileHandle = h; await writeFile();
+    try { await idb('readwrite', st => st.put(h, 'fileHandle')); } catch (e) {}
+    updateLinkBtn(); setStatus();
+  } catch (e) { /* cancelled */ }
+}
+async function tryResumeFile() {
+  if (!window.showSaveFilePicker) return;
+  let h; try { h = await idb('readonly', st => st.get('fileHandle')); } catch (e) { return; }
+  if (!h) return;
+  try { if (await h.queryPermission({mode: 'readwrite'}) === 'granted') { fileHandle = h; setStatus(); updateLinkBtn(); return; } } catch (e) { return; }
+  const btn = $('#linkFileBtn');
+  btn.innerHTML = `📎 Resume auto-saving to “${esc(h.name)}”<small>Click to allow access again after reloading</small>`;
+  btn.dataset.act = 'resumeFile';
+  btn._handle = h;
+  $('#status').insertAdjacentHTML('beforeend', ` <button class="btn sm" id="resumeInline">Resume file saving</button>`);
+  $('#resumeInline').onclick = () => resumeFile(h);
+}
+async function resumeFile(h) {
+  try {
+    if (await h.requestPermission({mode: 'readwrite'}) === 'granted') {
+      fileHandle = h; $('#resumeInline')?.remove(); updateLinkBtn(); await writeFile(); setStatus();
+    }
+  } catch (e) {}
+}
+function updateLinkBtn() {
+  const btn = $('#linkFileBtn');
+  btn.dataset.act = 'linkFile';
+  btn.innerHTML = fileHandle
+    ? `📎 Auto-saving to “${esc(fileHandle.name)}”<small>Click to choose a different file</small>`
+    : `📎 Also auto-save to a file on my computer<small>Chrome/Edge: every change is written to a .json file you choose</small>`;
+}
+const slug = () => (S.title || 'problem-map').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'problem-map';
+function download(blob, name) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+const stamp = () => new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '-');
+
+// ---------- layout ----------
+const layoutCache = new Map();
+function layout(n) {
+  const key = [readOnly, n.problem, n.size, n.title, n.date, n.stat, n.source].join('\u0001');
+  const c = layoutCache.get(n.id);
+  if (c && c.key === key) return c.L;
+  if (n.problem) {
+    const w = PROBLEM_W, inner = w - 40, items = [];
+    let y = 30 + 10;
+    for (const l of wrap(n.title.trim() || (readOnly ? 'Problem statement' : 'Double-click to write your problem statement'), F.problem, inner)) { y += 19; items.push({t: l, role: n.title.trim() ? 'title' : 'placeholder', y}); y += 6; }
+    let divY = null;
+    if (n.stat.trim()) { y += 6; divY = y; y += 3; for (const l of wrap(n.stat, F.stat, inner)) { y += 13; items.push({t: l, role: 'stat', y}); y += 3.5; } }
+    if (n.source.trim()) { if (divY === null) { y += 6; divY = y; } y += 4; for (const l of wrap('Source: ' + n.source, F.src, inner)) { y += 11; items.push({t: l, role: 'src', y}); y += 3; } }
+    const L = {w, h: Math.max(110, y + 18), items, divY};
+    layoutCache.set(n.id, {key, L}); return L;
+  }
+  const w = SIZES[n.size] || SIZES.M, inner = w - PAD * 2, items = [];
+  let y;
+  y = BAND + 6;
+  if (n.date.trim()) for (const l of wrap(n.date, F.date, inner)) { y += 13; items.push({t: l, role: 'date', y}); y += 3; }
+  for (const l of wrap(n.title.trim() || '(untitled — add a title)', F.title, inner)) { y += 15; items.push({t: l, role: n.title.trim() ? 'title' : 'placeholder', y}); y += 3.5; }
+  let divY = null;
+  if (n.stat.trim()) {
+    y += 6; divY = y; y += 3;
+    for (const l of wrap(n.stat, F.stat, inner)) { y += 13; items.push({t: l, role: 'stat', y}); y += 3.5; }
+  }
+  if (n.source.trim()) {
+    if (divY === null) { y += 6; divY = y; y += 2; }
+    y += 2;
+    for (const l of wrap('Source: ' + n.source, F.src, inner)) { y += 11; items.push({t: l, role: 'src', y}); y += 3; }
+  }
+  const L = {w, h: Math.max(56, y + PAD - 2), items, divY};
+  layoutCache.set(n.id, {key, L}); return L;
+}
+const center = n => { const L = layout(n); return {x: n.x + L.w / 2, y: n.y + L.h / 2}; };
+const centerIn = (n, s) => { const c = center(n); return c.x >= s.x && c.x <= s.x + s.w && c.y >= s.y && c.y <= s.y + s.h; };
+
+// ---------- SVG rendering ----------
+function defsSVG() {
+  let d = '';
+  for (const [k, t] of Object.entries(LINKS)) d += `<marker id="m-${k}" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="${k === 'loop' ? 4.2 : 5}" markerHeight="${k === 'loop' ? 4.2 : 5}" orient="auto-start-reverse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="${t.color}"/></marker>`;
+  return d;
+}
+function nodeSVG(n, o = {}) {
+  const L = layout(n), {w, h} = L;
+  let s = `<g class="node${o.sel ? ' sel' : ''}" data-kind="node" data-id="${n.id}" transform="translate(${r1(n.x)},${r1(n.y)})"${o.dim ? ' opacity="0.4"' : ''}>`;
+  if (o.sel) s += `<rect x="-6" y="-6" width="${w + 12}" height="${h + 12}" rx="13" fill="none" stroke="#0ea5e9" stroke-width="3"/>`;
+  if (o.from) s += `<rect x="-6" y="-6" width="${w + 12}" height="${h + 12}" rx="13" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="6 4"/>`;
+  if (n.problem) {
+    const gold = '#f59e0b';
+    s += `<rect width="${w}" height="${h}" rx="16" fill="#1e293b" stroke="${gold}" stroke-width="4"/>`;
+    s += txt(w / 2, 26, 'PROBLEM STATEMENT', F.pband, gold, ' text-anchor="middle" letter-spacing="2"');
+    if (L.divY !== null) s += `<line x1="30" x2="${w - 30}" y1="${r1(L.divY)}" y2="${r1(L.divY)}" stroke="#475569" stroke-width="1"/>`;
+    for (const it of L.items) {
+      const font = {title: F.problem, placeholder: F.problem, stat: F.stat, src: F.src}[it.role];
+      const fill = {title: '#ffffff', placeholder: '#94a3b8', stat: '#e2e8f0', src: '#cbd5e1'}[it.role];
+      s += txt(w / 2, it.y, it.t, font, fill, ' text-anchor="middle"');
+    }
+  } else {
+    const cat = catOf(n), c = cat.color;
+    const bandText = isLight(c) ? '#111827' : '#ffffff';
+    const dark = mix(c, '#000000', 0.25);
+    s += `<rect width="${w}" height="${h}" rx="9" fill="${mix(c, '#ffffff', 0.9)}"/>`;
+    s += `<path d="M0,9 a9,9 0 0 1 9,-9 h${w - 18} a9,9 0 0 1 9,9 v${BAND - 9} h${-w} z" fill="${c}"/>`;
+    s += txt(PAD, 15, clipText(cat.name.toUpperCase(), F.band, w - PAD * 2), F.band, bandText, ' letter-spacing="0.6"');
+    if (L.divY !== null) s += `<line x1="${PAD}" x2="${w - PAD}" y1="${r1(L.divY)}" y2="${r1(L.divY)}" stroke="${mix(c, '#ffffff', 0.55)}" stroke-width="1"/>`;
+    for (const it of L.items) {
+      const font = {date: F.date, title: F.title, placeholder: F.title, stat: F.stat, src: F.src}[it.role];
+      const fill = {date: dark, title: '#111827', placeholder: '#9ca3af', stat: '#1f2937', src: '#4b5563'}[it.role];
+      s += txt(PAD, it.y, it.t, font, fill);
+    }
+    s += `<rect width="${w}" height="${h}" rx="9" fill="none" stroke="${c}" stroke-width="1.8"/>`;
+  }
+  if (!o.exp) s += `<g class="handle" data-kind="handle" data-id="${n.id}"><circle cx="${w}" cy="${r1(h / 2)}" r="9" fill="#fff" stroke="#4f46e5" stroke-width="2"/><path d="M${w - 4},${r1(h / 2)} h8 M${w},${r1(h / 2 - 4)} v8" stroke="#4f46e5" stroke-width="2"/></g>`;
+  return s + '</g>';
+}
+function clipToBox(c, L, toward, gap) {
+  const dx = toward.x - c.x, dy = toward.y - c.y;
+  if (!dx && !dy) return {...c};
+  const t = Math.min(dx ? (L.w / 2 + gap) / Math.abs(dx) : Infinity, dy ? (L.h / 2 + gap) / Math.abs(dy) : Infinity);
+  return {x: c.x + dx * t, y: c.y + dy * t};
+}
+function edgeGeom(e) {
+  const a = nodeById(e.from), b = nodeById(e.to);
+  if (!a || !b) return null;
+  const La = layout(a), Lb = layout(b), ca = center(a), cb = center(b);
+  const dx = cb.x - ca.x, dy = cb.y - ca.y, len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len, ny = dx / len;
+  const rev = S.edges.some(o => o.from === e.to && o.to === e.from);
+  const off = (rev ? 38 : 0) + (e.bend || 0) * 30;
+  const cp = {x: (ca.x + cb.x) / 2 + nx * off, y: (ca.y + cb.y) / 2 + ny * off};
+  const p1 = clipToBox(ca, La, cp, 3), p2 = clipToBox(cb, Lb, cp, 7);
+  const mid = {x: 0.25 * p1.x + 0.5 * cp.x + 0.25 * p2.x, y: 0.25 * p1.y + 0.5 * cp.y + 0.25 * p2.y};
+  return {d: `M${r1(p1.x)},${r1(p1.y)} Q${r1(cp.x)},${r1(cp.y)} ${r1(p2.x)},${r1(p2.y)}`, mid};
+}
+function edgeSVG(e, o = {}) {
+  const g = edgeGeom(e); if (!g) return '';
+  const t = LINKS[e.type];
+  let s = `<g class="edge" data-kind="edge" data-id="${e.id}"${o.dim ? ' opacity="0.18"' : ''}>`;
+  if (!o.exp) s += `<path d="${g.d}" fill="none" stroke="transparent" stroke-width="16"/>`;
+  if (o.sel) s += `<path d="${g.d}" fill="none" stroke="#7dd3fc" stroke-width="${t.width + 7}" stroke-linecap="round"/>`;
+  s += `<path class="vis" d="${g.d}" fill="none" stroke="${t.color}" stroke-width="${t.width}"${t.dash ? ` stroke-dasharray="${t.dash}"` : ''} marker-end="url(#m-${e.type})"/>`;
+  if (e.label.trim()) {
+    const lines = wrap(e.label, F.label, 170);
+    mctx.font = F.label;
+    const lw = Math.max(...lines.map(l => mctx.measureText(l).width)) + 12, lh = lines.length * 14 + 6;
+    s += `<rect x="${r1(g.mid.x - lw / 2)}" y="${r1(g.mid.y - lh / 2)}" width="${r1(lw)}" height="${lh}" rx="6" fill="#fff" stroke="${t.color}" stroke-width="${e.type === 'loop' ? 1.6 : 1}"/>`;
+    lines.forEach((l, i) => { s += txt(g.mid.x, g.mid.y - lh / 2 + 14 + i * 14, l, F.label, e.type === 'loop' ? '#9f1239' : '#1f2937', ' text-anchor="middle"'); });
+  } else if (o.sel && !o.exp && !readOnly) {
+    s += `<g data-kind="edgelabel" data-id="${e.id}" style="cursor:text"><rect x="${r1(g.mid.x - 42)}" y="${r1(g.mid.y - 12)}" width="84" height="24" rx="12" fill="#4f46e5"/>` +
+      txt(g.mid.x, g.mid.y + 4, '✎ add text', `600 11.5px ${FONT}`, '#fff', ' text-anchor="middle"') + '</g>';
+  } else if (e.type === 'loop') {
+    s += `<circle cx="${r1(g.mid.x)}" cy="${r1(g.mid.y)}" r="10" fill="#fff" stroke="${t.color}" stroke-width="2"/>`;
+    s += txt(g.mid.x, g.mid.y + 4.5, 'R', `800 12px ${FONT}`, t.color, ' text-anchor="middle"');
+  }
+  return s + '</g>';
+}
+function sectionSVG(s, o = {}) {
+  const c = s.color;
+  let g = `<g class="section" data-id="${s.id}">`;
+  g += `<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="16" fill="${mix(c, '#ffffff', 0.93)}" fill-opacity="0.85" stroke="${c}" stroke-width="${o.sel ? 3 : 2}" stroke-dasharray="${o.sel ? '' : '10 6'}" pointer-events="none"/>`;
+  const label = s.label.trim() || 'Untitled section';
+  g += `<rect data-kind="sechead" data-id="${s.id}" x="${s.x}" y="${s.y}" width="${s.w}" height="40" rx="16" fill="transparent"/>`;
+  g += txt(s.x + 16, s.y + 27, clipText(label, F.sec, s.w - 32), F.sec, s.label.trim() ? mix(c, '#000000', 0.2) : '#9ca3af', ' pointer-events="none"');
+  if (o.sel && !o.exp) g += `<rect data-kind="resize" data-id="${s.id}" x="${s.x + s.w - 12}" y="${s.y + s.h - 12}" width="18" height="18" rx="4" fill="#fff" stroke="${c}" stroke-width="2"/>`;
+  return g + '</g>';
+}
+function legendSVG(o = {}) {
+  const W = 330, P = 16, parts = [];
+  let y = P;
+  parts.push(txt(P, y + 14, 'LEGEND', `800 15px ${FONT}`, '#111827', ' letter-spacing="1"')); y += 30;
+  const sub = t => { parts.push(txt(P, y + 11, t, `700 11.5px ${FONT}`, '#6b7280', ' letter-spacing="0.4"')); y += 22; };
+  sub('ARROWS — HOW THINGS CONNECT');
+  for (const [k, t] of Object.entries(LINKS)) {
+    parts.push(`<path d="M${P},${y + 9} L${P + 46},${y + 9}" stroke="${t.color}" stroke-width="${t.width}"${t.dash ? ` stroke-dasharray="${t.dash}"` : ''} marker-end="url(#m-${k})"/>`);
+    if (k === 'loop') parts.push(`<circle cx="${P + 22}" cy="${y + 9}" r="8" fill="#fff" stroke="${t.color}" stroke-width="1.6"/>` + txt(P + 22, y + 13, 'R', `800 10px ${FONT}`, t.color, ' text-anchor="middle"'));
+    parts.push(txt(P + 60, y + 13, t.label, F.bold, '#111827'));
+    const d = wrap(t.desc, F.small, W - P * 2 - 60);
+    d.forEach((l, i) => parts.push(txt(P + 60, y + 28 + i * 13, l, F.small, '#4b5563')));
+    y += 22 + d.length * 13 + 8;
+  }
+  y += 4; sub('CENTER');
+  parts.push(`<rect x="${P}" y="${y}" width="46" height="28" rx="7" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/>`);
+  parts.push(txt(P + 60, y + 12, 'Problem statement', F.bold, '#111827'));
+  parts.push(txt(P + 60, y + 26, 'The central issue the map explains', F.small, '#4b5563'));
+  y += 42;
+  sub('COLORS — SUBSYSTEMS');
+  for (const c of S.categories) {
+    parts.push(`<rect x="${P}" y="${y}" width="20" height="20" rx="5" fill="${mix(c.color, '#ffffff', 0.85)}" stroke="${c.color}" stroke-width="2.5"/>`);
+    parts.push(txt(P + 32, y + 12, c.name, F.bold, '#111827'));
+    const dl = wrap(c.short, F.small, W - P * 2 - 32);
+    dl.forEach((l, i) => parts.push(txt(P + 32, y + 26 + i * 13, l, F.small, '#4b5563')));
+    y += 22 + dl.length * 13 + 6;
+  }
+  const H = y + P - 6;
+  return `<g data-kind="legend" data-id="legend" transform="translate(${r1(S.legend.x)},${r1(S.legend.y)})">` +
+    (o.sel ? `<rect x="-5" y="-5" width="${W + 10}" height="${H + 10}" rx="15" fill="none" stroke="#0ea5e9" stroke-width="3"/>` : '') +
+    `<rect width="${W}" height="${H}" rx="12" fill="#fff" stroke="#94a3b8" stroke-width="1.5"/>${parts.join('')}</g>`;
+}
+function legendBox() { const tmp = legendSVG(); const m = tmp.match(/<rect width="(\d+)" height="([\d.]+)"/); return {x: S.legend.x, y: S.legend.y, w: +m[1], h: +m[2]}; }
+
+// ---------- render ----------
+const svg = $('#svg'), world = $('#world');
+$('#defs').innerHTML = defsSVG();
+function neighbors(id) {
+  const set = new Set([id]);
+  for (const e of S.edges) { if (e.from === id) set.add(e.to); if (e.to === id) set.add(e.from); }
+  return set;
+}
+function renderCanvas() {
+  const isSel = (t, id) => sel && sel.type === t && sel.id === id;
+  const focus = prefs.spotlight && sel?.type === 'node' && S.edges.some(e => e.from === sel.id || e.to === sel.id) ? neighbors(sel.id) : null;
+  $('#secLayer').innerHTML = S.sections.map(s => sectionSVG(s, {sel: isSel('section', s.id)})).join('');
+  $('#edgeLayer').innerHTML = S.edges.map(e => edgeSVG(e, {sel: isSel('edge', e.id), dim: focus && e.from !== sel.id && e.to !== sel.id})).join('');
+  $('#nodeLayer').innerHTML = S.nodes.map(n => nodeSVG(n, {sel: isSel('node', n.id), dim: focus && !focus.has(n.id), from: connectFrom === n.id})).join('');
+  $('#legendLayer').innerHTML = S.legend.visible ? legendSVG({sel: isSel('legend', 'legend')}) : '';
+  $('#empty').style.display = S.nodes.length || S.sections.length ? 'none' : '';
+  svg.classList.toggle('connect', connectMode);
+}
+function applyView() {
+  const v = S.view;
+  world.setAttribute('transform', `translate(${v.x},${v.y}) scale(${v.k})`);
+  const wrapEl = $('#canvasWrap');
+  wrapEl.style.backgroundSize = `${22 * v.k}px ${22 * v.k}px`;
+  wrapEl.style.backgroundPosition = `${v.x}px ${v.y}px`;
+  $('#zoomPct').textContent = Math.round(v.k * 100) + '%';
+}
+function render(parts = '') {
+  renderCanvas();
+  renderChecklist();
+  if (parts.includes('i')) renderInspector();
+  if (parts.includes('c')) renderCats();
+  $('#undoBtn').disabled = !undoStack.length;
+  $('#redoBtn').disabled = !redoStack.length;
+  if (document.activeElement !== $('#mapTitle')) $('#mapTitle').value = S.title;
+  $('#showLegend').checked = S.legend.visible;
+}
+function select(type, id) {
+  const next = type ? {type, id} : null;
+  if (JSON.stringify(next) === JSON.stringify(sel)) return;
+  sel = next; renderCanvas(); renderInspector();
+}
+
+// ---------- left panel ----------
+function renderCats() {
+  const counts = {}; S.nodes.forEach(n => { counts[n.cat] = (counts[n.cat] || 0) + 1; });
+  $('#cats').innerHTML = S.categories.map(c => `
+    <div class="cat" data-cid="${c.id}">
+      <input type="color" value="${c.color.length === 4 ? '#' + c.color.slice(1).split('').map(x => x + x).join('') : c.color}" data-cf="color" title="Pick color"${readOnly ? ' disabled' : ''}>
+      <span class="name" title="${esc(c.desc)}">${esc(c.name)}<span class="desc">${esc(c.short)}</span></span>
+      <span class="count" title="Nodes in this subsystem">${counts[c.id] || 0}</span>
+    </div>`).join('');
+}
+$('#cats').addEventListener('input', e => {
+  const row = e.target.closest('[data-cid]'); if (!row) return;
+  const c = S.categories.find(x => x.id === row.dataset.cid); if (!c) return;
+  c.color = e.target.value;
+  commit('cat:' + c.id, 'i');
+});
+$('#showLegend').onchange = e => {
+  S.legend.visible = e.target.checked;
+  if (S.legend.visible) placeLegendIfOffscreen();
+  if (!S.legend.visible && sel?.type === 'legend') sel = null;
+  commit(null, 'i');
+};
+$('#spotlight').checked = prefs.spotlight;
+$('#spotlight').onchange = e => { prefs.spotlight = e.target.checked; savePrefs(); renderCanvas(); };
+$('#mapTitle').addEventListener('input', e => { S.title = e.target.value; commit('title'); });
+
+// ---------- checklist ----------
+const cycleIdx = {};
+let checkItems = [];
+function reach(start, goal, E) {
+  const seen = new Set([start]), q = [start];
+  while (q.length) { const x = q.shift(); if (x === goal) return true; for (const e of E) if (e.from === x && !seen.has(e.to)) { seen.add(e.to); q.push(e.to); } }
+  return false;
+}
+function analyze() {
+  const R = [], E = S.edges;
+  const problem = S.nodes.find(n => n.problem);
+  const real = S.nodes.filter(n => !n.problem);
+  const outs = {}, ins = {}; S.nodes.forEach(n => { outs[n.id] = []; ins[n.id] = []; });
+  E.forEach(e => { outs[e.from]?.push(e); ins[e.to]?.push(e); });
+  const add = (grp, ok, text, targets = [], tip = '') => R.push({grp, ok: !!ok, text, targets, tip});
+  const N = arr => arr.map(n => ({type: 'node', id: n.id}));
+  const pl = (k, one, many) => `${k} ${k === 1 ? one : (many || one + 's')}`;
+
+  // legend & links
+  add('Legend & arrows', S.legend.visible, 'Legend is shown on the map', S.legend.visible ? [{type: 'legend', id: 'legend'}] : [], 'Tick “Show legend on map”.');
+  const used = new Set(E.map(e => e.type));
+  add('Legend & arrows', used.has('cause') && used.has('corr'), 'Uses both “direct cause” and “indirect/correlated” arrows', [], 'Click an arrow to change its type.');
+  const loops = E.filter(e => e.type === 'loop');
+  const closed = loops.filter(e => reach(e.to, e.from, E));
+  const open = loops.filter(e => !closed.includes(e));
+  add('Legend & arrows', closed.length, closed.length ? 'Has a reinforcing feedback loop that really cycles back' : 'Has a reinforcing feedback loop', closed.map(e => ({type: 'edge', id: e.id})),
+    'Make arrows go A → B → … → back to A, and mark them as “Feedback”.');
+  if (open.length) add('Legend & arrows', false, `${pl(open.length, 'feedback arrow')} ${open.length === 1 ? 'doesn’t' : 'don’t'} loop back to the start yet`, open.map(e => ({type: 'edge', id: e.id})), 'Follow the arrows forward — they should return to where the loop began.');
+
+  // history
+  const dated = real.filter(n => n.date.trim());
+  add('Historical roots', dated.length >= 2, `${pl(dated.length, 'node')} with a date or historical event`, N(dated), 'Add dates to nodes for historical/structural root causes (policies, laws, events).');
+  const datedLoose = dated.filter(n => !outs[n.id].length);
+  if (dated.length) add('Historical roots', !datedLoose.length, datedLoose.length ? `${pl(datedLoose.length, 'dated node')} not wired into the system yet` : 'Dated roots feed into the system (not a separate timeline)', N(datedLoose), 'Draw arrows from historical nodes to the nodes they led to.');
+
+  // evidence
+  const noStat = real.filter(n => !n.stat.trim());
+  add('Evidence', real.length && !noStat.length, `${real.length - noStat.length} of ${real.length} nodes have a statistic`, N(noStat), 'Add a specific number to each claim.');
+  const noSrc = real.filter(n => n.stat.trim() && !n.source.trim());
+  add('Evidence', !noSrc.length, noSrc.length ? `${pl(noSrc.length, 'statistic')} missing a source` : 'Every statistic has a source', N(noSrc));
+
+  // interconnection
+  if (real.length) {
+    const conv = real.filter(n => ins[n.id].length >= 2);
+    add('Interconnection', conv.length >= 2, `${pl(conv.length, 'place')} where branches converge (2+ arrows in)`, N(conv), 'Look for boxes that are caused by more than one thing.');
+    const lone = real.filter(n => !outs[n.id].length && !ins[n.id].length);
+    add('Interconnection', !lone.length, lone.length ? `${pl(lone.length, 'node')} with no arrows at all` : 'Every node is connected', N(lone));
+    const leaf = real.filter(n => outs[n.id].length + ins[n.id].length === 1);
+    add('Interconnection', !leaf.length, leaf.length ? `${pl(leaf.length, 'possible dead end')} (only one arrow)` : 'No dead-end branches', N(leaf), 'Branches should reconnect to the rest of the system. Final future impacts can be fine as end points.');
+    const parent = {}; real.forEach(n => parent[n.id] = n.id);
+    const find = x => parent[x] === x ? x : (parent[x] = find(parent[x]));
+    E.forEach(e => { if (parent[e.from] && parent[e.to]) parent[find(e.from)] = find(e.to); });
+    const comps = {}; real.forEach(n => (comps[find(n.id)] ||= []).push(n));
+    const groups = Object.values(comps).sort((a, b) => b.length - a.length);
+    add('Interconnection', groups.length <= 1, groups.length <= 1 ? 'Everything connects into one system' : `Map is split into ${groups.length} disconnected pieces`, N(groups.slice(1).flat()), 'Connect the smaller pieces to the main map.');
+  }
+
+  // subsystems
+  if (real.length) {
+    const usedCats = SUBSYSTEMS.filter(c => real.some(n => n.cat === c.id));
+    const missing = SUBSYSTEMS.filter(c => !usedCats.includes(c)).map(c => c.name);
+    add('Subsystems', usedCats.length === SUBSYSTEMS.length, `Uses ${usedCats.length} of 6 subsystems`, [], missing.length ? 'Not used yet: ' + missing.join(', ') : '');
+  }
+  if (E.length) {
+    const labeled = E.filter(e => e.label.trim());
+    add('Arrows', labeled.length >= E.length / 2, `${labeled.length} of ${E.length} arrows have text on them`, E.filter(e => !e.label.trim()).map(e => ({type: 'edge', id: e.id})), 'Double-click an arrow to explain the link or add its evidence.');
+  }
+
+  // readability
+  add('Readability', S.title.trim(), 'Map has a title', [], 'Type a title at the top.');
+  if (problem) add('Readability', problem.title.trim(), 'Problem statement is written', [{type: 'node', id: problem.id}], 'Double-click the dark box in the middle to write it.');
+  const labeledSecs = S.sections.filter(s => s.label.trim());
+  add('Readability', labeledSecs.length >= 2, `${pl(labeledSecs.length, 'labeled section')}`, labeledSecs.map(s => ({type: 'section', id: s.id})), 'Use Section boxes to label regions (e.g. history, present day, future themes).');
+  return R;
+}
+function renderChecklist() {
+  checkItems = analyze();
+  const done = checkItems.filter(i => i.ok).length;
+  let html = `<div class="score">${done} / ${checkItems.length} done</div><div class="bar"><i style="width:${checkItems.length ? done / checkItems.length * 100 : 0}%"></i></div><ul class="check">`;
+  let grp = '';
+  checkItems.forEach((it, i) => {
+    if (it.grp !== grp) { grp = it.grp; html += `<li class="grp">${esc(grp)}</li>`; }
+    const can = it.targets.length > 0;
+    html += `<li class="item ${it.ok ? 'ok' : 'no'}${can ? ' click' : ''}" data-ci="${i}"><span class="ic">${it.ok ? '✓' : '!'}</span><span>${esc(it.text)}${can ? ` <span class="show">Show${it.targets.length > 1 ? ` (${it.targets.length})` : ''}</span>` : ''}${!it.ok && it.tip ? `<span class="tip">${esc(it.tip)}</span>` : ''}</span></li>`;
+  });
+  $('#checklist').innerHTML = html + '</ul>';
+}
+$('#checklist').addEventListener('click', e => {
+  const li = e.target.closest('[data-ci]'); if (!li) return;
+  const it = checkItems[+li.dataset.ci]; if (!it || !it.targets.length) return;
+  const k = it.text; cycleIdx[k] = ((cycleIdx[k] ?? -1) + 1) % it.targets.length;
+  const t = it.targets[cycleIdx[k]];
+  select(t.type, t.id); focusOn(t);
+});
+function focusOn(t) {
+  let c;
+  if (t.type === 'node') c = center(nodeById(t.id));
+  else if (t.type === 'edge') c = edgeGeom(edgeById(t.id))?.mid;
+  else if (t.type === 'section') { const s = secById(t.id); c = {x: s.x + s.w / 2, y: s.y + s.h / 2}; }
+  else if (t.type === 'legend') { const b = legendBox(); c = {x: b.x + b.w / 2, y: b.y + b.h / 2}; }
+  if (!c) return;
+  const r = svg.getBoundingClientRect();
+  if (S.view.k < 0.6) S.view.k = 0.8;
+  S.view.x = r.width / 2 - c.x * S.view.k; S.view.y = r.height / 2 - c.y * S.view.k;
+  applyView(); scheduleSave();
+}
+
+// ---------- inspector ----------
+const insp = $('#inspector');
+function seg(field, options, value) {
+  return `<div class="seg" data-seg="${field}">${options.map(([v, l]) => `<button type="button" data-v="${esc(v)}" class="${v === value ? 'on' : ''}">${esc(l)}</button>`).join('')}</div>`;
+}
+function renderInspector() {
+  if (sel && !selExists()) sel = null;
+  if (readOnly) return viewerInspector();
+  if (!sel) {
+    insp.innerHTML = `<div class="ins-empty">
+      <p><b>Nothing selected.</b> Click a box, arrow, or section to edit it here.</p>
+      <p>Quick keys: <kbd>N</kbd> node · <kbd>S</kbd> section · <kbd>C</kbd> connect mode</p>
+      <p>Hover a node and drag its <b>⊕</b> dot to another node to draw an arrow.</p><p><b>Double-click an arrow</b> to write on it.</p></div>`;
+    return;
+  }
+  if (sel.type === 'node') return nodeInspector(nodeById(sel.id));
+  if (sel.type === 'edge') return edgeInspector(edgeById(sel.id));
+  if (sel.type === 'section') return sectionInspector(secById(sel.id));
+  if (sel.type === 'legend') {
+    insp.innerHTML = `<div class="sect"><h3>Legend</h3><p class="hint">The legend updates automatically from your arrow types, box styles, and subsystem colors. Drag it anywhere on the map.</p>
+      <p style="margin-top:12px"><button class="btn" id="hideLegend">Hide legend</button></p></div>`;
+    $('#hideLegend').onclick = () => { S.legend.visible = false; sel = null; commit(null, 'i'); };
+  }
+}
+function nodeInspector(n) {
+  if (n.problem) return problemInspector(n);
+  const cat = catOf(n);
+  const outs = S.edges.filter(e => e.from === n.id), ins = S.edges.filter(e => e.to === n.id);
+  const typeSel = e => `<select data-etype="${e.id}">${Object.entries(LINKS).map(([v, t]) => `<option value="${v}"${v === e.type ? ' selected' : ''}>${t.short}</option>`).join('')}</select>`;
+  const connRow = (e, dir, other) => `<div class="conn"><span class="dir">${dir}</span><a data-goto="${other.id}" title="${esc(other.title)}">${esc(nm(other))}${e.label.trim() ? `<br><span style="color:var(--muted);text-decoration:none">“${esc(e.label.trim().slice(0, 40))}”</span>` : ''}</a>${typeSel(e)}<button class="x" data-elab="${e.id}" title="Write on this arrow" style="font-size:14px">✎</button><button class="x" data-edel="${e.id}" title="Remove arrow">×</button></div>`;
+  const others = S.nodes.filter(o => o.id !== n.id).sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+  insp.innerHTML = `<div class="sect">
+    <h3>Node</h3>
+    <label class="f" style="margin-top:0">Title — what is it?</label>
+    <textarea class="in" data-f="title" rows="2" placeholder="Short description of this cause, condition or impact">${esc(n.title)}</textarea>
+    <label class="f">Subsystem</label>
+    <select class="in" data-f="cat">${S.categories.map(c => `<option value="${c.id}"${c.id === n.cat ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select>
+    <p class="hint">${esc(cat.desc)}</p>
+    <label class="f">Date or time period <span class="opt">(optional — e.g. for historical roots or projections)</span></label>
+    <input class="in" data-f="date" value="${esc(n.date)}" placeholder="e.g. 1965, 2024, or by 2040">
+    <label class="f">Statistic / evidence</label>
+    <textarea class="in" data-f="stat" rows="3" placeholder="A specific number that backs up this node">${esc(n.stat)}</textarea>
+    <label class="f">Source / citation</label>
+    <textarea class="in" data-f="source" rows="2" placeholder="Who published it, and when">${esc(n.source)}</textarea>
+    <label class="f">Node width</label>
+    ${seg('size', [['S', 'Narrow'], ['M', 'Medium'], ['L', 'Wide']], n.size)}
+  </div>
+  <div class="sect">
+    <h3>Arrows (${outs.length + ins.length})</h3>
+    ${outs.map(e => connRow(e, '→', nodeById(e.to))).join('')}
+    ${ins.map(e => connRow(e, '←', nodeById(e.from))).join('')}
+    ${!outs.length && !ins.length ? '<p class="hint" style="margin-top:0">No arrows yet.</p>' : ''}
+    <label class="f">Add an arrow</label>
+    <div class="row"><select class="in" id="addDir" style="flex:0 0 118px"><option value="out">this leads to →</option><option value="in">← caused by</option></select>
+      <select class="in" id="addTo"><option value="">choose a node…</option>${others.map(o => `<option value="${o.id}">${esc(nm(o).slice(0, 60))}</option>`).join('')}</select></div>
+    <div class="row" style="margin-top:6px"><select class="in" id="addType">${Object.entries(LINKS).map(([v, t]) => `<option value="${v}"${v === prefs.linkType ? ' selected' : ''}>${t.label}</option>`).join('')}</select>
+      <button class="btn primary" id="addArrow">Add</button></div>
+  </div>
+  <div class="sect row"><button class="btn" id="dupBtn">⧉ Duplicate</button><div class="spacer"></div><button class="btn danger" id="delBtn">🗑 Delete node</button></div>`;
+  bindFields(n, 'n');
+  bindSegs(n);
+  insp.querySelectorAll('[data-goto]').forEach(a => a.onclick = () => { select('node', a.dataset.goto); focusOn({type: 'node', id: a.dataset.goto}); });
+  insp.querySelectorAll('[data-etype]').forEach(s => s.onchange = () => { edgeById(s.dataset.etype).type = s.value; commit(null, 'i'); });
+  insp.querySelectorAll('[data-elab]').forEach(b => b.onclick = () => editEdgeLabel(b.dataset.elab));
+  insp.querySelectorAll('[data-edel]').forEach(b => b.onclick = () => { S.edges = S.edges.filter(e => e.id !== b.dataset.edel); commit(null, 'i'); });
+  const addBtn = $('#addArrow');
+  if (addBtn) addBtn.onclick = () => {
+    const to = $('#addTo').value; if (!to) { $('#addTo').focus(); return; }
+    const out = $('#addDir').value === 'out';
+    addEdge(out ? n.id : to, out ? to : n.id, $('#addType').value, false);
+    renderInspector();
+  };
+  $('#dupBtn').onclick = duplicateSel;
+  $('#delBtn').onclick = deleteSel;
+}
+function viewerInspector() {
+  const goto = () => insp.querySelectorAll('[data-goto]').forEach(a => a.onclick = () => { select('node', a.dataset.goto); focusOn({type: 'node', id: a.dataset.goto}); });
+  const para = (label, v, extra = '') => v.trim() ? `<label class="f">${label}</label><div style="font-size:13.5px;line-height:1.45;white-space:pre-wrap${extra}">${esc(v)}</div>` : '';
+  if (!sel || (sel.type !== 'node' && sel.type !== 'edge')) {
+    insp.innerHTML = `<div class="ins-empty">
+      <p style="font-size:15px;color:var(--text)"><b>${esc(S.title || 'Problem map')}</b></p>
+      <p><b>Click any box or arrow</b> to read its details and evidence here.</p>
+      <p>Drag to move around · pinch or ⌘/Ctrl + scroll to zoom · <b>Fit</b> shows the whole map.</p>
+      <p>Colors show the six conditions of systems change (see the left panel and the legend).</p>
+      ${S.nodes.length <= 1 && !S.nodes[0]?.title ? '<p><i>Nothing has been published yet.</i></p>' : ''}</div>`;
+    return;
+  }
+  if (sel.type === 'node') {
+    const n = nodeById(sel.id), cat = catOf(n);
+    const outs = S.edges.filter(e => e.from === n.id), ins = S.edges.filter(e => e.to === n.id);
+    const row = (e, dir, o) => `<div class="conn" style="align-items:flex-start"><span class="dir">${dir}</span><a data-goto="${o.id}">${esc(nm(o))}${e.label.trim() ? `<br><span style="color:var(--muted)">“${esc(e.label.trim())}”</span>` : ''}</a><span class="hint" style="margin:0;white-space:nowrap">${LINKS[e.type].short}</span></div>`;
+    insp.innerHTML = `<div class="sect">
+      <h3>${n.problem ? 'Problem statement' : `<span class="pill" style="background:${mix(cat.color, '#ffffff', 0.85)};color:${mix(cat.color, '#000000', 0.3)}">${esc(cat.name)}</span>`}</h3>
+      <div style="font-size:16px;font-weight:700;line-height:1.35;white-space:pre-wrap">${esc(nm(n))}</div>
+      ${para('Date', n.date)}${para('Evidence', n.stat)}${para('Source', n.source, ';font-style:italic;color:#4b5563')}
+      ${n.problem ? '' : `<p class="hint" style="margin-top:12px"><b>${esc(cat.name)}:</b> ${esc(cat.desc)}</p>`}
+    </div>
+    <div class="sect"><h3>Connections (${outs.length + ins.length})</h3>
+      ${outs.map(e => row(e, '→', nodeById(e.to))).join('')}${ins.map(e => row(e, '←', nodeById(e.from))).join('')}
+      ${!outs.length && !ins.length ? '<p class="hint" style="margin:0">No connections.</p>' : ''}</div>`;
+    return goto();
+  }
+  const e = edgeById(sel.id), t = LINKS[e.type];
+  insp.innerHTML = `<div class="sect"><h3>Arrow</h3>
+    <div style="font-size:13.5px;line-height:1.5"><a data-goto="${e.from}" style="cursor:pointer;font-weight:600">${esc(nm(nodeById(e.from)))}</a><br><span style="color:var(--muted)">↓ leads to</span><br><a data-goto="${e.to}" style="cursor:pointer;font-weight:600">${esc(nm(nodeById(e.to)))}</a></div>
+    <label class="f">Type of relationship</label><div style="font-size:13.5px"><b style="color:${t.color}">${t.label}</b> — ${esc(t.desc)}.</div>
+    ${para('Note on this arrow', e.label)}</div>`;
+  goto();
+}
+function problemInspector(n) {
+  const outs = S.edges.filter(e => e.from === n.id), ins = S.edges.filter(e => e.to === n.id);
+  insp.innerHTML = `<div class="sect">
+    <h3>Problem statement</h3>
+    <label class="f" style="margin-top:0">What is the problem?</label>
+    <textarea class="in" data-f="title" rows="5" placeholder="State the central social issue your map explains">${esc(n.title)}</textarea>
+    <label class="f">Key statistic <span class="opt">(optional)</span></label>
+    <textarea class="in" data-f="stat" rows="2" placeholder="A headline number showing the scale of the problem">${esc(n.stat)}</textarea>
+    <label class="f">Source / citation <span class="opt">(optional)</span></label>
+    <textarea class="in" data-f="source" rows="2" placeholder="Who published it, and when">${esc(n.source)}</textarea>
+    <p class="hint">This box sits at the center of your map. Drag it to move it, and draw arrows to or from it with its ⊕ dot like any other node. It has ${outs.length + ins.length} arrow${outs.length + ins.length === 1 ? '' : 's'}. It can’t be deleted.</p>
+  </div>`;
+  bindFields(n, 'n');
+}
+function edgeInspector(e) {
+  const a = nodeById(e.from), b = nodeById(e.to);
+  const inLoop = reach(e.to, e.from, S.edges);
+  insp.innerHTML = `<div class="sect">
+    <h3>Arrow</h3>
+    <div style="font-size:13px;line-height:1.5"><a data-goto="${a.id}" style="cursor:pointer;font-weight:600">${esc(nm(a))}</a><br><span style="color:var(--muted)">↓ leads to</span><br><a data-goto="${b.id}" style="cursor:pointer;font-weight:600">${esc(nm(b))}</a></div>
+    <button class="btn sm" id="revBtn" style="margin-top:8px">⇅ Reverse direction</button>
+    <label class="f">Text on this arrow <span class="opt">(optional)</span></label>
+    <textarea class="in" data-f="label" rows="3" placeholder="${e.type === 'loop' ? 'e.g. R1: name of the loop, or how it reinforces' : 'e.g. how A leads to B, or a statistic + source'}">${esc(e.label)}</textarea>
+    <p class="hint">Tip: double-click any arrow on the map to write on it directly.</p>
+    <label class="f">Type of relationship</label>
+    ${seg('type', Object.entries(LINKS).map(([v, t]) => [v, t.short]), e.type)}
+    <p class="hint">${esc(LINKS[e.type].desc)}.</p>
+    ${e.type === 'loop' ? `<div class="status-line ${inLoop ? 'ok' : 'no'}">${inLoop ? '✓ This arrow is part of a real loop — following the arrows from here leads back to the start.' : '⚠ Not a closed loop yet. Following arrows forward from “' + esc(b.title || 'the target') + '” must lead back to “' + esc(a.title || 'the source') + '”.'}</div>` :
+      inLoop ? `<div class="status-line no">This arrow is part of a cycle. If the cycle reinforces itself, mark its arrows as “Feedback”.</div>` : ''}
+    <label class="f">Curve</label>
+    <input type="range" min="-5" max="5" step="1" value="${e.bend}" data-f="bend" style="width:100%">
+  </div>
+  <div class="sect row"><div class="spacer"></div><button class="btn danger" id="delBtn">🗑 Delete arrow</button></div>`;
+  bindFields(e, 'e');
+  bindSegs(e);
+  insp.querySelectorAll('[data-goto]').forEach(x => x.onclick = () => { select('node', x.dataset.goto); focusOn({type: 'node', id: x.dataset.goto}); });
+  $('#revBtn').onclick = () => {
+    if (S.edges.some(o => o.from === e.to && o.to === e.from)) { alert('There is already an arrow going the other way.'); return; }
+    [e.from, e.to] = [e.to, e.from]; commit(null, 'i');
+  };
+  $('#delBtn').onclick = deleteSel;
+}
+function sectionInspector(s) {
+  const inside = S.nodes.filter(n => centerIn(n, s)).length;
+  insp.innerHTML = `<div class="sect">
+    <h3>Section</h3>
+    <label class="f" style="margin-top:0">Label</label>
+    <input class="in" data-f="label" value="${esc(s.label)}" placeholder="e.g. a subsystem, or “Future: Health”">
+    <label class="f">Color</label>
+    <div class="row"><input type="color" data-f="color" value="${s.color.length === 4 ? '#' + s.color.slice(1).split('').map(x => x + x).join('') : s.color}" style="width:40px;height:32px;border:1px solid var(--line);border-radius:7px;padding:0">
+      <div class="swatches">${['#64748b', ...S.categories.map(c => c.color)].map(c => `<button type="button" data-sw="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div></div>
+    <p class="hint">Contains ${inside} box${inside === 1 ? '' : 'es'}. Drag the section by its title to move it <b>with</b> the boxes inside; hold ⌥ Option / Alt to move only the section. Drag the square in the bottom-right corner to resize.</p>
+  </div>
+  <div class="sect row"><button class="btn" id="fitSec">Fit to boxes inside</button><div class="spacer"></div><button class="btn danger" id="delBtn">🗑 Delete</button></div>
+  <p class="hint" style="padding:0 14px">Deleting a section keeps the boxes inside it.</p>`;
+  bindFields(s, 's');
+  insp.querySelectorAll('[data-sw]').forEach(b => b.onclick = () => { s.color = b.dataset.sw; commit(null, 'i'); });
+  $('#fitSec').onclick = () => {
+    const ns = S.nodes.filter(n => centerIn(n, s)); if (!ns.length) return;
+    const bx = bounds(ns.map(n => ({x: n.x, y: n.y, w: layout(n).w, h: layout(n).h})));
+    Object.assign(s, {x: bx.x - 30, y: bx.y - 60, w: bx.w + 60, h: bx.h + 90}); commit(null, 'i');
+  };
+  $('#delBtn').onclick = deleteSel;
+}
+function bindFields(obj, pfx) {
+  insp.querySelectorAll('[data-f]').forEach(el => {
+    const f = el.dataset.f;
+    const ev = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(ev, () => {
+      obj[f] = f === 'bend' ? +el.value : el.value;
+      if (f === 'cat') prefs.lastCat = el.value, savePrefs();
+      commit(el.tagName === 'SELECT' ? null : pfx + obj.id + f, f === 'cat' ? 'ic' : '');
+    });
+  });
+}
+function bindSegs(obj) {
+  insp.querySelectorAll('[data-seg]').forEach(sg => sg.addEventListener('click', ev => {
+    const b = ev.target.closest('button'); if (!b) return;
+    const f = sg.dataset.seg, v = b.dataset.v;
+    if (obj[f] === v) return;
+    obj[f] = v;
+    if (f === 'type') prefs.linkType = v, savePrefs(), renderLinkSeg();
+    commit(null, 'i');
+  }));
+}
+
+// ---------- actions ----------
+let addCount = 0;
+function viewCenter() {
+  const r = svg.getBoundingClientRect();
+  return {x: (r.width / 2 - S.view.x) / S.view.k, y: (r.height / 2 - S.view.y) / S.view.k};
+}
+function defaultCat() { return S.categories.some(c => c.id === prefs.lastCat) ? prefs.lastCat : S.categories[0].id; }
+function addNode(at, extra = {}) {
+  const c = at || viewCenter(), j = at ? 0 : (addCount++ % 6) * 22;
+  const n = {id: uid(), x: 0, y: 0, title: '', date: '', stat: '', source: '', size: 'M', cat: defaultCat(), ...extra};
+  const L = layout(n);
+  n.x = Math.round(c.x - L.w / 2 + j); n.y = Math.round(c.y - L.h / 2 + j);
+  S.nodes.push(n);
+  sel = {type: 'node', id: n.id};
+  commit(null, 'ic');
+  focusTitle();
+  return n;
+}
+function focusTitle() { const t = insp.querySelector('[data-f="title"]'); t?.focus(); t?.select?.(); }
+function addEdge(from, to, type = prefs.linkType, selectIt = true) {
+  if (from === to) return;
+  const ex = S.edges.find(e => e.from === from && e.to === to);
+  if (ex) { if (selectIt) select('edge', ex.id); return; }
+  const e = {id: uid(), from, to, type, label: '', bend: 0};
+  S.edges.push(e);
+  if (selectIt) sel = {type: 'edge', id: e.id};
+  commit(null, 'i');
+}
+function addSection() {
+  const c = viewCenter(), r = svg.getBoundingClientRect();
+  const w = Math.round(Math.min(520, r.width * 0.6 / S.view.k)), h = Math.round(Math.min(360, r.height * 0.5 / S.view.k));
+  const s = {id: uid(), x: Math.round(c.x - w / 2), y: Math.round(c.y - h / 2), w, h, label: '', color: '#64748b'};
+  S.sections.push(s);
+  sel = {type: 'section', id: s.id};
+  commit(null, 'i');
+  insp.querySelector('[data-f="label"]')?.focus();
+}
+function deleteSel() {
+  if (!sel) return;
+  if (sel.type === 'node' && nodeById(sel.id)?.problem) return;
+  if (sel.type === 'node') { S.nodes = S.nodes.filter(n => n.id !== sel.id); S.edges = S.edges.filter(e => e.from !== sel.id && e.to !== sel.id); }
+  else if (sel.type === 'edge') S.edges = S.edges.filter(e => e.id !== sel.id);
+  else if (sel.type === 'section') S.sections = S.sections.filter(s => s.id !== sel.id);
+  else if (sel.type === 'legend') S.legend.visible = false;
+  sel = null;
+  commit(null, 'ic');
+}
+function duplicateSel() {
+  if (sel?.type !== 'node' || nodeById(sel.id)?.problem) return;
+  const n = nodeById(sel.id), copy = {...n, id: uid(), x: n.x + 30, y: n.y + 30};
+  S.nodes.push(copy); sel = {type: 'node', id: copy.id}; commit(null, 'ic');
+}
+function bounds(boxes) {
+  if (!boxes.length) return null;
+  const x1 = Math.min(...boxes.map(b => b.x)), y1 = Math.min(...boxes.map(b => b.y));
+  const x2 = Math.max(...boxes.map(b => b.x + b.w)), y2 = Math.max(...boxes.map(b => b.y + b.h));
+  return {x: x1, y: y1, w: x2 - x1, h: y2 - y1};
+}
+function allBoxes(withLegend = true) {
+  const b = S.nodes.map(n => ({x: n.x, y: n.y, w: layout(n).w, h: layout(n).h}));
+  S.sections.forEach(s => b.push({x: s.x, y: s.y, w: s.w, h: s.h}));
+  if (withLegend && S.legend.visible) b.push(legendBox());
+  S.edges.forEach(e => { const g = edgeGeom(e); if (g) b.push({x: g.mid.x - 90, y: g.mid.y - 12, w: 180, h: 24}); });
+  return b;
+}
+function fit() {
+  const bx = bounds(allBoxes()); const r = svg.getBoundingClientRect();
+  if (!bx) { S.view = {x: 0, y: 0, k: 1}; applyView(); return; }
+  const top = 70, pad = 40;
+  const k = Math.max(0.1, Math.min(1.4, (r.width - pad * 2) / bx.w, (r.height - top - pad) / bx.h));
+  S.view = {k, x: (r.width - bx.w * k) / 2 - bx.x * k, y: top + (r.height - top - pad - bx.h * k) / 2 - bx.y * k};
+  applyView(); scheduleSave();
+}
+function zoomAt(px, py, f) {
+  const v = S.view, k = Math.max(0.1, Math.min(3, v.k * f));
+  v.x = px - (px - v.x) * (k / v.k); v.y = py - (py - v.y) * (k / v.k); v.k = k;
+  applyView(); scheduleSave();
+}
+function placeLegendIfOffscreen() {
+  const r = svg.getBoundingClientRect(), v = S.view;
+  const sx = S.legend.x * v.k + v.x, sy = S.legend.y * v.k + v.y;
+  if (sx < 0 || sy < 0 || sx > r.width - 50 || sy > r.height - 50) { S.legend.x = Math.round((20 - v.x) / v.k); S.legend.y = Math.round((70 - v.y) / v.k); }
+}
+function setConnect(on) {
+  connectMode = on; connectFrom = null;
+  $('#connectBtn').classList.toggle('on', on);
+  updateConnectBanner(); renderCanvas();
+}
+function updateConnectBanner() {
+  const b = $('#connectBanner');
+  b.classList.toggle('show', connectMode);
+  b.innerHTML = connectFrom
+    ? `Now click the box it leads to · <b>${esc(LINKS[prefs.linkType].label)}</b> · <kbd style="color:#111">Esc</kbd> to stop`
+    : `🔗 Connect mode: click the box where the arrow <b>starts</b> · <kbd style="color:#111">Esc</kbd> to stop`;
+}
+function renderLinkSeg() {
+  $('#linkTypeSeg').innerHTML = Object.entries(LINKS).map(([v, t]) =>
+    `<button type="button" data-lt="${v}" class="${v === prefs.linkType ? 'on' : ''}" title="${esc(t.desc)}"><svg width="22" height="10" style="vertical-align:middle"><path d="M1,5 H20" stroke="${t.color}" stroke-width="${Math.min(3, t.width)}"${t.dash ? ' stroke-dasharray="4 3"' : ''}/></svg> ${t.short}</button>`).join('');
+}
+$('#linkTypeSeg').addEventListener('click', e => {
+  const b = e.target.closest('[data-lt]'); if (!b) return;
+  prefs.linkType = b.dataset.lt; savePrefs(); renderLinkSeg(); updateConnectBanner();
+});
+
+// ---------- export ----------
+function buildExportSVG() {
+  const bx = bounds(allBoxes()) || {x: 0, y: 0, w: 400, h: 200};
+  const pad = 50, head = S.title.trim() ? 70 : 10;
+  const W = Math.ceil(bx.w + pad * 2), H = Math.ceil(bx.h + pad * 2 + head);
+  const body = S.sections.map(s => sectionSVG(s, {exp: true})).join('') +
+    (S.legend.visible ? legendSVG() : '') +
+    S.edges.map(e => edgeSVG(e, {exp: true})).join('') +
+    S.nodes.map(n => nodeSVG(n, {exp: true})).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs>${defsSVG()}</defs>` +
+    `<rect width="${W}" height="${H}" fill="#ffffff"/>` +
+    (S.title.trim() ? txt(pad, pad + 20, S.title, `800 30px ${FONT}`, '#111827') : '') +
+    `<g transform="translate(${r1(pad - bx.x)},${r1(pad + head - bx.y)})">${body}</g></svg>`;
+}
+function exportSVG() { download(new Blob([buildExportSVG()], {type: 'image/svg+xml'}), `${slug()}.svg`); }
+function exportPNG() {
+  const src = buildExportSVG();
+  const W = +src.match(/width="(\d+)"/)[1], H = +src.match(/height="(\d+)"/)[1];
+  const scale = Math.max(0.5, Math.min(2.5, 12000 / Math.max(W, H), Math.sqrt(120e6 / (W * H))));
+  const img = new Image();
+  img.onload = () => {
+    const c = document.createElement('canvas'); c.width = Math.round(W * scale); c.height = Math.round(H * scale);
+    const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    c.toBlob(b => b ? download(b, `${slug()}.png`) : alert('The map is too large to export as PNG — try Export vector (.svg).'), 'image/png');
+  };
+  img.onerror = () => alert('PNG export failed — try Export vector (.svg) instead.');
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(src);
+}
+function exportJSON() { saveNow(); download(new Blob([JSON.stringify(S, null, 1)], {type: 'application/json'}), `${slug()}_${stamp()}.json`); }
+$('#fileInput').onchange = async e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  let data; try { data = JSON.parse(await f.text()); } catch (err) { alert('That file isn’t a valid map backup.'); return; }
+  if (!data || !Array.isArray(data.nodes)) { alert('That file doesn’t look like a Problem Map backup.'); return; }
+  if ((S.nodes.length || S.sections.length) && !confirm('Replace the current map with this file?\n\n(Your current map is kept in Version history, and you can Undo.)')) return;
+  pushBackup('Before opening a file');
+  S = normalize(data); sel = null; commit(null, 'ic'); fit();
+};
+function showHistory() {
+  const b = getBackups();
+  $('#histList').innerHTML = b.length ? b.map((x, i) => `<div class="hist"><div><b>${new Date(x.t).toLocaleString([], {dateStyle: 'medium', timeStyle: 'short'})}</b> — ${esc(x.reason)}<br><span class="hint">${x.n} boxes · ${x.e ?? '?'} arrows</span></div><div class="row"><button class="btn sm" data-dl="${i}">Download</button><button class="btn sm primary" data-restore="${i}">Restore</button></div></div>`).join('')
+    : '<p class="hint">No snapshots yet — they appear after you’ve worked for a few minutes.</p>';
+  $('#histDlg').showModal();
+}
+$('#histList').addEventListener('click', e => {
+  const b = getBackups();
+  if (e.target.dataset.dl) { const x = b[+e.target.dataset.dl]; download(new Blob([x.data], {type: 'application/json'}), `${slug()}_snapshot_${new Date(x.t).toISOString().slice(0, 16).replace(/[T:]/g, '-')}.json`); }
+  if (e.target.dataset.restore) {
+    if (!confirm('Restore this version? Your current map will be kept as a snapshot too, and you can Undo.')) return;
+    const x = b[+e.target.dataset.restore];
+    pushBackup('Before restoring');
+    S = normalize(JSON.parse(x.data)); sel = null; commit(null, 'ic'); $('#histDlg').close(); fit();
+  }
+});
+function newMap() {
+  if (!confirm('Start a new blank map?\n\nYour current map is kept in Version history — you can also Undo.')) return;
+  pushBackup('Before new map');
+  S = blankMap(); sel = null; commit(null, 'ic'); S.view = {x: 0, y: 0, k: 1}; applyView();
+}
+$('#fileMenu').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  $('#fileMenu').open = false;
+  const act = b.dataset.act;
+  if (act === 'publishSetup') openGhSetup();
+  else if (act === 'loadPublished') loadPublishedIntoEditor();
+  else if (act === 'lock') { if (confirm('Lock editing on this browser? You can unlock it again with your code.')) { saveNow(); localStorage.removeItem(OKEY); location.reload(); } }
+  else if (act === 'linkFile') linkFile();
+  else if (act === 'resumeFile') resumeFile(b._handle);
+  else if (act === 'exportJSON') exportJSON();
+  else if (act === 'importJSON') $('#fileInput').click();
+  else if (act === 'history') showHistory();
+  else if (act === 'exportPNG') exportPNG();
+  else if (act === 'exportSVG') exportSVG();
+  else if (act === 'newMap') newMap();
+});
+document.addEventListener('click', e => { if (!e.target.closest('#fileMenu')) $('#fileMenu').open = false; });
+
+// ---------- canvas interaction ----------
+function toWorld(e) {
+  const r = svg.getBoundingClientRect();
+  return {x: (e.clientX - r.left - S.view.x) / S.view.k, y: (e.clientY - r.top - S.view.y) / S.view.k};
+}
+svg.addEventListener('pointerdown', e => {
+  if (e.button !== 0) return;
+  document.activeElement?.blur?.();
+  const t = e.target.closest('[data-kind]'), kind = t?.dataset.kind, id = t?.dataset.id, w = toWorld(e);
+  // our own double-click detection: the first click re-renders the canvas, which stops the browser's dblclick from firing
+  const now = performance.now(), key = kind + ':' + id;
+  const isDbl = lastDown && now - lastDown.t < 450 && Math.hypot(e.clientX - lastDown.x, e.clientY - lastDown.y) < 8 && lastDown.key === key;
+  lastDown = isDbl ? null : {t: now, x: e.clientX, y: e.clientY, key};
+  if (readOnly) {
+    if (kind === 'node' || kind === 'handle') { select('node', id); drag = null; return; }
+    if (kind === 'edge' || kind === 'edgelabel') { select('edge', id); drag = null; return; }
+    select(null);
+    svg.setPointerCapture(e.pointerId);
+    drag = {sx: w.x, sy: w.y, cx: e.clientX, cy: e.clientY, moved: false, mode: 'pan', ox: S.view.x, oy: S.view.y};
+    svg.classList.add('panning');
+    return;
+  }
+  if (isDbl && !connectMode) { drag = null; onDoubleClick(kind, id, w); return; }
+  svg.setPointerCapture(e.pointerId);
+  const base = {sx: w.x, sy: w.y, cx: e.clientX, cy: e.clientY, moved: false};
+  if (kind === 'handle') { drag = {...base, mode: 'link', from: id}; return; }
+  if (kind === 'resize') { const s = secById(id); drag = {...base, mode: 'resize', s, ow: s.w, oh: s.h}; return; }
+  if (kind === 'node') {
+    if (connectMode) {
+      if (!connectFrom) connectFrom = id;
+      else if (connectFrom !== id) { const f = connectFrom; connectFrom = null; addEdge(f, id, prefs.linkType, false); }
+      else connectFrom = null;
+      updateConnectBanner(); renderCanvas(); drag = null; return;
+    }
+    select('node', id);
+    const n = nodeById(id); drag = {...base, mode: 'node', n, ox: n.x, oy: n.y}; return;
+  }
+  if (kind === 'edgelabel') { e.preventDefault(); drag = null; editEdgeLabel(id); return; }
+  if (kind === 'edge') { select('edge', id); drag = null; return; }
+  if (kind === 'sechead') {
+    select('section', id);
+    const s = secById(id);
+    const inside = e.altKey ? [] : S.nodes.filter(n => centerIn(n, s)).map(n => ({n, ox: n.x, oy: n.y}));
+    drag = {...base, mode: 'section', s, ox: s.x, oy: s.y, inside}; return;
+  }
+  if (kind === 'legend') { select('legend', 'legend'); drag = {...base, mode: 'legend', ox: S.legend.x, oy: S.legend.y}; return; }
+  if (connectMode && connectFrom) { connectFrom = null; updateConnectBanner(); }
+  select(null);
+  drag = {...base, mode: 'pan', ox: S.view.x, oy: S.view.y};
+  svg.classList.add('panning');
+});
+svg.addEventListener('pointermove', e => {
+  if (!drag) return;
+  if (!drag.moved && Math.hypot(e.clientX - drag.cx, e.clientY - drag.cy) < 4) return;
+  drag.moved = true;
+  const w = toWorld(e), dx = w.x - drag.sx, dy = w.y - drag.sy, snap = v => Math.round(v / 5) * 5;
+  switch (drag.mode) {
+    case 'pan': S.view.x = drag.ox + e.clientX - drag.cx; S.view.y = drag.oy + e.clientY - drag.cy; applyView(); break;
+    case 'node': drag.n.x = snap(drag.ox + dx); drag.n.y = snap(drag.oy + dy); renderCanvas(); break;
+    case 'section':
+      drag.s.x = snap(drag.ox + dx); drag.s.y = snap(drag.oy + dy);
+      const ddx = drag.s.x - drag.ox, ddy = drag.s.y - drag.oy;
+      drag.inside.forEach(o => { o.n.x = o.ox + ddx; o.n.y = o.oy + ddy; });
+      renderCanvas(); break;
+    case 'resize': drag.s.w = Math.max(160, snap(drag.ow + dx)); drag.s.h = Math.max(90, snap(drag.oh + dy)); renderCanvas(); break;
+    case 'legend': S.legend.x = snap(drag.ox + dx); S.legend.y = snap(drag.oy + dy); renderCanvas(); break;
+    case 'link': {
+      const a = center(nodeById(drag.from));
+      const t = LINKS[prefs.linkType];
+      $('#tempLayer').innerHTML = `<path d="M${a.x},${a.y} L${w.x},${w.y}" stroke="${t.color}" stroke-width="${t.width}"${t.dash ? ` stroke-dasharray="${t.dash}"` : ''} marker-end="url(#m-${prefs.linkType})" opacity="0.8"/>`;
+      break;
+    }
+  }
+});
+function endDrag(e) {
+  if (!drag) return;
+  const d = drag; drag = null;
+  svg.classList.remove('panning');
+  if (d.mode === 'pan') { if (d.moved) scheduleSave(); return; }
+  if (d.mode === 'link') {
+    $('#tempLayer').innerHTML = '';
+    if (!d.moved || e.type === 'pointercancel') return;
+    const el = document.elementFromPoint(e.clientX, e.clientY)?.closest('[data-kind="node"]');
+    if (el && el.dataset.id !== d.from) addEdge(d.from, el.dataset.id);
+    else if (!el) {
+      const src = nodeById(d.from), w = toWorld(e);
+      if (Math.hypot(w.x - center(src).x, w.y - center(src).y) < 60) return;
+      const n = addNode(w, {cat: src.cat});
+      S.edges.push({id: uid(), from: d.from, to: n.id, type: prefs.linkType, label: '', bend: 0});
+      commit(null, 'i'); focusTitle();
+    }
+    return;
+  }
+  if (d.moved) commit(null, d.mode === 'section' ? 'i' : '');
+}
+svg.addEventListener('pointerup', endDrag);
+svg.addEventListener('pointercancel', endDrag);
+let lastDown = null;
+function onDoubleClick(kind, id, w) {
+  // focus after the browser's own mousedown focus handling has run
+  if (kind === 'node' || kind === 'handle') { select('node', id); setTimeout(focusTitle, 0); }
+  else if (kind === 'edge' || kind === 'edgelabel') editEdgeLabel(id);
+  else if (!kind) { addNode(w); setTimeout(focusTitle, 0); }
+}
+svg.addEventListener('wheel', e => {
+  e.preventDefault();
+  if (document.activeElement === edgeEdit) edgeEdit.blur();
+  const r = svg.getBoundingClientRect();
+  if (e.ctrlKey || e.metaKey) zoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0035) * (e.ctrlKey && !e.metaKey ? 2.5 : 1)));
+  else { const m = e.deltaMode ? 16 : 1; S.view.x -= e.deltaX * m; S.view.y -= e.deltaY * m; applyView(); scheduleSave(); }
+}, {passive: false});
+
+// ---------- writing on arrows ----------
+const edgeEdit = $('#edgeEdit');
+function editEdgeLabel(id) {
+  const e = edgeById(id); if (!e) return;
+  if (!sel || sel.type !== 'edge' || sel.id !== id) { sel = {type: 'edge', id}; renderInspector(); }
+  const g = edgeGeom(e);
+  edgeEdit.dataset.id = id;
+  edgeEdit.value = e.label;
+  edgeEdit.style.left = (g.mid.x * S.view.k + S.view.x) + 'px';
+  edgeEdit.style.top = (g.mid.y * S.view.k + S.view.y) + 'px';
+  edgeEdit.style.display = 'block';
+  renderCanvas();
+  setTimeout(() => { edgeEdit.focus(); edgeEdit.select(); }, 0);
+}
+edgeEdit.addEventListener('input', () => {
+  const e = edgeById(edgeEdit.dataset.id); if (!e) return;
+  e.label = edgeEdit.value;
+  commit('e' + e.id + 'label');
+  const f = insp.querySelector('[data-f="label"]'); if (f) f.value = e.label;
+});
+edgeEdit.addEventListener('keydown', ev => {
+  if ((ev.key === 'Enter' && !ev.shiftKey) || ev.key === 'Escape') { ev.preventDefault(); edgeEdit.blur(); }
+});
+edgeEdit.addEventListener('blur', () => { edgeEdit.style.display = 'none'; renderCanvas(); });
+
+// ---------- toolbar & header ----------
+$('#addNodeBtn').onclick = () => addNode();
+$('#addSection').onclick = addSection;
+$('#connectBtn').onclick = () => setConnect(!connectMode);
+$('#zoomIn').onclick = () => { const r = svg.getBoundingClientRect(); zoomAt(r.width / 2, r.height / 2, 1.2); };
+$('#zoomOut').onclick = () => { const r = svg.getBoundingClientRect(); zoomAt(r.width / 2, r.height / 2, 1 / 1.2); };
+$('#fitBtn').onclick = fit;
+$('#undoBtn').onclick = undo;
+$('#redoBtn').onclick = redo;
+$('#helpBtn').onclick = () => $('#helpDlg').showModal();
+$('#toggleLeft').onclick = () => { prefs.hideLeft = !prefs.hideLeft; savePrefs(); $('#app').classList.toggle('hide-left', prefs.hideLeft); };
+$('#app').classList.toggle('hide-left', prefs.hideLeft);
+
+document.addEventListener('keydown', e => {
+  if (readOnly) { if (e.key === 'Escape') select(null); return; }
+  const typing = e.target.closest('input, textarea, select, [contenteditable]');
+  const mod = e.metaKey || e.ctrlKey;
+  if (mod && e.key.toLowerCase() === 'z' && !typing) { e.preventDefault(); e.shiftKey ? redo() : undo(); return; }
+  if (mod && e.key.toLowerCase() === 'y' && !typing) { e.preventDefault(); redo(); return; }
+  if (mod && e.key.toLowerCase() === 's') { e.preventDefault(); saveNow(); return; }
+  if (typing) { if (e.key === 'Escape') e.target.blur(); return; }
+  if (document.querySelector('dialog[open]')) return;
+  if (mod && e.key.toLowerCase() === 'd') { e.preventDefault(); duplicateSel(); return; }
+  if (mod || e.altKey) return;
+  if ('nsc'.includes(e.key.toLowerCase()) && e.key.length === 1) e.preventDefault();
+  if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); deleteSel(); }
+  else if (e.key === 'Escape') { if (connectMode) setConnect(false); else select(null); }
+  else if (e.key === 'n' || e.key === 'N') addNode();
+  else if (e.key === 's' || e.key === 'S') addSection();
+  else if (e.key === 'c' || e.key === 'C') setConnect(!connectMode);
+});
+
+// ---------- save safety ----------
+window.addEventListener('beforeunload', () => { if (saveTimer) saveNow(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && saveTimer) saveNow(); });
+window.addEventListener('pagehide', () => { if (saveTimer) saveNow(); });
+window.addEventListener('storage', e => { if (e.key === KEY && e.newValue && e.newValue !== JSON.stringify(S)) $('#tabBanner').classList.add('show'); });
+navigator.storage?.persist?.().catch(() => {});
+
+// ---------- publishing & visitor mode ----------
+function toast(msg, err = false, ms = 6000) {
+  const t = $('#toast'); t.innerHTML = msg; t.className = 'toast show' + (err ? ' err' : '');
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => t.className = 'toast', ms);
+}
+function askCode(title, hint) {
+  return new Promise(res => {
+    const d = $('#codeDlg'), inp = $('#codeInput');
+    $('#codeTitle').textContent = title; $('#codeHint').textContent = hint || ''; $('#codeErr').textContent = ''; inp.value = '';
+    d.onclose = () => res(d.returnValue === 'ok' && inp.value.trim() === OWNER_CODE);
+    $('#codeOk').onclick = ev => {
+      if (inp.value.trim() !== OWNER_CODE) { ev.preventDefault(); $('#codeErr').textContent = 'That code isn’t right.'; inp.select(); }
+    };
+    d.returnValue = ''; d.showModal(); inp.focus();
+  });
+}
+const getGh = () => { try { return JSON.parse(localStorage.getItem(GHKEY)) || {}; } catch (e) { return {}; } };
+function openGhSetup() {
+  const g = getGh();
+  $('#ghToken').value = g.token || ''; $('#ghRepo').value = g.repo || 'molly-culot/molly-culot.github.io'; $('#ghBranch').value = g.branch || 'main';
+  $('#ghMsg').textContent = ''; $('#ghMsg').style.color = '';
+  $('#ghDlg').showModal();
+  return new Promise(res => { $('#ghDlg').onclose = () => res(!!getGh().token); });
+}
+const ghHeaders = token => ({Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'});
+$('#ghSave').onclick = async () => {
+  const token = $('#ghToken').value.trim(), repo = $('#ghRepo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\.git$/, ''), branch = $('#ghBranch').value.trim() || 'main';
+  const msg = $('#ghMsg');
+  if (!token || !/^[\w.-]+\/[\w.-]+$/.test(repo)) { msg.textContent = 'Please paste a token and a repository like owner/repo.'; msg.style.color = 'var(--danger)'; return; }
+  msg.textContent = 'Checking…'; msg.style.color = '';
+  try {
+    const r = await fetch(`https://api.github.com/repos/${repo}`, {headers: ghHeaders(token)});
+    if (!r.ok) throw new Error(r.status === 401 ? 'GitHub didn’t accept that token — check you copied all of it.' : r.status === 404 ? 'Couldn’t find that repository with this token. Make sure the token has access to it.' : `GitHub error ${r.status}.`);
+    const info = await r.json();
+    if (info.permissions && !info.permissions.push) throw new Error('This token can read the repo but not write to it. Set Contents to “Read and write”.');
+    localStorage.setItem(GHKEY, JSON.stringify({token, repo, branch}));
+    $('#ghDlg').close();
+    toast('✓ Publishing is set up on this browser.');
+  } catch (e) { msg.textContent = e instanceof TypeError || !e.message ? 'Couldn’t reach GitHub — check your internet connection.' : e.message; msg.style.color = 'var(--danger)'; }
+};
+function b64utf8(str) {
+  const bytes = new TextEncoder().encode(str); let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+let publishing = false;
+async function publish() {
+  if (publishing) return;
+  if (!await askCode('Publish to website', 'Enter your code to publish this map so everyone who visits the site sees it.')) return;
+  if (!getGh().token && !await openGhSetup()) return;
+  const {token, repo, branch} = getGh();
+  const btn = $('#publishBtn'); publishing = true; btn.disabled = true; btn.textContent = 'Publishing…';
+  try {
+    const url = `https://api.github.com/repos/${repo}/contents/${PUB_PATH}`;
+    const prevPublished = S.publishedAt;
+    S.publishedAt = new Date().toISOString();
+    const content = b64utf8(JSON.stringify(S, null, 1));
+    let r;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const g = await fetch(`${url}?ref=${encodeURIComponent(branch)}&t=${Date.now()}`, {headers: ghHeaders(token), cache: 'no-store'});
+      if (!g.ok && g.status !== 404) { r = g; break; }
+      const sha = g.ok ? (await g.json()).sha : undefined;
+      r = await fetch(url, {method: 'PUT', headers: ghHeaders(token), body: JSON.stringify({message: `Update problem map (${new Date().toLocaleString()})`, content, branch, ...(sha ? {sha} : {})})});
+      if (r.status !== 409) break;
+    }
+    if (!r.ok) {
+      S.publishedAt = prevPublished;
+      if (r.status === 401) { toast('GitHub didn’t accept your token (it may have expired). Open <b>Save / Export → Publishing setup</b> to paste a new one.', true, 10000); return; }
+      if (r.status === 403 || r.status === 404) { toast('Your token isn’t allowed to write to the repo. In <b>Publishing setup</b>, use a token with Contents: Read and write.', true, 10000); return; }
+      throw new Error('GitHub error ' + r.status);
+    }
+    saveNow();
+    toast('✓ Published! Everyone who opens the website will see this version within about a minute.');
+    btn.textContent = '✓ Published';
+    setTimeout(() => { btn.textContent = '🚀 Publish to website'; }, 4000);
+  } catch (e) {
+    toast('Publishing failed — check your internet connection and try again. Your work is still saved in this browser.', true, 10000);
+  } finally {
+    publishing = false; btn.disabled = false;
+    if (btn.textContent === 'Publishing…') btn.textContent = '🚀 Publish to website';
+  }
+}
+async function fetchPublished() {
+  if (isLocalFile) return null;
+  try {
+    const r = await fetch(`${PUB_PATH}?v=${Date.now()}`, {cache: 'no-store'});
+    if (!r.ok) return null;
+    return normalize(await r.json());
+  } catch (e) { return null; }
+}
+async function loadPublishedIntoEditor() {
+  let pub = await fetchPublished();
+  if (!pub && getGh().token) {
+    // e.g. when editing from the local file: read it straight from GitHub instead
+    try {
+      const {token, repo, branch} = getGh();
+      const r = await fetch(`https://api.github.com/repos/${repo}/contents/${PUB_PATH}?ref=${encodeURIComponent(branch)}&t=${Date.now()}`, {headers: {...ghHeaders(token), Accept: 'application/vnd.github.raw+json'}, cache: 'no-store'});
+      if (r.ok) pub = normalize(await r.json());
+    } catch (e) {}
+  }
+  if (!pub) { toast('Couldn’t find a published map yet.', true); return; }
+  if (!confirm('Replace what’s in the editor with the published version?\n\n(Your current map is kept in Version history, and you can Undo.)')) return;
+  pushBackup('Before loading published version');
+  S = pub; sel = null; commit(null, 'ic'); fit();
+}
+function applyMode() {
+  $('#app').classList.toggle('viewer', readOnly);
+  $('#mapTitle').readOnly = readOnly;
+  $('#mapTitle').placeholder = readOnly ? '' : 'Name your map (e.g. the social issue)';
+  document.querySelectorAll('#cats input[type=color]').forEach(i => i.disabled = readOnly);
+  layoutCache.clear();
+}
+$('#publishBtn').onclick = publish;
+$('#unlockBtn').onclick = async () => {
+  if (!await askCode('Unlock editing', 'Enter your code to edit this map on this browser.')) return;
+  localStorage.setItem(OKEY, '1');
+  readOnly = false;
+  const draft = loadSaved();
+  if (draft && JSON.stringify({...draft, view: 0}) !== JSON.stringify({...S, view: 0}) &&
+      confirm('You have a draft saved in this browser.\n\nOK = keep editing your draft\nCancel = start from the published version (the draft stays in Version history)')) {
+    S = draft;
+  } else if (draft) {
+    const cur = S; S = draft; pushBackup('Draft before loading published version'); S = cur;
+  }
+  snapshot = JSON.stringify(S); undoStack = []; redoStack = [];
+  applyMode(); saveNow(); render('ic'); renderLinkSeg(); fit();
+  toast('Editing unlocked on this browser. Click <b>🚀 Publish to website</b> when you want everyone to see your changes.');
+};
+
+// ---------- init ----------
+applyMode();
+renderLinkSeg();
+renderCats();
+render('i');
+applyView();
+if (firstRun) {
+  const pn = S.nodes.find(n => n.problem), c = viewCenter();
+  pn.x = Math.round(Math.max(380, c.x - PROBLEM_W / 2)); pn.y = Math.round(c.y - 60);
+  S.legend.x = 20; S.legend.y = 130; renderCanvas();
+}
+pushBackup('Opened the app');
+lastBackup = Date.now();
+if (!readOnly) tryResumeFile();
+setStatus();
+if (firstRun) setTimeout(() => $('#helpDlg').showModal(), 300);
+(async () => {
+  if (!readOnly && !firstRun) return;
+  const pub = await fetchPublished();
+  if (!pub) { if (readOnly) renderInspector(); return; }
+  if (!readOnly) $('#helpDlg').close();
+  S = pub; sel = null; snapshot = JSON.stringify(S);
+  layoutCache.clear(); render('ic'); fit(); setStatus();
+  if (!readOnly) saveNow();
+})();
+})();
+</script>
+</body>
+</html>
