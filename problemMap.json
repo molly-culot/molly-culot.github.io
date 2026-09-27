@@ -1,6 +1,7 @@
 {
  "version": 1,
  "title": "",
+ "publishedAt": "2026-09-27T22:19:20.494Z",
  "categories": [
   {
    "id": "policies",
@@ -67,7 +68,8 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "policies"
+   "cat": "policies",
+   "problem": false
   },
   {
    "id": "hibrcv8z",
@@ -78,7 +80,8 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "practices"
+   "cat": "practices",
+   "problem": false
   },
   {
    "id": "f9p9d4xw",
@@ -89,7 +92,30 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "mental"
+   "cat": "mental",
+   "problem": false
+  },
+  {
+   "id": "qx85n67d",
+   "x": 750,
+   "y": 20,
+   "title": "Teachers use pre-AI lessons and assignments",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "l48v3zys",
+   "x": 870,
+   "y": 325,
+   "title": "By over-utilizing AI, students do not learn the content of their classes",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
   }
  ],
  "edges": [
@@ -108,6 +134,22 @@
    "type": "corr",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "twc04kl9",
+   "from": "qx85n67d",
+   "to": "f9p9d4xw",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "uxobne13",
+   "from": "f9p9d4xw",
+   "to": "l48v3zys",
+   "type": "corr",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -117,9 +159,8 @@
   "visible": true
  },
  "view": {
-  "k": 0.8849681651201959,
-  "x": -40.86779118898028,
-  "y": 72.12039895512524
- },
- "publishedAt": "2026-09-27T21:22:36.325Z"
+  "x": 96.3158085993166,
+  "y": 62.12401525560108,
+  "k": 0.6793285467384649
+ }
 }
