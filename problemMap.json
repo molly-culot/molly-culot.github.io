@@ -1,0 +1,75 @@
+{
+ "version": 1,
+ "title": "",
+ "categories": [
+  {
+   "id": "policies",
+   "name": "Policies",
+   "short": "Rules, regulations & priorities",
+   "desc": "Government, institutional and organizational rules, regulations, and priorities that guide the entity’s own and others’ actions.",
+   "color": "#2563eb"
+  },
+  {
+   "id": "practices",
+   "name": "Practices",
+   "short": "Activities, procedures & habits",
+   "desc": "Espoused activities of institutions, coalitions, networks, and other entities targeted to improving social and environmental progress. Also, within the entity, the procedures, guidelines, or informal shared habits that comprise their work.",
+   "color": "#16a34a"
+  },
+  {
+   "id": "resources",
+   "name": "Resource Flows",
+   "short": "How money, people & information are allocated",
+   "desc": "How money, people, knowledge, information, and other assets such as infrastructure are allocated and distributed.",
+   "color": "#9333ea"
+  },
+  {
+   "id": "relationships",
+   "name": "Relationships & Connections",
+   "short": "Quality of connections among actors",
+   "desc": "Quality of connections and communication occurring among actors in the system, especially among those with differing histories and viewpoints.",
+   "color": "#ea580c"
+  },
+  {
+   "id": "power",
+   "name": "Power Dynamics",
+   "short": "Who holds decision-making power",
+   "desc": "The distribution of decision-making power, authority, and both formal and informal influence among individuals and organizations.",
+   "color": "#0891b2"
+  },
+  {
+   "id": "mental",
+   "name": "Mental Models",
+   "short": "Deeply held beliefs & assumptions",
+   "desc": "Habits of thought—deeply held beliefs and assumptions and taken-for-granted ways of operating that influence how we think, what we do, and how we talk.",
+   "color": "#db2777"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "j8xnmppw",
+   "x": 410,
+   "y": 360,
+   "title": "Students' over-reliance on AI in K-12 education in the US",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "policies",
+   "problem": true
+  }
+ ],
+ "edges": [],
+ "sections": [],
+ "legend": {
+  "x": 20,
+  "y": 130,
+  "visible": true
+ },
+ "view": {
+  "k": 1.0545454545454545,
+  "x": 18.909090909090967,
+  "y": -14.754545454545394
+ },
+ "publishedAt": "2026-09-27T20:13:34.911Z"
+}
