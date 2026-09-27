@@ -57,9 +57,59 @@
    "size": "M",
    "cat": "policies",
    "problem": true
+  },
+  {
+   "id": "93sg3q8x",
+   "x": 440,
+   "y": 195,
+   "title": "No limits in how AI can be accessed, anyone with the internet can use AI",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "policies"
+  },
+  {
+   "id": "hibrcv8z",
+   "x": 490,
+   "y": 80,
+   "title": "Students are not taught how to ethically use AI",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "f9p9d4xw",
+   "x": 760,
+   "y": 150,
+   "title": "Students utilize AI to do assignments, and rely on cognitive offloading",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "mental"
   }
  ],
- "edges": [],
+ "edges": [
+  {
+   "id": "tx388dsi",
+   "from": "hibrcv8z",
+   "to": "f9p9d4xw",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "npvusg2z",
+   "from": "93sg3q8x",
+   "to": "f9p9d4xw",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  }
+ ],
  "sections": [],
  "legend": {
   "x": 20,
@@ -67,9 +117,9 @@
   "visible": true
  },
  "view": {
-  "k": 1.0545454545454545,
-  "x": 18.909090909090967,
-  "y": -14.754545454545394
+  "k": 0.8849681651201959,
+  "x": -40.86779118898028,
+  "y": 72.12039895512524
  },
- "publishedAt": "2026-09-27T20:13:34.911Z"
+ "publishedAt": "2026-09-27T20:21:36.888Z"
 }
