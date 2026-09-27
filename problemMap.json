@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-27T22:19:20.494Z",
+ "publishedAt": "2026-09-27T22:27:33.640Z",
  "categories": [
   {
    "id": "policies",
@@ -57,7 +57,9 @@
    "source": "",
    "size": "M",
    "cat": "policies",
-   "problem": true
+   "problem": true,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "93sg3q8x",
@@ -69,7 +71,9 @@
    "source": "",
    "size": "M",
    "cat": "policies",
-   "problem": false
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "hibrcv8z",
@@ -81,7 +85,9 @@
    "source": "",
    "size": "M",
    "cat": "practices",
-   "problem": false
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "f9p9d4xw",
@@ -93,7 +99,9 @@
    "source": "",
    "size": "M",
    "cat": "mental",
-   "problem": false
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "qx85n67d",
@@ -104,7 +112,10 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "practices"
+   "cat": "practices",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "l48v3zys",
@@ -115,7 +126,10 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "practices"
+   "cat": "practices",
+   "problem": false,
+   "event": false,
+   "year": 2000
   }
  ],
  "edges": [
@@ -154,13 +168,21 @@
  ],
  "sections": [],
  "legend": {
-  "x": 20,
-  "y": 130,
-  "visible": true
+  "x": -240,
+  "y": -80,
+  "visible": false
+ },
+ "timeline": {
+  "x": -10,
+  "y": 715,
+  "w": 1235,
+  "start": 1900,
+  "end": 2026,
+  "title": "Timeline"
  },
  "view": {
-  "x": 96.3158085993166,
-  "y": 62.12401525560108,
-  "k": 0.6793285467384649
+  "x": 239.21272490252113,
+  "y": 73.75892466909514,
+  "k": 0.4532386007261089
  }
 }
