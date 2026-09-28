@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-28T23:00:37.563Z",
+ "publishedAt": "2026-09-28T23:02:04.916Z",
  "categories": [
   {
    "id": "policies",
@@ -169,6 +169,19 @@
    "cat": "practices",
    "event": true,
    "year": 2010
+  },
+  {
+   "id": "xmlbfbww",
+   "x": 1260,
+   "y": 374,
+   "title": "A pandemic hit, making all classes move to online and it became harder to regulate cheating",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "resources",
+   "event": true,
+   "year": 2020
   }
  ],
  "edges": [
@@ -220,8 +233,8 @@
   "title": "Timeline"
  },
  "view": {
-  "x": -187.30227325568126,
-  "y": 9.303908291021855,
-  "k": 0.659689867974668
+  "x": null,
+  "y": 307.66128441629013,
+  "k": 0.20186411081500302
  }
 }
