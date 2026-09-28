@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-28T22:42:37.382Z",
+ "publishedAt": "2026-09-28T23:00:37.563Z",
  "categories": [
   {
    "id": "policies",
@@ -51,7 +51,7 @@
    "id": "j8xnmppw",
    "x": 410,
    "y": 360,
-   "title": "Students' over-reliance on AI in K-12 education in the US",
+   "title": "Students' over-reliance on Technology in K-12 education in the US",
    "date": "",
    "stat": "",
    "source": "",
@@ -130,6 +130,45 @@
    "problem": false,
    "event": false,
    "year": 2000
+  },
+  {
+   "id": "ogtjx3br",
+   "x": 425,
+   "y": 556,
+   "title": "Laptops were added to schools",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "practices",
+   "event": true,
+   "year": 1900
+  },
+  {
+   "id": "o6k6aj7w",
+   "x": 1154,
+   "y": 501,
+   "title": "\"No Child Left Behind Act\" -- standardized testing structures, mainly monitored by tech",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "policies",
+   "event": true,
+   "year": 2002
+  },
+  {
+   "id": "7342zk5m",
+   "x": 1211,
+   "y": 700,
+   "title": "4.5 million iPads sold to schools",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "practices",
+   "event": true,
+   "year": 2010
   }
  ],
  "edges": [
@@ -181,8 +220,8 @@
   "title": "Timeline"
  },
  "view": {
-  "x": -2.686865530201544,
-  "y": 151.1467681840241,
-  "k": 0.5397373597327264
+  "x": -187.30227325568126,
+  "y": 9.303908291021855,
+  "k": 0.659689867974668
  }
 }
