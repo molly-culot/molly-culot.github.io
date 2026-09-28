@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-28T23:02:04.916Z",
+ "publishedAt": "2026-09-28T23:25:23.053Z",
  "categories": [
   {
    "id": "policies",
@@ -133,55 +133,218 @@
   },
   {
    "id": "ogtjx3br",
-   "x": 425,
-   "y": 556,
+   "x": 100,
+   "y": 1001,
    "title": "Laptops were added to schools",
    "date": "",
    "stat": "",
    "source": "",
    "size": "S",
    "cat": "practices",
+   "problem": false,
    "event": true,
    "year": 1900
   },
   {
    "id": "o6k6aj7w",
-   "x": 1154,
-   "y": 501,
+   "x": 1270,
+   "y": 1145,
    "title": "\"No Child Left Behind Act\" -- standardized testing structures, mainly monitored by tech",
    "date": "",
    "stat": "",
    "source": "",
    "size": "S",
    "cat": "policies",
+   "problem": false,
    "event": true,
    "year": 2002
   },
   {
    "id": "7342zk5m",
-   "x": 1211,
-   "y": 700,
+   "x": 1362,
+   "y": 856,
    "title": "4.5 million iPads sold to schools",
    "date": "",
    "stat": "",
    "source": "",
    "size": "S",
    "cat": "practices",
+   "problem": false,
    "event": true,
    "year": 2010
   },
   {
    "id": "xmlbfbww",
-   "x": 1260,
-   "y": 374,
+   "x": 1454,
+   "y": 964,
    "title": "A pandemic hit, making all classes move to online and it became harder to regulate cheating",
    "date": "",
    "stat": "",
    "source": "",
    "size": "M",
    "cat": "resources",
+   "problem": false,
    "event": true,
    "year": 2020
+  },
+  {
+   "id": "lko2z2uk",
+   "x": 1040,
+   "y": 100,
+   "title": "The COVID-19 pandemic moving all classes online (and a lot of practices remained)",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "resources"
+  },
+  {
+   "id": "ismd8d7t",
+   "x": 1175,
+   "y": 265,
+   "title": "Computer usage became normal in a classroom setting",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "x4bqbgov",
+   "x": 1135,
+   "y": 405,
+   "title": "Looking up answers and cognitive offloading became normalized",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "mental"
+  },
+  {
+   "id": "lonmolnu",
+   "x": 1499,
+   "y": 1145,
+   "title": "The rise of generative AI increased the ability for people to cognitively offload their assignments",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "resources",
+   "event": true,
+   "year": 2022
+  },
+  {
+   "id": "mq9mxtnf",
+   "x": 1373,
+   "y": 1291,
+   "title": "A large uptick in chromebook/computers was added to schools",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "practices",
+   "event": true,
+   "year": 2011
+  },
+  {
+   "id": "wnmtm9a4",
+   "x": 1522,
+   "y": 692,
+   "title": "Nationwide policies begin prohibiting cellphones in schools",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "policies",
+   "event": true,
+   "year": 2024
+  },
+  {
+   "id": "xvz1zwwj",
+   "x": 705,
+   "y": 565,
+   "title": "Many students use cellphones ",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "csi4jjvm",
+   "x": 985,
+   "y": 535,
+   "title": "Social media addiction became normalized, ruining student's attention spans",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "mental",
+   "event": false,
+   "year": 2005
+  },
+  {
+   "id": "himdfqjm",
+   "x": 1255,
+   "y": 530,
+   "title": "Mental health decline seen in middle school",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "mental"
+  },
+  {
+   "id": "tog3tvs5",
+   "x": 249,
+   "y": 1145,
+   "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "resources",
+   "event": true,
+   "year": 1913
+  },
+  {
+   "id": "ap4idt2p",
+   "x": 329,
+   "y": 946,
+   "title": "The US Department of Commerce's Radio Division began licensing educational stations",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "resources",
+   "event": true,
+   "year": 1920
+  },
+  {
+   "id": "q15w3rof",
+   "x": 1201,
+   "y": 1001,
+   "title": "",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "policies",
+   "event": true,
+   "year": 1996
+  },
+  {
+   "id": "cf0yaomu",
+   "x": 456,
+   "y": 1145,
+   "title": "25 states had a dedicated department-of-education unit for film",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "practices",
+   "event": true,
+   "year": 1931
   }
  ],
  "edges": [
@@ -194,15 +357,39 @@
    "bend": 0
   },
   {
-   "id": "npvusg2z",
-   "from": "93sg3q8x",
-   "to": "f9p9d4xw",
+   "id": "uxobne13",
+   "from": "f9p9d4xw",
+   "to": "l48v3zys",
    "type": "corr",
    "label": "",
    "bend": 0
   },
   {
-   "id": "twc04kl9",
+   "id": "fj5vao56",
+   "from": "lko2z2uk",
+   "to": "ismd8d7t",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "98cknr5d",
+   "from": "ismd8d7t",
+   "to": "x4bqbgov",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "0rjivwjo",
+   "from": "l48v3zys",
+   "to": "x4bqbgov",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "j8j2ql6z",
    "from": "qx85n67d",
    "to": "f9p9d4xw",
    "type": "corr",
@@ -210,10 +397,26 @@
    "bend": 0
   },
   {
-   "id": "uxobne13",
-   "from": "f9p9d4xw",
-   "to": "l48v3zys",
-   "type": "corr",
+   "id": "eac8peyy",
+   "from": "93sg3q8x",
+   "to": "f9p9d4xw",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "0p27aqqx",
+   "from": "xvz1zwwj",
+   "to": "csi4jjvm",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "3z8rvxdb",
+   "from": "csi4jjvm",
+   "to": "himdfqjm",
+   "type": "cause",
    "label": "",
    "bend": 0
   }
@@ -225,16 +428,16 @@
   "visible": true
  },
  "timeline": {
-  "x": 510,
-  "y": 660,
-  "w": 900,
+  "x": 185,
+  "y": 1105,
+  "w": 1445,
   "start": 1900,
   "end": 2026,
   "title": "Timeline"
  },
  "view": {
-  "x": null,
-  "y": 307.66128441629013,
-  "k": 0.20186411081500302
+  "x": 20.071873950499707,
+  "y": 109.61902683357444,
+  "k": 0.41047632171389087
  }
 }
