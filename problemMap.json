@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-09-29T18:06:34.428Z",
+ "publishedAt": "2026-09-29T18:12:34.597Z",
  "categories": [
   {
    "id": "policies",
@@ -133,8 +133,8 @@
   },
   {
    "id": "ogtjx3br",
-   "x": 295,
-   "y": 1096,
+   "x": 30,
+   "y": 1321,
    "title": "Laptops were added to schools",
    "date": "",
    "stat": "",
@@ -147,8 +147,8 @@
   },
   {
    "id": "o6k6aj7w",
-   "x": 1465,
-   "y": 1041,
+   "x": 1200,
+   "y": 1266,
    "title": "\"No Child Left Behind Act\" -- standardized testing structures, mainly monitored by tech",
    "date": "",
    "stat": "",
@@ -161,8 +161,8 @@
   },
   {
    "id": "7342zk5m",
-   "x": 1557,
-   "y": 1240,
+   "x": 1292,
+   "y": 1465,
    "title": "4.5 million iPads sold to schools",
    "date": "",
    "stat": "",
@@ -175,8 +175,8 @@
   },
   {
    "id": "xmlbfbww",
-   "x": 1649,
-   "y": 1059,
+   "x": 1384,
+   "y": 1284,
    "title": "A pandemic hit, making all classes move to online and it became harder to regulate cheating",
    "date": "",
    "stat": "",
@@ -231,8 +231,8 @@
   },
   {
    "id": "lonmolnu",
-   "x": 1694,
-   "y": 1386,
+   "x": 1429,
+   "y": 1611,
    "title": "The rise of generative AI increased the ability for people to cognitively offload their assignments",
    "date": "",
    "stat": "",
@@ -245,8 +245,8 @@
   },
   {
    "id": "mq9mxtnf",
-   "x": 1568,
-   "y": 914,
+   "x": 1303,
+   "y": 1139,
    "title": "A large uptick in chromebook/computers was added to schools",
    "date": "",
    "stat": "",
@@ -301,8 +301,8 @@
   },
   {
    "id": "himdfqjm",
-   "x": 835,
-   "y": 570,
+   "x": 795,
+   "y": 615,
    "title": "Mental health decline seen in students",
    "date": "",
    "stat": "",
@@ -315,8 +315,8 @@
   },
   {
    "id": "tog3tvs5",
-   "x": 444,
-   "y": 1240,
+   "x": 179,
+   "y": 1465,
    "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
    "date": "",
    "stat": "",
@@ -329,8 +329,8 @@
   },
   {
    "id": "ap4idt2p",
-   "x": 524,
-   "y": 1041,
+   "x": 259,
+   "y": 1266,
    "title": "The US Department of Commerce's Radio Division began licensing educational stations",
    "date": "",
    "stat": "",
@@ -343,8 +343,8 @@
   },
   {
    "id": "cf0yaomu",
-   "x": 651,
-   "y": 1240,
+   "x": 386,
+   "y": 1465,
    "title": "25 states had a dedicated department-of-education unit for film",
    "date": "",
    "stat": "",
@@ -364,7 +364,7 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "policies",
+   "cat": "practices",
    "problem": false,
    "event": false,
    "year": 2000
@@ -385,8 +385,8 @@
   },
   {
    "id": "5zm5nzzs",
-   "x": 1395,
-   "y": 535,
+   "x": 1425,
+   "y": 495,
    "title": "Students rely on the internet to complete assignments",
    "date": "",
    "stat": "",
@@ -567,8 +567,8 @@
   },
   {
    "id": "tprkb4ez",
-   "x": 1717,
-   "y": 787,
+   "x": 1452,
+   "y": 1012,
    "title": "Nationwide policies begin prohibiting cellphones in schools",
    "date": "",
    "stat": "",
@@ -597,7 +597,7 @@
    "id": "jyqqqcg1",
    "x": 1610,
    "y": -390,
-   "title": "A large uptick in chromebook/computers was added to schools",
+   "title": "Chromebook/computers were added to a large portion of US schools",
    "date": "2011",
    "stat": "",
    "source": "",
@@ -693,8 +693,8 @@
   },
   {
    "id": "oc6j4czc",
-   "x": 846,
-   "y": 1059,
+   "x": 581,
+   "y": 1284,
    "title": "Schools begin implementing ed-tech to personalize learning and organize information",
    "date": "1950",
    "stat": "",
@@ -781,6 +781,28 @@
    "source": "",
    "size": "M",
    "cat": "mental"
+  },
+  {
+   "id": "xodzh9ie",
+   "x": 715,
+   "y": 845,
+   "title": "By students overusing social media and tech, they lose the ability to foster human to human connections",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "relationships"
+  },
+  {
+   "id": "dgqxrj9t",
+   "x": 1465,
+   "y": 680,
+   "title": "Students feel incentivized to use AI because they know other students are, so using AI becomes the standard ",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "relationships"
   }
  ],
  "edges": [
@@ -1335,6 +1357,38 @@
    "type": "cause",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "08u640n7",
+   "from": "csi4jjvm",
+   "to": "xodzh9ie",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "74ynkf3x",
+   "from": "xodzh9ie",
+   "to": "himdfqjm",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "wfyh27qm",
+   "from": "x4bqbgov",
+   "to": "dgqxrj9t",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ia1em0w6",
+   "from": "dgqxrj9t",
+   "to": "x4bqbgov",
+   "type": "cause",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -1344,16 +1398,16 @@
   "visible": true
  },
  "timeline": {
-  "x": 380,
-  "y": 1200,
+  "x": 115,
+  "y": 1425,
   "w": 1445,
   "start": 1900,
   "end": 2026,
   "title": "Timeline"
  },
  "view": {
-  "k": 0.2582886259014126,
-  "x": 162.39444179609785,
-  "y": 355.370290546172
+  "k": 0.2571928914682867,
+  "x": 170.2482006383995,
+  "y": 421.3615325863913
  }
 }
