@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-28T23:33:17.785Z",
+ "publishedAt": "2026-09-29T00:13:11.574Z",
  "categories": [
   {
    "id": "policies",
@@ -189,8 +189,8 @@
   },
   {
    "id": "lko2z2uk",
-   "x": 1040,
-   "y": 100,
+   "x": 1160,
+   "y": 95,
    "title": "The COVID-19 pandemic moving all classes online (and a lot of practices remained)",
    "date": "",
    "stat": "",
@@ -261,9 +261,9 @@
   },
   {
    "id": "xvz1zwwj",
-   "x": 270,
-   "y": 505,
-   "title": "Many students use cellphones ",
+   "x": 555,
+   "y": 350,
+   "title": "Students have and regularly use cellphones ",
    "date": "",
    "stat": "",
    "source": "",
@@ -367,6 +367,61 @@
    "source": "",
    "size": "M",
    "cat": "practices"
+  },
+  {
+   "id": "5zm5nzzs",
+   "x": 1395,
+   "y": 535,
+   "title": "Students rely on the internet to complete assignments",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "l03lbfec",
+   "x": 175,
+   "y": 75,
+   "title": "AI companies decide how AI tools behave, meaning they are not filtered for use by students",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "power"
+  },
+  {
+   "id": "d5h8vwy5",
+   "x": 1420,
+   "y": 175,
+   "title": "Ed-tech spending is driven by vendors selling to districts, not by what teachers ask for",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "power"
+  },
+  {
+   "id": "k3rtne7s",
+   "x": 190,
+   "y": 260,
+   "title": "Big tech companies lobby against strict regulation of AI in schools",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "power"
+  },
+  {
+   "id": "q5gerghv",
+   "x": 1145,
+   "y": 580,
+   "title": "There is misalignment between views of parents, students, teachers, and tech companies on how AI should be regulated and utilized",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "relationships"
   }
  ],
  "edges": [
@@ -465,6 +520,54 @@
    "type": "cause",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "4nla9xmb",
+   "from": "xvz1zwwj",
+   "to": "f9p9d4xw",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "wj90snbc",
+   "from": "l03lbfec",
+   "to": "hibrcv8z",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "z5zatmnf",
+   "from": "d5h8vwy5",
+   "to": "ismd8d7t",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ouj23s24",
+   "from": "l03lbfec",
+   "to": "k3rtne7s",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ojdsj5dm",
+   "from": "k3rtne7s",
+   "to": "93sg3q8x",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ej4yqxfc",
+   "from": "5zm5nzzs",
+   "to": "x4bqbgov",
+   "type": "cause",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -482,8 +585,8 @@
   "title": "Timeline"
  },
  "view": {
-  "x": -430.4623230378197,
-  "y": -126.3047335094335,
-  "k": 0.9426498381478825
+  "x": 9.730112119646037,
+  "y": 150.26328640539646,
+  "k": 0.4392964114019293
  }
 }
