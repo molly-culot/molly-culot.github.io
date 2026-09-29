@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-09-29T18:34:22.112Z",
+ "publishedAt": "2026-09-29T19:01:23.061Z",
  "categories": [
   {
    "id": "policies",
@@ -64,7 +64,7 @@
   {
    "id": "93sg3q8x",
    "x": 510,
-   "y": 225,
+   "y": 175,
    "title": "No limits in how AI can be accessed, anyone with the internet can use AI",
    "date": "",
    "stat": "",
@@ -77,8 +77,8 @@
   },
   {
    "id": "hibrcv8z",
-   "x": 500,
-   "y": 135,
+   "x": 410,
+   "y": -35,
    "title": "Students are not taught how to ethically use AI",
    "date": "",
    "stat": "",
@@ -807,14 +807,6 @@
  ],
  "edges": [
   {
-   "id": "tx388dsi",
-   "from": "hibrcv8z",
-   "to": "f9p9d4xw",
-   "type": "corr",
-   "label": "",
-   "bend": 0
-  },
-  {
    "id": "fj5vao56",
    "from": "lko2z2uk",
    "to": "ismd8d7t",
@@ -1389,6 +1381,14 @@
    "type": "cause",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "sd2g1qjg",
+   "from": "hibrcv8z",
+   "to": "f9p9d4xw",
+   "type": "cause",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -1406,8 +1406,8 @@
   "title": "Timeline"
  },
  "view": {
-  "k": 0.35140718795878745,
-  "x": 56.9046112841844,
-  "y": 360.40568823664
+  "k": 0.9335018441267718,
+  "x": -238.3122387959354,
+  "y": 481.57998918181306
  }
 }
