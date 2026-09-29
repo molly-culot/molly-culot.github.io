@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-29T00:13:11.574Z",
+ "publishedAt": "2026-09-29T00:16:01.833Z",
  "categories": [
   {
    "id": "policies",
@@ -49,8 +49,8 @@
  "nodes": [
   {
    "id": "j8xnmppw",
-   "x": 810,
-   "y": -160,
+   "x": 1010,
+   "y": -75,
    "title": "Students' over-reliance on Technology in K-12 education in the US",
    "date": "",
    "stat": "",
@@ -63,8 +63,8 @@
   },
   {
    "id": "93sg3q8x",
-   "x": 440,
-   "y": 195,
+   "x": 510,
+   "y": 225,
    "title": "No limits in how AI can be accessed, anyone with the internet can use AI",
    "date": "",
    "stat": "",
@@ -133,8 +133,8 @@
   },
   {
    "id": "ogtjx3br",
-   "x": 250,
-   "y": 966,
+   "x": 245,
+   "y": 1101,
    "title": "Laptops were added to schools",
    "date": "",
    "stat": "",
@@ -147,8 +147,8 @@
   },
   {
    "id": "o6k6aj7w",
-   "x": 1420,
-   "y": 1110,
+   "x": 1415,
+   "y": 1046,
    "title": "\"No Child Left Behind Act\" -- standardized testing structures, mainly monitored by tech",
    "date": "",
    "stat": "",
@@ -161,8 +161,8 @@
   },
   {
    "id": "7342zk5m",
-   "x": 1512,
-   "y": 821,
+   "x": 1507,
+   "y": 1245,
    "title": "4.5 million iPads sold to schools",
    "date": "",
    "stat": "",
@@ -175,8 +175,8 @@
   },
   {
    "id": "xmlbfbww",
-   "x": 1604,
-   "y": 929,
+   "x": 1599,
+   "y": 1064,
    "title": "A pandemic hit, making all classes move to online and it became harder to regulate cheating",
    "date": "",
    "stat": "",
@@ -222,8 +222,8 @@
   },
   {
    "id": "lonmolnu",
-   "x": 1649,
-   "y": 1110,
+   "x": 1644,
+   "y": 1391,
    "title": "The rise of generative AI increased the ability for people to cognitively offload their assignments",
    "date": "",
    "stat": "",
@@ -235,8 +235,8 @@
   },
   {
    "id": "mq9mxtnf",
-   "x": 1523,
-   "y": 1256,
+   "x": 1518,
+   "y": 919,
    "title": "A large uptick in chromebook/computers was added to schools",
    "date": "",
    "stat": "",
@@ -248,8 +248,8 @@
   },
   {
    "id": "wnmtm9a4",
-   "x": 1672,
-   "y": 657,
+   "x": 1667,
+   "y": 792,
    "title": "Nationwide policies begin prohibiting cellphones in schools",
    "date": "",
    "stat": "",
@@ -296,8 +296,8 @@
   },
   {
    "id": "tog3tvs5",
-   "x": 399,
-   "y": 1110,
+   "x": 394,
+   "y": 1245,
    "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
    "date": "",
    "stat": "",
@@ -309,8 +309,8 @@
   },
   {
    "id": "ap4idt2p",
-   "x": 479,
-   "y": 911,
+   "x": 474,
+   "y": 1046,
    "title": "The US Department of Commerce's Radio Division began licensing educational stations",
    "date": "",
    "stat": "",
@@ -321,22 +321,9 @@
    "year": 1920
   },
   {
-   "id": "q15w3rof",
-   "x": 1351,
-   "y": 966,
-   "title": "",
-   "date": "",
-   "stat": "",
-   "source": "",
-   "size": "S",
-   "cat": "policies",
-   "event": true,
-   "year": 1996
-  },
-  {
    "id": "cf0yaomu",
-   "x": 606,
-   "y": 1110,
+   "x": 601,
+   "y": 1245,
    "title": "25 states had a dedicated department-of-education unit for film",
    "date": "",
    "stat": "",
@@ -361,7 +348,7 @@
    "id": "4etqx5l2",
    "x": 825,
    "y": 385,
-   "title": "Students struggling with mental health spend less time on classes ",
+   "title": "Students struggling with mental health spend less time on classes and attendance rates drop",
    "date": "",
    "stat": "",
    "source": "",
@@ -414,9 +401,20 @@
   },
   {
    "id": "q5gerghv",
-   "x": 1145,
-   "y": 580,
+   "x": 350,
+   "y": -140,
    "title": "There is misalignment between views of parents, students, teachers, and tech companies on how AI should be regulated and utilized",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "relationships"
+  },
+  {
+   "id": "06iiivqu",
+   "x": 245,
+   "y": 435,
+   "title": "Parents often don't know what their kids are doing with AI or phones at school",
    "date": "",
    "stat": "",
    "source": "",
@@ -568,6 +566,46 @@
    "type": "cause",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "eqvn4hy9",
+   "from": "q5gerghv",
+   "to": "l03lbfec",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "73tfz0e5",
+   "from": "q5gerghv",
+   "to": "qx85n67d",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "eb0hw2af",
+   "from": "q5gerghv",
+   "to": "93sg3q8x",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "99z97tbe",
+   "from": "06iiivqu",
+   "to": "csi4jjvm",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "97fd9q9j",
+   "from": "06iiivqu",
+   "to": "hibrcv8z",
+   "type": "cause",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -577,16 +615,16 @@
   "visible": true
  },
  "timeline": {
-  "x": 335,
-  "y": 1070,
+  "x": 330,
+  "y": 1205,
   "w": 1445,
   "start": 1900,
   "end": 2026,
   "title": "Timeline"
  },
  "view": {
-  "x": 9.730112119646037,
-  "y": 150.26328640539646,
-  "k": 0.4392964114019293
+  "x": 35.84508655306638,
+  "y": 237.6390016682056,
+  "k": 0.47536894675352165
  }
 }
