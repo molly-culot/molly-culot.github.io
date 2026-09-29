@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-29T00:46:22.655Z",
+ "publishedAt": "2026-09-29T01:01:32.638Z",
  "categories": [
   {
    "id": "policies",
@@ -49,9 +49,9 @@
  "nodes": [
   {
    "id": "j8xnmppw",
-   "x": 970,
-   "y": 90,
-   "title": "Students' over-reliance on Technology in K-12 education in the US",
+   "x": 975,
+   "y": 30,
+   "title": "Students' over-reliance on technology in K-12 education in the US",
    "date": "",
    "stat": "",
    "source": "",
@@ -189,9 +189,9 @@
   },
   {
    "id": "lko2z2uk",
-   "x": 1405,
-   "y": -5,
-   "title": "The COVID-19 pandemic moving all classes online (and a lot of practices remained)",
+   "x": 1360,
+   "y": -40,
+   "title": "The COVID-19 pandemic moves all classes online (and a lot of technology practices adopted remain)",
    "date": "2020",
    "stat": "",
    "source": "",
@@ -491,7 +491,7 @@
    "id": "pzgo5bk4",
    "x": 1155,
    "y": -145,
-   "title": "There is no unifromity between schools and classes on how tech is used",
+   "title": "There is no uniformity between schools and classes on how tech is used",
    "date": "",
    "stat": "",
    "source": "",
@@ -540,14 +540,69 @@
   },
   {
    "id": "xwjn4rxc",
-   "x": 835,
-   "y": -565,
+   "x": 940,
+   "y": -510,
    "title": "As students struggle in school with writing and reasoning, they bring AI use into their day to day life and use AI to replace cognitive functioning",
    "date": "",
    "stat": "",
    "source": "",
    "size": "M",
    "cat": "mental"
+  },
+  {
+   "id": "uix7d5q7",
+   "x": 990,
+   "y": 705,
+   "title": "Short-form videos cause a decline in student's attention spans, translating to them having shorter attention spans in class and for assignments",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "mental"
+  },
+  {
+   "id": "ue8jvxdn",
+   "x": 1670,
+   "y": 545,
+   "title": "Flipped classroom model becomes more common",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "munidqnd",
+   "x": 1210,
+   "y": 625,
+   "title": "Students who type all their assignments lose the ability to spell and handwrite",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "r38lh1r9",
+   "x": 100,
+   "y": -290,
+   "title": "Gaps in how adults and students view new technology since students are the ones who best understand how to use it",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "power"
+  },
+  {
+   "id": "qyawvknp",
+   "x": 565,
+   "y": -430,
+   "title": "AI bans from universities aren't followed because they are hard to enforce",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "power"
   }
  ],
  "edges": [
@@ -870,6 +925,110 @@
    "type": "cause",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "a15ugz7l",
+   "from": "csi4jjvm",
+   "to": "xvz1zwwj",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "kx7gy69z",
+   "from": "4etqx5l2",
+   "to": "x4bqbgov",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "2s9xil1g",
+   "from": "csi4jjvm",
+   "to": "uix7d5q7",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "fci9mqoz",
+   "from": "uix7d5q7",
+   "to": "x4bqbgov",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "m7hhu53w",
+   "from": "uix7d5q7",
+   "to": "f9p9d4xw",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "i8ef6411",
+   "from": "r21kcfnb",
+   "to": "ue8jvxdn",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "orq02j3x",
+   "from": "ismd8d7t",
+   "to": "munidqnd",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "hvlaoxc9",
+   "from": "x4bqbgov",
+   "to": "j8xnmppw",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "2t60f2q7",
+   "from": "r38lh1r9",
+   "to": "q5gerghv",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "dmt7ae95",
+   "from": "rvdnnz6e",
+   "to": "qx85n67d",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "l5wy7j0c",
+   "from": "rvdnnz6e",
+   "to": "qyawvknp",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "vjwa0y7z",
+   "from": "qyawvknp",
+   "to": "hibrcv8z",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "temylkri",
+   "from": "qyawvknp",
+   "to": "f9p9d4xw",
+   "type": "cause",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -887,8 +1046,8 @@
   "title": "Timeline"
  },
  "view": {
-  "k": 0.5823875848548221,
-  "x": -28.521984983819948,
-  "y": 431.46583230649514
+  "k": 0.406796355577444,
+  "x": 207.29570726114252,
+  "y": 374.57161009449646
  }
 }
