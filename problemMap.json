@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-29T00:22:20.765Z",
+ "publishedAt": "2026-09-29T00:46:22.655Z",
  "categories": [
   {
    "id": "policies",
@@ -192,7 +192,7 @@
    "x": 1405,
    "y": -5,
    "title": "The COVID-19 pandemic moving all classes online (and a lot of practices remained)",
-   "date": "",
+   "date": "2020",
    "stat": "",
    "source": "",
    "size": "M",
@@ -248,15 +248,15 @@
   },
   {
    "id": "wnmtm9a4",
-   "x": 1667,
-   "y": 792,
-   "title": "Nationwide policies begin prohibiting cellphones in schools",
-   "date": "",
+   "x": 265,
+   "y": 590,
+   "title": "Nationwide policies begin prohibiting cellphones in schools that many students don't follow",
+   "date": "2024",
    "stat": "",
    "source": "",
    "size": "S",
    "cat": "policies",
-   "event": true,
+   "event": false,
    "year": 2024
   },
   {
@@ -379,8 +379,8 @@
   },
   {
    "id": "d5h8vwy5",
-   "x": 1420,
-   "y": 175,
+   "x": 1435,
+   "y": 170,
    "title": "Ed-tech spending is driven by vendors selling to districts, not by what teachers ask for",
    "date": "",
    "stat": "",
@@ -434,7 +434,7 @@
   },
   {
    "id": "6kez6zsf",
-   "x": 1670,
+   "x": 1720,
    "y": 65,
    "title": "The digital divide makes technology a luxury item that not all students can access, giving wealthier families access to more advanced AI and technology schools",
    "date": "",
@@ -445,8 +445,8 @@
   },
   {
    "id": "mxrq96du",
-   "x": 1465,
-   "y": -155,
+   "x": 1715,
+   "y": -170,
    "title": "Schools begin implementing ed-tech to personalize learning and organize information",
    "date": "",
    "stat": "",
@@ -464,6 +464,90 @@
    "source": "",
    "size": "M",
    "cat": "power"
+  },
+  {
+   "id": "nvb6arq9",
+   "x": 1115,
+   "y": -325,
+   "title": "AI and technology are innovating exponentially, making it so it is harder for schools to adapt",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "power"
+  },
+  {
+   "id": "rvdnnz6e",
+   "x": 485,
+   "y": -265,
+   "title": "Only 10% of schools have AI guidelines",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "policies"
+  },
+  {
+   "id": "pzgo5bk4",
+   "x": 1155,
+   "y": -145,
+   "title": "There is no unifromity between schools and classes on how tech is used",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "tprkb4ez",
+   "x": 1667,
+   "y": 792,
+   "title": "Nationwide policies begin prohibiting cellphones in schools",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "policies",
+   "event": true,
+   "year": 2024
+  },
+  {
+   "id": "ad7ufsef",
+   "x": 1450,
+   "y": -210,
+   "title": "4.5 million iPads sold to schools",
+   "date": "2010",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "practices",
+   "problem": false,
+   "event": false,
+   "year": 2010
+  },
+  {
+   "id": "jyqqqcg1",
+   "x": 1610,
+   "y": -390,
+   "title": "A large uptick in chromebook/computers was added to schools",
+   "date": "2011",
+   "stat": "",
+   "source": "",
+   "size": "S",
+   "cat": "practices",
+   "event": false,
+   "year": 2011
+  },
+  {
+   "id": "xwjn4rxc",
+   "x": 835,
+   "y": -565,
+   "title": "As students struggle in school with writing and reasoning, they bring AI use into their day to day life and use AI to replace cognitive functioning",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "mental"
   }
  ],
  "edges": [
@@ -471,14 +555,6 @@
    "id": "tx388dsi",
    "from": "hibrcv8z",
    "to": "f9p9d4xw",
-   "type": "corr",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "uxobne13",
-   "from": "f9p9d4xw",
-   "to": "l48v3zys",
    "type": "corr",
    "label": "",
    "bend": 0
@@ -504,14 +580,6 @@
    "from": "l48v3zys",
    "to": "x4bqbgov",
    "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "j8j2ql6z",
-   "from": "qx85n67d",
-   "to": "f9p9d4xw",
-   "type": "corr",
    "label": "",
    "bend": 0
   },
@@ -668,14 +736,6 @@
    "bend": 0
   },
   {
-   "id": "qy66o29y",
-   "from": "mxrq96du",
-   "to": "d5h8vwy5",
-   "type": "corr",
-   "label": "",
-   "bend": 0
-  },
-  {
    "id": "yh20rl70",
    "from": "5zm5nzzs",
    "to": "dpvackhx",
@@ -706,6 +766,110 @@
    "type": "cause",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "s3s8y4of",
+   "from": "nvb6arq9",
+   "to": "qx85n67d",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "79pdgloe",
+   "from": "qx85n67d",
+   "to": "f9p9d4xw",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "e0t46d04",
+   "from": "f9p9d4xw",
+   "to": "l48v3zys",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "1kqu0i8y",
+   "from": "rvdnnz6e",
+   "to": "hibrcv8z",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "9v0oly51",
+   "from": "q5gerghv",
+   "to": "rvdnnz6e",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "p1qnnrts",
+   "from": "nvb6arq9",
+   "to": "pzgo5bk4",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "pr0ohabq",
+   "from": "pzgo5bk4",
+   "to": "93sg3q8x",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "3tr34vxy",
+   "from": "xvz1zwwj",
+   "to": "wnmtm9a4",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ax5eek82",
+   "from": "mxrq96du",
+   "to": "ad7ufsef",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "vd8ddakv",
+   "from": "mxrq96du",
+   "to": "jyqqqcg1",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "c7a4hsaw",
+   "from": "ec3d2wpl",
+   "to": "xwjn4rxc",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "7sfbto8u",
+   "from": "d5h8vwy5",
+   "to": "mxrq96du",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "0tu3togz",
+   "from": "mxrq96du",
+   "to": "d5h8vwy5",
+   "type": "cause",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -723,8 +887,8 @@
   "title": "Timeline"
  },
  "view": {
-  "x": 283.04632382313986,
-  "y": 394.1929697567332,
-  "k": 0.24456580634215674
+  "k": 0.5823875848548221,
+  "x": -28.521984983819948,
+  "y": 431.46583230649514
  }
 }
