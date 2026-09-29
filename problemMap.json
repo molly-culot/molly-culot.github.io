@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "",
- "publishedAt": "2026-09-29T14:01:09.063Z",
+ "publishedAt": "2026-09-29T16:27:38.058Z",
  "categories": [
   {
    "id": "policies",
@@ -133,8 +133,8 @@
   },
   {
    "id": "ogtjx3br",
-   "x": 245,
-   "y": 1101,
+   "x": 220,
+   "y": 1286,
    "title": "Laptops were added to schools",
    "date": "",
    "stat": "",
@@ -147,8 +147,8 @@
   },
   {
    "id": "o6k6aj7w",
-   "x": 1415,
-   "y": 1046,
+   "x": 1390,
+   "y": 1231,
    "title": "\"No Child Left Behind Act\" -- standardized testing structures, mainly monitored by tech",
    "date": "",
    "stat": "",
@@ -161,8 +161,8 @@
   },
   {
    "id": "7342zk5m",
-   "x": 1507,
-   "y": 1245,
+   "x": 1482,
+   "y": 1430,
    "title": "4.5 million iPads sold to schools",
    "date": "",
    "stat": "",
@@ -175,8 +175,8 @@
   },
   {
    "id": "xmlbfbww",
-   "x": 1599,
-   "y": 1064,
+   "x": 1574,
+   "y": 1249,
    "title": "A pandemic hit, making all classes move to online and it became harder to regulate cheating",
    "date": "",
    "stat": "",
@@ -222,8 +222,8 @@
   },
   {
    "id": "lonmolnu",
-   "x": 1644,
-   "y": 1391,
+   "x": 1619,
+   "y": 1576,
    "title": "The rise of generative AI increased the ability for people to cognitively offload their assignments",
    "date": "",
    "stat": "",
@@ -235,8 +235,8 @@
   },
   {
    "id": "mq9mxtnf",
-   "x": 1518,
-   "y": 919,
+   "x": 1493,
+   "y": 1104,
    "title": "A large uptick in chromebook/computers was added to schools",
    "date": "",
    "stat": "",
@@ -296,8 +296,8 @@
   },
   {
    "id": "tog3tvs5",
-   "x": 394,
-   "y": 1245,
+   "x": 369,
+   "y": 1430,
    "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
    "date": "",
    "stat": "",
@@ -309,8 +309,8 @@
   },
   {
    "id": "ap4idt2p",
-   "x": 474,
-   "y": 1046,
+   "x": 449,
+   "y": 1231,
    "title": "The US Department of Commerce's Radio Division began licensing educational stations",
    "date": "",
    "stat": "",
@@ -322,8 +322,8 @@
   },
   {
    "id": "cf0yaomu",
-   "x": 601,
-   "y": 1245,
+   "x": 576,
+   "y": 1430,
    "title": "25 states had a dedicated department-of-education unit for film",
    "date": "",
    "stat": "",
@@ -448,7 +448,7 @@
    "x": 1715,
    "y": -170,
    "title": "Schools begin implementing ed-tech to personalize learning and organize information",
-   "date": "",
+   "date": "1950",
    "stat": "",
    "source": "",
    "size": "M",
@@ -500,8 +500,8 @@
   },
   {
    "id": "tprkb4ez",
-   "x": 1667,
-   "y": 792,
+   "x": 1642,
+   "y": 977,
    "title": "Nationwide policies begin prohibiting cellphones in schools",
    "date": "",
    "stat": "",
@@ -603,6 +603,19 @@
    "source": "",
    "size": "M",
    "cat": "power"
+  },
+  {
+   "id": "oc6j4czc",
+   "x": 771,
+   "y": 1249,
+   "title": "Schools begin implementing ed-tech to personalize learning and organize information",
+   "date": "1950",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "practices",
+   "event": true,
+   "year": 1950
   }
  ],
  "edges": [
@@ -1038,16 +1051,16 @@
   "visible": true
  },
  "timeline": {
-  "x": 330,
-  "y": 1205,
+  "x": 305,
+  "y": 1390,
   "w": 1445,
   "start": 1900,
   "end": 2026,
   "title": "Timeline"
  },
  "view": {
-  "k": 0.4417642258823557,
-  "x": -44.4528530019935,
-  "y": 380.69497491073827
+  "k": 0.3511483199497338,
+  "x": 132.4807068236106,
+  "y": 300.3979793679813
  }
 }
