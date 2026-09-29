@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-09-29T18:02:03.574Z",
+ "publishedAt": "2026-09-29T18:06:34.428Z",
  "categories": [
   {
    "id": "policies",
@@ -133,8 +133,8 @@
   },
   {
    "id": "ogtjx3br",
-   "x": 220,
-   "y": 1286,
+   "x": 295,
+   "y": 1096,
    "title": "Laptops were added to schools",
    "date": "",
    "stat": "",
@@ -147,8 +147,8 @@
   },
   {
    "id": "o6k6aj7w",
-   "x": 1390,
-   "y": 1231,
+   "x": 1465,
+   "y": 1041,
    "title": "\"No Child Left Behind Act\" -- standardized testing structures, mainly monitored by tech",
    "date": "",
    "stat": "",
@@ -161,8 +161,8 @@
   },
   {
    "id": "7342zk5m",
-   "x": 1482,
-   "y": 1430,
+   "x": 1557,
+   "y": 1240,
    "title": "4.5 million iPads sold to schools",
    "date": "",
    "stat": "",
@@ -175,8 +175,8 @@
   },
   {
    "id": "xmlbfbww",
-   "x": 1574,
-   "y": 1249,
+   "x": 1649,
+   "y": 1059,
    "title": "A pandemic hit, making all classes move to online and it became harder to regulate cheating",
    "date": "",
    "stat": "",
@@ -189,7 +189,7 @@
   },
   {
    "id": "lko2z2uk",
-   "x": 1360,
+   "x": 1395,
    "y": -40,
    "title": "The COVID-19 pandemic moves all classes online (and a lot of technology practices adopted remain)",
    "date": "2020",
@@ -231,8 +231,8 @@
   },
   {
    "id": "lonmolnu",
-   "x": 1619,
-   "y": 1576,
+   "x": 1694,
+   "y": 1386,
    "title": "The rise of generative AI increased the ability for people to cognitively offload their assignments",
    "date": "",
    "stat": "",
@@ -245,8 +245,8 @@
   },
   {
    "id": "mq9mxtnf",
-   "x": 1493,
-   "y": 1104,
+   "x": 1568,
+   "y": 914,
    "title": "A large uptick in chromebook/computers was added to schools",
    "date": "",
    "stat": "",
@@ -315,8 +315,8 @@
   },
   {
    "id": "tog3tvs5",
-   "x": 369,
-   "y": 1430,
+   "x": 444,
+   "y": 1240,
    "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
    "date": "",
    "stat": "",
@@ -329,8 +329,8 @@
   },
   {
    "id": "ap4idt2p",
-   "x": 449,
-   "y": 1231,
+   "x": 524,
+   "y": 1041,
    "title": "The US Department of Commerce's Radio Division began licensing educational stations",
    "date": "",
    "stat": "",
@@ -343,8 +343,8 @@
   },
   {
    "id": "cf0yaomu",
-   "x": 576,
-   "y": 1430,
+   "x": 651,
+   "y": 1240,
    "title": "25 states had a dedicated department-of-education unit for film",
    "date": "",
    "stat": "",
@@ -567,8 +567,8 @@
   },
   {
    "id": "tprkb4ez",
-   "x": 1642,
-   "y": 977,
+   "x": 1717,
+   "y": 787,
    "title": "Nationwide policies begin prohibiting cellphones in schools",
    "date": "",
    "stat": "",
@@ -609,8 +609,8 @@
   },
   {
    "id": "xwjn4rxc",
-   "x": 1215,
-   "y": -680,
+   "x": 1110,
+   "y": -640,
    "title": "As students struggle in school with writing and reasoning, they bring AI use into their day to day life and use AI to replace cognitive functioning",
    "date": "",
    "stat": "",
@@ -693,8 +693,8 @@
   },
   {
    "id": "oc6j4czc",
-   "x": 771,
-   "y": 1249,
+   "x": 846,
+   "y": 1059,
    "title": "Schools begin implementing ed-tech to personalize learning and organize information",
    "date": "1950",
    "stat": "",
@@ -720,7 +720,7 @@
    "id": "93m6p4y2",
    "x": 1345,
    "y": -485,
-   "title": "With the age of AI, many public schools have seen a shift back to pen and paper, but will always use the same tools they are accustomed to",
+   "title": "With the age of AI, many public schools have seen a shift back to pen and paper, but will always use the same tools they are accustomed to and cannot control what students do at home",
    "date": "2022",
    "stat": "",
    "source": "",
@@ -1319,6 +1319,22 @@
    "type": "cause",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "2fk8y1lg",
+   "from": "xwjn4rxc",
+   "to": "himdfqjm",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "9vsz3xfd",
+   "from": "z4abth8m",
+   "to": "nvb6arq9",
+   "type": "cause",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -1328,16 +1344,16 @@
   "visible": true
  },
  "timeline": {
-  "x": 305,
-  "y": 1390,
+  "x": 380,
+  "y": 1200,
   "w": 1445,
   "start": 1900,
   "end": 2026,
   "title": "Timeline"
  },
  "view": {
-  "k": 0.3962502431061132,
-  "x": -28.83576774390275,
-  "y": 399.1991436966032
+  "k": 0.2582886259014126,
+  "x": 162.39444179609785,
+  "y": 355.370290546172
  }
 }
