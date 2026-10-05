@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-10-05T19:59:18.281Z",
+ "publishedAt": "2026-10-05T20:09:01.175Z",
  "categories": [
   {
    "id": "policies",
@@ -77,12 +77,12 @@
   },
   {
    "id": "hibrcv8z",
-   "x": 410,
-   "y": -35,
-   "title": "Students are not taught how to ethically use AI",
+   "x": 420,
+   "y": -165,
+   "title": "Students are not taught how to ethically use AI\nOver 80% of students said teachers have not explicitly taught them how to use AI for schoolwork, and only 35% of district leaders provided students any AI training",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://www.rand.org/content/dam/rand/pubs/research_reports/RRA4100/RRA4180-1/RAND_RRA4180-1.pdf",
    "size": "M",
    "cat": "practices",
    "problem": false,
@@ -119,8 +119,8 @@
   },
   {
    "id": "l48v3zys",
-   "x": 910,
-   "y": 265,
+   "x": 955,
+   "y": 280,
    "title": "By over-utilizing AI, students do not learn the content of their classes",
    "date": "",
    "stat": "",
@@ -130,20 +130,6 @@
    "problem": false,
    "event": false,
    "year": 2000
-  },
-  {
-   "id": "ogtjx3br",
-   "x": 15,
-   "y": 1451,
-   "title": "Laptops were added to schools",
-   "date": "",
-   "stat": "",
-   "source": "",
-   "size": "S",
-   "cat": "practices",
-   "problem": false,
-   "event": true,
-   "year": 1900
   },
   {
    "id": "o6k6aj7w",
@@ -203,8 +189,8 @@
   },
   {
    "id": "ismd8d7t",
-   "x": 1175,
-   "y": 265,
+   "x": 1190,
+   "y": 260,
    "title": "Computer usage became normal in a classroom setting",
    "date": "",
    "stat": "",
@@ -259,8 +245,8 @@
   },
   {
    "id": "wnmtm9a4",
-   "x": 265,
-   "y": 590,
+   "x": 230,
+   "y": 630,
    "title": "Nationwide policies begin prohibiting cellphones in schools that many students don't follow\n\n22 states and Washington D.C. have adopted “bell-to-bell” cellphone bans",
    "date": "2024",
    "stat": "",
@@ -316,11 +302,11 @@
   {
    "id": "tog3tvs5",
    "x": 164,
-   "y": 1595,
+   "y": 1348,
    "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://quoteinvestigator.com/2012/02/15/books-obsolete/",
    "size": "S",
    "cat": "resources",
    "problem": false,
@@ -330,11 +316,11 @@
   {
    "id": "ap4idt2p",
    "x": 244,
-   "y": 1396,
+   "y": 1595,
    "title": "The US Department of Commerce's Radio Division began licensing educational stations",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://education.stateuniversity.com/pages/2495/Technology-in-Education-SCHOOL.html",
    "size": "S",
    "cat": "resources",
    "problem": false,
@@ -344,7 +330,7 @@
   {
    "id": "cf0yaomu",
    "x": 371,
-   "y": 1595,
+   "y": 1414,
    "title": "25 states had a dedicated department-of-education unit for film",
    "date": "",
    "stat": "",
@@ -428,11 +414,11 @@
   {
    "id": "k3rtne7s",
    "x": 190,
-   "y": 260,
-   "title": "Big tech companies lobby against strict regulation of AI in schools",
-   "date": "",
+   "y": 205,
+   "title": "Big tech companies lobby against strict regulation of AI in schools\nSeven of the largest tech, AI, and social media companies spent a combined $50 million on federal lobbying",
+   "date": "2025",
    "stat": "",
-   "source": "",
+   "source": "https://issueone.org/articles/big-tech-lobbying-2025-q3/",
    "size": "M",
    "cat": "power",
    "problem": false,
@@ -455,8 +441,8 @@
   },
   {
    "id": "06iiivqu",
-   "x": 245,
-   "y": 435,
+   "x": 290,
+   "y": 485,
    "title": "Parents often don't know what their kids are doing with AI or phones at school",
    "date": "",
    "stat": "",
@@ -848,7 +834,7 @@
   {
    "id": "tl1y08a4",
    "x": 1438,
-   "y": 2108,
+   "y": 515,
    "title": "FUTURE IMPACT:\nLow-income communities can be used to see how different implementations of technology impact students, providing a controlled environment to test different technology integrations, while giving more opportunities to these communities",
    "date": "2026+",
    "stat": "",
@@ -880,6 +866,59 @@
    "source": "https://www.pewresearch.org/short-reads/2024/06/12/72-percent-of-us-high-school-teachers-say-cellphone-distraction-is-a-major-problem-in-the-classroom/",
    "size": "M",
    "cat": "mental"
+  },
+  {
+   "id": "opyukix0",
+   "x": 1975,
+   "y": -330,
+   "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
+   "date": "1913",
+   "stat": "",
+   "source": "https://quoteinvestigator.com/2012/02/15/books-obsolete/",
+   "size": "S",
+   "cat": "resources",
+   "problem": false,
+   "event": false,
+   "year": 1913
+  },
+  {
+   "id": "j195vqdl",
+   "x": 2230,
+   "y": -305,
+   "title": "The US Department of Commerce's Radio Division began licensing educational stations",
+   "date": "1920",
+   "stat": "",
+   "source": "https://education.stateuniversity.com/pages/2495/Technology-in-Education-SCHOOL.html",
+   "size": "S",
+   "cat": "resources",
+   "problem": false,
+   "event": false,
+   "year": 1920
+  },
+  {
+   "id": "aip81b2j",
+   "x": 755,
+   "y": 150,
+   "title": "54% of U.S. teens had used AI chatbots for schoolwork",
+   "date": "2025",
+   "stat": "",
+   "source": "Pew. 2026",
+   "size": "M",
+   "cat": "practices"
+  },
+  {
+   "id": "dzwwsk4w",
+   "x": 1426,
+   "y": 2108,
+   "title": "Big tech companies lobby against strict regulation of AI in schools\nSeven of the largest tech, AI, and social media companies spent a combined $50 million on federal lobbying",
+   "date": "2025",
+   "stat": "",
+   "source": "https://issueone.org/articles/big-tech-lobbying-2025-q3/",
+   "size": "M",
+   "cat": "power",
+   "problem": false,
+   "event": true,
+   "year": 2025
   }
  ],
  "edges": [
@@ -1546,6 +1585,38 @@
    "type": "corr",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "kqubhedn",
+   "from": "opyukix0",
+   "to": "mxrq96du",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "a9d4ymdc",
+   "from": "j195vqdl",
+   "to": "opyukix0",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "kxgqge1l",
+   "from": "f9p9d4xw",
+   "to": "aip81b2j",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "llh26xme",
+   "from": "j8xnmppw",
+   "to": "aip81b2j",
+   "type": "corr",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -1563,8 +1634,8 @@
   "title": "Timeline"
  },
  "view": {
-  "x": 263.57199682037543,
-  "y": 203.7919794898164,
-  "k": 0.12444126061070555
+  "x": 249.45533744983382,
+  "y": 214.68783534482722,
+  "k": 0.128718374118109
  }
 }
