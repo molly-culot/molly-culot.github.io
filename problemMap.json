@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-09-29T19:01:23.061Z",
+ "publishedAt": "2026-10-05T19:31:31.546Z",
  "categories": [
   {
    "id": "policies",
@@ -264,7 +264,7 @@
    "title": "Nationwide policies begin prohibiting cellphones in schools that many students don't follow",
    "date": "2024",
    "stat": "",
-   "source": "",
+   "source": "https://www.hks.harvard.edu/faculty-research/policy-topics/education-training-labor/many-states-are-banning-cellphones-schools",
    "size": "S",
    "cat": "policies",
    "problem": false,
@@ -483,8 +483,8 @@
   },
   {
    "id": "6kez6zsf",
-   "x": 1720,
-   "y": 65,
+   "x": 1883,
+   "y": -39,
    "title": "The digital divide makes technology a luxury item that not all students can access, giving wealthier families access to more advanced AI and technology schools",
    "date": "",
    "stat": "",
@@ -544,7 +544,7 @@
    "title": "Only 10% of schools have AI guidelines",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://www.unesco.org/en/articles/unesco-survey-less-10-schools-and-universities-have-formal-guidance-ai",
    "size": "M",
    "cat": "policies",
    "problem": false,
@@ -581,12 +581,12 @@
   },
   {
    "id": "ad7ufsef",
-   "x": 1450,
-   "y": -210,
+   "x": 1440,
+   "y": -240,
    "title": "4.5 million iPads sold to schools",
    "date": "2010",
    "stat": "",
-   "source": "",
+   "source": "https://www.fastcompany.com/3006418/apple-sold-eight-million-ipads-directly-education-year",
    "size": "S",
    "cat": "practices",
    "problem": false,
@@ -595,12 +595,12 @@
   },
   {
    "id": "jyqqqcg1",
-   "x": 1610,
-   "y": -390,
+   "x": 1700,
+   "y": -465,
    "title": "Chromebook/computers were added to a large portion of US schools",
    "date": "2011",
    "stat": "",
-   "source": "",
+   "source": "https://edtechmagazine.com/k12/article/2012/12/why-schools-are-turning-google-chromebooks",
    "size": "S",
    "cat": "practices",
    "problem": false,
@@ -651,8 +651,8 @@
   },
   {
    "id": "munidqnd",
-   "x": 1210,
-   "y": 625,
+   "x": 1180,
+   "y": 635,
    "title": "Students who type all their assignments lose the ability to spell and handwrite",
    "date": "",
    "stat": "",
@@ -714,7 +714,10 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "resources"
+   "cat": "resources",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "93m6p4y2",
@@ -725,29 +728,38 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "practices"
+   "cat": "practices",
+   "problem": false,
+   "event": false,
+   "year": 2022
   },
   {
    "id": "7wcyptna",
-   "x": 1995,
-   "y": 90,
+   "x": 2158,
+   "y": -14,
    "title": "Lower income areas begin investing in tech without understanding the dangers of technology use",
    "date": "",
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "resources"
+   "cat": "resources",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "5p9qsvuj",
    "x": 415,
    "y": -650,
-   "title": "Because new research is constantly coming out, there is a variety on information of the negative impacts of technology ",
+   "title": "Because new research is constantly coming out, there is a variety on information of the negative impacts of technology",
    "date": "",
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "mental"
+   "cat": "mental",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "lyewy7gf",
@@ -758,7 +770,10 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "power"
+   "cat": "power",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "w930mqj5",
@@ -769,7 +784,10 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "practices"
+   "cat": "practices",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "soe75r27",
@@ -780,7 +798,10 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "mental"
+   "cat": "mental",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "xodzh9ie",
@@ -791,18 +812,24 @@
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "relationships"
+   "cat": "relationships",
+   "problem": false,
+   "event": false,
+   "year": 2000
   },
   {
    "id": "dgqxrj9t",
    "x": 1465,
    "y": 680,
-   "title": "Students feel incentivized to use AI because they know other students are, so using AI becomes the standard ",
+   "title": "Students feel incentivized to use AI because they know other students are, so using AI becomes the standard",
    "date": "",
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "relationships"
+   "cat": "relationships",
+   "problem": false,
+   "event": false,
+   "year": 2000
   }
  ],
  "edges": [
@@ -922,14 +949,6 @@
    "id": "ej4yqxfc",
    "from": "5zm5nzzs",
    "to": "x4bqbgov",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "eqvn4hy9",
-   "from": "q5gerghv",
-   "to": "l03lbfec",
    "type": "cause",
    "label": "",
    "bend": 0
@@ -1103,22 +1122,6 @@
    "bend": 0
   },
   {
-   "id": "7sfbto8u",
-   "from": "d5h8vwy5",
-   "to": "mxrq96du",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "0tu3togz",
-   "from": "mxrq96du",
-   "to": "d5h8vwy5",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
    "id": "a15ugz7l",
    "from": "csi4jjvm",
    "to": "xvz1zwwj",
@@ -1255,25 +1258,9 @@
    "bend": 0
   },
   {
-   "id": "oyc79wic",
-   "from": "nvb6arq9",
-   "to": "z4abth8m",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
    "id": "aevxoapt",
    "from": "6kez6zsf",
    "to": "7wcyptna",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "i3qc216s",
-   "from": "l03lbfec",
-   "to": "q5gerghv",
    "type": "cause",
    "label": "",
    "bend": 0
@@ -1343,14 +1330,6 @@
    "bend": 0
   },
   {
-   "id": "9vsz3xfd",
-   "from": "z4abth8m",
-   "to": "nvb6arq9",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
    "id": "08u640n7",
    "from": "csi4jjvm",
    "to": "xodzh9ie",
@@ -1367,26 +1346,74 @@
    "bend": 0
   },
   {
-   "id": "wfyh27qm",
-   "from": "x4bqbgov",
-   "to": "dgqxrj9t",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "ia1em0w6",
-   "from": "dgqxrj9t",
-   "to": "x4bqbgov",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
    "id": "sd2g1qjg",
    "from": "hibrcv8z",
    "to": "f9p9d4xw",
    "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "dhf6cilv",
+   "from": "q5gerghv",
+   "to": "l03lbfec",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ketkbomm",
+   "from": "l03lbfec",
+   "to": "q5gerghv",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "7vurcmur",
+   "from": "dgqxrj9t",
+   "to": "x4bqbgov",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ih2wd80w",
+   "from": "x4bqbgov",
+   "to": "dgqxrj9t",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "fm4s0t78",
+   "from": "d5h8vwy5",
+   "to": "mxrq96du",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "ovszqg6z",
+   "from": "mxrq96du",
+   "to": "d5h8vwy5",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "y3iec2bh",
+   "from": "z4abth8m",
+   "to": "nvb6arq9",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "t3pfv3v9",
+   "from": "nvb6arq9",
+   "to": "z4abth8m",
+   "type": "loop",
    "label": "",
    "bend": 0
   }
@@ -1406,8 +1433,8 @@
   "title": "Timeline"
  },
  "view": {
-  "k": 0.9335018441267718,
-  "x": -238.3122387959354,
-  "y": 481.57998918181306
+  "x": 12.350542164575302,
+  "y": 99.18479141537637,
+  "k": 0.4365685598440805
  }
 }
