@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-10-05T19:31:31.546Z",
+ "publishedAt": "2026-10-05T19:42:12.532Z",
  "categories": [
   {
    "id": "policies",
@@ -483,8 +483,8 @@
   },
   {
    "id": "6kez6zsf",
-   "x": 1883,
-   "y": -39,
+   "x": 1900,
+   "y": 10,
    "title": "The digital divide makes technology a luxury item that not all students can access, giving wealthier families access to more advanced AI and technology schools",
    "date": "",
    "stat": "",
@@ -637,12 +637,12 @@
   },
   {
    "id": "ue8jvxdn",
-   "x": 1670,
-   "y": 545,
-   "title": "Flipped classroom model becomes more common",
+   "x": 1745,
+   "y": 540,
+   "title": "FUTURE IMPACT: \nThe flipped classroom model becomes more common, having students do work in the classroom instead of at home",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://bokcenter.harvard.edu/flipped-classrooms",
    "size": "M",
    "cat": "practices",
    "problem": false,
@@ -712,7 +712,7 @@
    "title": "Research cannot keep up with the exponential expansion of technology",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://alliedglobal.com/blog/the-exponential-gap-in-ai/",
    "size": "M",
    "cat": "resources",
    "problem": false,
@@ -721,17 +721,17 @@
   },
   {
    "id": "93m6p4y2",
-   "x": 1345,
-   "y": -485,
-   "title": "With the age of AI, many public schools have seen a shift back to pen and paper, but will always use the same tools they are accustomed to and cannot control what students do at home",
-   "date": "2022",
-   "stat": "",
+   "x": 2030,
+   "y": 235,
+   "title": "FUTURE IMPACT: With the age of AI, many public schools have seen and will see a shift back to pen and paper, ensuring students cannot use AI or outside resources to help them",
+   "date": "2026+",
+   "stat": "https://www.nytimes.com/2026/04/30/us/ai-students-cheating-homework-classrooms.html?eafs_enabled=false",
    "source": "",
    "size": "M",
    "cat": "practices",
    "problem": false,
    "event": false,
-   "year": 2022
+   "year": 2026
   },
   {
    "id": "7wcyptna",
@@ -782,7 +782,7 @@
    "title": "Industry shift to utilize AI more, prioritizing grads who have experience in AI",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://research.com/degrees/how-employers-are-changing-hiring-criteria-for-user-experience-graduates-in-the-ai-era",
    "size": "M",
    "cat": "practices",
    "problem": false,
@@ -830,6 +830,17 @@
    "problem": false,
    "event": false,
    "year": 2000
+  },
+  {
+   "id": "yfs3dure",
+   "x": 2291,
+   "y": 260,
+   "title": "FUTURE IMPACT:\nLow-income communities can be used to see how different implementations of technology impact students, providing a controlled environment to test different technology integrations, while giving more opportunities to these communities  ",
+   "date": "2026+",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "resources"
   }
  ],
  "edges": [
@@ -861,14 +872,6 @@
    "id": "eac8peyy",
    "from": "93sg3q8x",
    "to": "f9p9d4xw",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "0p27aqqx",
-   "from": "xvz1zwwj",
-   "to": "csi4jjvm",
    "type": "cause",
    "label": "",
    "bend": 0
@@ -1117,14 +1120,6 @@
    "id": "c7a4hsaw",
    "from": "ec3d2wpl",
    "to": "xwjn4rxc",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "a15ugz7l",
-   "from": "csi4jjvm",
-   "to": "xvz1zwwj",
    "type": "cause",
    "label": "",
    "bend": 0
@@ -1416,6 +1411,30 @@
    "type": "loop",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "7ox17hkn",
+   "from": "7wcyptna",
+   "to": "yfs3dure",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "g16x1dba",
+   "from": "csi4jjvm",
+   "to": "xvz1zwwj",
+   "type": "loop",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "bfng0h5b",
+   "from": "xvz1zwwj",
+   "to": "csi4jjvm",
+   "type": "loop",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -1433,8 +1452,8 @@
   "title": "Timeline"
  },
  "view": {
-  "x": 12.350542164575302,
-  "y": 99.18479141537637,
-  "k": 0.4365685598440805
+  "x": 148.50767382940444,
+  "y": 325.1056141561802,
+  "k": 0.33856789385537234
  }
 }
