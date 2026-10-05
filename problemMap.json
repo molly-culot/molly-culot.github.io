@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-10-05T19:42:12.532Z",
+ "publishedAt": "2026-10-05T19:59:18.281Z",
  "categories": [
   {
    "id": "policies",
@@ -133,8 +133,8 @@
   },
   {
    "id": "ogtjx3br",
-   "x": 30,
-   "y": 1321,
+   "x": 15,
+   "y": 1451,
    "title": "Laptops were added to schools",
    "date": "",
    "stat": "",
@@ -147,8 +147,8 @@
   },
   {
    "id": "o6k6aj7w",
-   "x": 1200,
-   "y": 1266,
+   "x": 1185,
+   "y": 1396,
    "title": "\"No Child Left Behind Act\" -- standardized testing structures, mainly monitored by tech",
    "date": "",
    "stat": "",
@@ -161,8 +161,8 @@
   },
   {
    "id": "7342zk5m",
-   "x": 1292,
-   "y": 1465,
+   "x": 1277,
+   "y": 1595,
    "title": "4.5 million iPads sold to schools",
    "date": "",
    "stat": "",
@@ -175,8 +175,8 @@
   },
   {
    "id": "xmlbfbww",
-   "x": 1384,
-   "y": 1284,
+   "x": 1369,
+   "y": 1414,
    "title": "A pandemic hit, making all classes move to online and it became harder to regulate cheating",
    "date": "",
    "stat": "",
@@ -231,8 +231,8 @@
   },
   {
    "id": "lonmolnu",
-   "x": 1429,
-   "y": 1611,
+   "x": 1414,
+   "y": 1852,
    "title": "The rise of generative AI increased the ability for people to cognitively offload their assignments",
    "date": "",
    "stat": "",
@@ -245,8 +245,8 @@
   },
   {
    "id": "mq9mxtnf",
-   "x": 1303,
-   "y": 1139,
+   "x": 1288,
+   "y": 1158,
    "title": "A large uptick in chromebook/computers was added to schools",
    "date": "",
    "stat": "",
@@ -261,7 +261,7 @@
    "id": "wnmtm9a4",
    "x": 265,
    "y": 590,
-   "title": "Nationwide policies begin prohibiting cellphones in schools that many students don't follow",
+   "title": "Nationwide policies begin prohibiting cellphones in schools that many students don't follow\n\n22 states and Washington D.C. have adopted “bell-to-bell” cellphone bans",
    "date": "2024",
    "stat": "",
    "source": "https://www.hks.harvard.edu/faculty-research/policy-topics/education-training-labor/many-states-are-banning-cellphones-schools",
@@ -301,12 +301,12 @@
   },
   {
    "id": "himdfqjm",
-   "x": 795,
-   "y": 615,
+   "x": 815,
+   "y": 765,
    "title": "Mental health decline seen in students",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://law.stanford.edu/2024/05/20/social-media-addiction-and-mental-health-the-growing-concern-for-youth-well-being/",
    "size": "M",
    "cat": "mental",
    "problem": false,
@@ -315,8 +315,8 @@
   },
   {
    "id": "tog3tvs5",
-   "x": 179,
-   "y": 1465,
+   "x": 164,
+   "y": 1595,
    "title": "Thomas Edison predicts that \"books will soon be obsolete in schools\"",
    "date": "",
    "stat": "",
@@ -329,8 +329,8 @@
   },
   {
    "id": "ap4idt2p",
-   "x": 259,
-   "y": 1266,
+   "x": 244,
+   "y": 1396,
    "title": "The US Department of Commerce's Radio Division began licensing educational stations",
    "date": "",
    "stat": "",
@@ -343,8 +343,8 @@
   },
   {
    "id": "cf0yaomu",
-   "x": 386,
-   "y": 1465,
+   "x": 371,
+   "y": 1595,
    "title": "25 states had a dedicated department-of-education unit for film",
    "date": "",
    "stat": "",
@@ -371,12 +371,12 @@
   },
   {
    "id": "4etqx5l2",
-   "x": 890,
-   "y": 430,
-   "title": "Students struggling with mental health spend less time on classes and attendance rates drop",
+   "x": 885,
+   "y": 385,
+   "title": "Students struggling with mental health spend less time on classes and attendance rates drop\nNationally, chronic absenteeism surged from roughly 15% in 2018 to 26% by 2023\"",
    "date": "",
    "stat": "",
-   "source": "",
+   "source": "https://schoolworkslab.org/2025/09/08/balancing-phones-ai-and-attendance-emerging-approaches-in-schools/",
    "size": "M",
    "cat": "practices",
    "problem": false,
@@ -497,12 +497,12 @@
   },
   {
    "id": "mxrq96du",
-   "x": 1715,
-   "y": -170,
+   "x": 1710,
+   "y": -200,
    "title": "Schools begin implementing ed-tech to personalize learning and organize information",
    "date": "1950",
    "stat": "",
-   "source": "",
+   "source": "https://keepindianalearning.org/evolution-of-technology-in-education/",
    "size": "M",
    "cat": "practices",
    "problem": false,
@@ -567,8 +567,8 @@
   },
   {
    "id": "tprkb4ez",
-   "x": 1452,
-   "y": 1012,
+   "x": 1437,
+   "y": 920,
    "title": "Nationwide policies begin prohibiting cellphones in schools",
    "date": "",
    "stat": "",
@@ -609,8 +609,8 @@
   },
   {
    "id": "xwjn4rxc",
-   "x": 1110,
-   "y": -640,
+   "x": 1095,
+   "y": -670,
    "title": "As students struggle in school with writing and reasoning, they bring AI use into their day to day life and use AI to replace cognitive functioning",
    "date": "",
    "stat": "",
@@ -623,8 +623,8 @@
   },
   {
    "id": "uix7d5q7",
-   "x": 965,
-   "y": 750,
+   "x": 1155,
+   "y": 810,
    "title": "Short-form videos cause a decline in student's attention spans, translating to them having shorter attention spans in class and for assignments",
    "date": "",
    "stat": "",
@@ -693,8 +693,8 @@
   },
   {
    "id": "oc6j4czc",
-   "x": 581,
-   "y": 1284,
+   "x": 566,
+   "y": 1414,
    "title": "Schools begin implementing ed-tech to personalize learning and organize information",
    "date": "1950",
    "stat": "",
@@ -721,8 +721,8 @@
   },
   {
    "id": "93m6p4y2",
-   "x": 2030,
-   "y": 235,
+   "x": 1360,
+   "y": -635,
    "title": "FUTURE IMPACT: With the age of AI, many public schools have seen and will see a shift back to pen and paper, ensuring students cannot use AI or outside resources to help them",
    "date": "2026+",
    "stat": "https://www.nytimes.com/2026/04/30/us/ai-students-cheating-homework-classrooms.html?eafs_enabled=false",
@@ -763,8 +763,8 @@
   },
   {
    "id": "lyewy7gf",
-   "x": 535,
-   "y": 690,
+   "x": 450,
+   "y": 655,
    "title": "Social media glorifies different AI and technology platforms, influencing more students to use them",
    "date": "",
    "stat": "",
@@ -805,8 +805,8 @@
   },
   {
    "id": "xodzh9ie",
-   "x": 715,
-   "y": 845,
+   "x": 925,
+   "y": 1040,
    "title": "By students overusing social media and tech, they lose the ability to foster human to human connections",
    "date": "",
    "stat": "",
@@ -835,12 +835,51 @@
    "id": "yfs3dure",
    "x": 2291,
    "y": 260,
-   "title": "FUTURE IMPACT:\nLow-income communities can be used to see how different implementations of technology impact students, providing a controlled environment to test different technology integrations, while giving more opportunities to these communities  ",
+   "title": "FUTURE IMPACT:\nLow-income communities can be used to see how different implementations of technology impact students, providing a controlled environment to test different technology integrations, while giving more opportunities to these communities",
    "date": "2026+",
    "stat": "",
    "source": "",
    "size": "M",
-   "cat": "resources"
+   "cat": "resources",
+   "problem": false,
+   "event": false,
+   "year": 2026
+  },
+  {
+   "id": "tl1y08a4",
+   "x": 1438,
+   "y": 2108,
+   "title": "FUTURE IMPACT:\nLow-income communities can be used to see how different implementations of technology impact students, providing a controlled environment to test different technology integrations, while giving more opportunities to these communities",
+   "date": "2026+",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "resources",
+   "problem": false,
+   "event": true,
+   "year": 2026
+  },
+  {
+   "id": "ranptnjf",
+   "x": -55,
+   "y": 850,
+   "title": "FUTURE IMPACT:\nCell-phone bans will become more common and hopefully more effective over time as students get used to them. Currently, all high school students with cellphone bans had a time where cellphones were allowed, but as a new cohort of students come in a cellphone ban will feel more normalized. ",
+   "date": "",
+   "stat": "",
+   "source": "",
+   "size": "M",
+   "cat": "mental"
+  },
+  {
+   "id": "sype7pov",
+   "x": 630,
+   "y": 1035,
+   "title": "72% of U.S. high school teachers report that cellphone distraction is a major problem in their classroom",
+   "date": "",
+   "stat": "",
+   "source": "https://www.pewresearch.org/short-reads/2024/06/12/72-percent-of-us-high-school-teachers-say-cellphone-distraction-is-a-major-problem-in-the-classroom/",
+   "size": "M",
+   "cat": "mental"
   }
  ],
  "edges": [
@@ -903,14 +942,6 @@
   {
    "id": "pfmhbsuw",
    "from": "4etqx5l2",
-   "to": "f9p9d4xw",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "4nla9xmb",
-   "from": "xvz1zwwj",
    "to": "f9p9d4xw",
    "type": "cause",
    "label": "",
@@ -1045,14 +1076,6 @@
    "bend": 0
   },
   {
-   "id": "79pdgloe",
-   "from": "qx85n67d",
-   "to": "f9p9d4xw",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
    "id": "e0t46d04",
    "from": "f9p9d4xw",
    "to": "l48v3zys",
@@ -1136,14 +1159,6 @@
    "id": "2s9xil1g",
    "from": "csi4jjvm",
    "to": "uix7d5q7",
-   "type": "cause",
-   "label": "",
-   "bend": 0
-  },
-  {
-   "id": "fci9mqoz",
-   "from": "uix7d5q7",
-   "to": "x4bqbgov",
    "type": "cause",
    "label": "",
    "bend": 0
@@ -1435,6 +1450,102 @@
    "type": "loop",
    "label": "",
    "bend": 0
+  },
+  {
+   "id": "gulwr059",
+   "from": "xwjn4rxc",
+   "to": "93m6p4y2",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "figmv7fc",
+   "from": "xvz1zwwj",
+   "to": "f9p9d4xw",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "q7oqpll5",
+   "from": "qx85n67d",
+   "to": "f9p9d4xw",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "zzollsrs",
+   "from": "uix7d5q7",
+   "to": "x4bqbgov",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "gv8x9tta",
+   "from": "6kez6zsf",
+   "to": "yfs3dure",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "kd4tttps",
+   "from": "dpvackhx",
+   "to": "yfs3dure",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "4gvczv6t",
+   "from": "wnmtm9a4",
+   "to": "ranptnjf",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "e2qyk0t4",
+   "from": "xodzh9ie",
+   "to": "wnmtm9a4",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "1lkj9jki",
+   "from": "sype7pov",
+   "to": "wnmtm9a4",
+   "type": "cause",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "iyn5jpw4",
+   "from": "csi4jjvm",
+   "to": "sype7pov",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "1io35xjd",
+   "from": "uix7d5q7",
+   "to": "sype7pov",
+   "type": "corr",
+   "label": "",
+   "bend": 0
+  },
+  {
+   "id": "zrbpoybd",
+   "from": "himdfqjm",
+   "to": "sype7pov",
+   "type": "corr",
+   "label": "",
+   "bend": 0
   }
  ],
  "sections": [],
@@ -1444,16 +1555,16 @@
   "visible": true
  },
  "timeline": {
-  "x": 115,
-  "y": 1425,
+  "x": 100,
+  "y": 1555,
   "w": 1445,
   "start": 1900,
   "end": 2026,
   "title": "Timeline"
  },
  "view": {
-  "x": 148.50767382940444,
-  "y": 325.1056141561802,
-  "k": 0.33856789385537234
+  "x": 263.57199682037543,
+  "y": 203.7919794898164,
+  "k": 0.12444126061070555
  }
 }
