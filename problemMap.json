@@ -1,7 +1,7 @@
 {
  "version": 1,
  "title": "Social Change Project -- Molly Culot",
- "publishedAt": "2026-10-06T17:19:21.066Z",
+ "publishedAt": "2026-10-06T19:27:20.669Z",
  "categories": [
   {
    "id": "policies",
@@ -499,7 +499,7 @@
    "id": "dpvackhx",
    "x": 1785,
    "y": 400,
-   "title": "Students who do not have access to the internet/AI fall behind",
+   "title": "Students who do not have access to the internet/AI fall behind (either because of personal preferences or a disconnect in access)",
    "date": "",
    "stat": "",
    "source": "",
@@ -637,9 +637,9 @@
   },
   {
    "id": "munidqnd",
-   "x": 1180,
-   "y": 635,
-   "title": "Students who type all their assignments lose the ability to spell and handwrite",
+   "x": 1155,
+   "y": 715,
+   "title": "FUTURE IMPACT:\nStudents who type all their assignments lose the ability to spell and handwrite",
    "date": "",
    "stat": "",
    "source": "",
@@ -1667,8 +1667,8 @@
   "title": "Timeline"
  },
  "view": {
-  "x": 141.12836299661194,
-  "y": 263.6490670417645,
-  "k": 0.20081471054546315
+  "x": -494.73022944935764,
+  "y": -6.533704813348371,
+  "k": 0.5113693095973016
  }
 }
